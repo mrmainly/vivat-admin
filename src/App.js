@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Route, BrowserRouter, Routes } from "react-router-dom";
+import "antd/dist/antd.min.css";
+
+import MyLayout from "./components/layout";
+import ROUTES from "./routes";
+import { Blog, Orders, Stocks, Analytics } from "./pages";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path={ROUTES.ORDERS} element={<MyLayout />}>
+                    <Route index element={<Orders />} />
+                    <Route path={ROUTES.BLOG} element={<Blog />} />
+                    <Route path={ROUTES.STOCKS} element={<Stocks />} />
+                    <Route path={ROUTES.ANALYTICS} element={<Analytics />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App;
