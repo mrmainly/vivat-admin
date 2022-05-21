@@ -14,7 +14,7 @@ const MyLayout = () => {
 
     const pathname = () => {
         switch (params.pathname) {
-            case "/":
+            case "/ORDERS":
                 return "Заказы";
                 break;
             case "/blog":
@@ -26,6 +26,11 @@ const MyLayout = () => {
             case "/analytics":
                 return "Аналитика";
                 break;
+            case "/blog-create":
+                return "Создание блога";
+                break;
+            case "/stock-create":
+                return "Создание акции";
         }
     };
 
@@ -49,58 +54,66 @@ const MyLayout = () => {
     ];
 
     return (
-        <Layout style={{ height: 950 }}>
-            <Sider
-                width={250}
-                breakpoint="lg"
-                collapsedWidth="0"
-                className="site-layout-background"
-            >
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginTop: 20,
-                        marginBottom: 20,
-                    }}
-                >
-                    <img src="/img/Frame62.png" />
+        <>
+            {params.pathname == "/" ? (
+                <div>
+                    <Outlet />
                 </div>
-                <Menu mode="inline">
-                    {items.map((item, index) => (
-                        <Menu.Item
-                            key={index}
-                            onClick={() => navigate(item.navigate)}
-                        >
-                            {item.label}
-                        </Menu.Item>
-                    ))}
-                    <Menu.Item>Выйти</Menu.Item>
-                </Menu>
-            </Sider>
-            <Layout>
-                <Header
-                    className="site-layout-sub-header-background"
-                    style={{
-                        paddingLeft: 20,
-                        display: "flex",
-                        alignItems: "center",
-                    }}
-                >
-                    <Title level={4} style={{ color: "#20B12E" }}>
-                        {pathname()}
-                    </Title>
-                </Header>
-                <Content style={{ margin: "16px 16px 0" }}>
-                    <div
+            ) : (
+                <Layout style={{ minHeight: 950 }}>
+                    <Sider
+                        width={250}
+                        breakpoint="lg"
+                        collapsedWidth="0"
                         className="site-layout-background"
-                        style={{ padding: 24, height: "95%" }}
                     >
-                        <Outlet />
-                    </div>
-                </Content>
-            </Layout>
-        </Layout>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                marginTop: 20,
+                                marginBottom: 20,
+                            }}
+                        >
+                            <img src="/img/Frame62.png" />
+                        </div>
+                        <Menu mode="inline">
+                            {items.map((item, index) => (
+                                <Menu.Item
+                                    key={index}
+                                    onClick={() => navigate(item.navigate)}
+                                >
+                                    {item.label}
+                                </Menu.Item>
+                            ))}
+                            <Menu.Item>Выйти</Menu.Item>
+                        </Menu>
+                    </Sider>
+                    <Layout>
+                        <Header
+                            className="site-layout-sub-header-background"
+                            style={{
+                                paddingLeft: 20,
+                                display: "flex",
+                                alignItems: "center",
+                            }}
+                        >
+                            <Title level={4} style={{ color: "#20B12E" }}>
+                                {pathname()}
+                            </Title>
+                        </Header>
+                        <Content style={{ margin: "16px 16px 0" }}>
+                            <div
+                                className="site-layout-background"
+                                style={{ padding: 24 }}
+                            >
+                                <Outlet />
+                            </div>
+                        </Content>
+                    </Layout>
+                </Layout>
+            )}
+        </>
     );
 };
 

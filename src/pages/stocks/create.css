@@ -1,0 +1,13 @@
+.wrapper-class {
+    padding: 1rem;
+    border: 1px solid #ccc;
+}
+.editor-class {
+    background-color: #f5f5f5;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    height: 300px;
+}
+.toolbar-class {
+    border: 1px solid #ccc;
+}
