@@ -15,6 +15,7 @@ import {
     SignIn,
     City,
     CityCreate,
+    BlogDetail,
 } from "./pages";
 
 function App() {
@@ -24,11 +25,17 @@ function App() {
                 <Route path={ROUTES.SIGN_IN} element={<MyLayout />}>
                     <Route index element={<SignIn />} />
                     <Route path={ROUTES.ORDERS} element={<Orders />} />
+                    {/* блог */}
                     <Route path={ROUTES.BLOG} element={<Blog />} />
+                    <Route path={ROUTES.BLOG_CREATE} element={<BlogCreate />} />
+                    <Route
+                        path={`${ROUTES.BLOG_DETAIL}/:id`}
+                        element={<BlogDetail />}
+                    />
+
                     <Route path={ROUTES.STOCKS} element={<Stocks />} />
                     <Route path={ROUTES.ANALYTICS} element={<Analytics />} />
 
-                    <Route path={ROUTES.BLOG_CREATE} element={<BlogCreate />} />
                     <Route
                         path={ROUTES.STOCK_CREATE}
                         element={<StockCreate />}

@@ -36,6 +36,9 @@ const MyLayout = () => {
             case "/city-create":
                 return "Создание города";
                 break;
+            case "/blog-detail":
+                return "Редактирование блога";
+                break;
             case "/stock-create":
                 return "Создание акции";
         }

@@ -9,6 +9,7 @@ const ROUTES = {
     CITY: "/city",
     CITY_CREATE: "/city-create",
     SIGN_IN: "/",
+    BLOG_DETAIL: "/blog-detail",
 };
 
 export default ROUTES;

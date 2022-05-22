@@ -91,6 +91,11 @@ class API {
         return result;
     }
 
+    async getTopic() {
+        let result = await api(`api/v1/blogs/topics/`).get();
+        return result;
+    }
+
     //orders
     async getAllOrders() {
         let result = await api(`api/v1/orders/`).get();
