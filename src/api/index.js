@@ -62,6 +62,40 @@ class API {
             password: data.password,
         });
     }
+
+    //getCity
+    async getCity() {
+        let result = await api(`api/v1/cities/`).get();
+        return result;
+    }
+
+    //stocks
+    async getPromotion() {
+        let result = await api(`api/v1/promotion/`).get();
+        return result;
+    }
+
+    //blog
+    async getBlog(query, type) {
+        let result = await api(
+            `api/v1/blogs/${
+                type
+                    ? type == "query"
+                        ? query
+                            ? `?query=${query}`
+                            : ""
+                        : `?topic_query=${query}`
+                    : ""
+            }`
+        ).get();
+        return result;
+    }
+
+    //orders
+    async getAllOrders() {
+        let result = await api(`api/v1/orders/`).get();
+        return result;
+    }
 }
 
 export default new API();

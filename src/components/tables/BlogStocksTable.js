@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { Table, Button } from "antd";
 
 const columns = [
     { title: "id", dataIndex: "id", key: "id" },
@@ -7,35 +7,23 @@ const columns = [
         title: "Действие",
         dataIndex: "",
         key: "x",
-        render: () => <a style={{ color: "#55CD61" }}>Редактирование</a>,
+        render: () => (
+            <Button style={{ color: "#55CD61", borderColor: "#55CD61" }}>
+                Редактирование
+            </Button>
+        ),
     },
 ];
 
-const data = [
-    {
-        key: 1,
-        id: 1,
-        name: "5 товара",
-    },
-    {
-        key: 2,
-        id: 2,
-        name: "5 товара",
-    },
-    {
-        key: 3,
-        id: 3,
-        name: "5 товара",
-    },
-    {
-        key: 4,
-        id: 4,
-        name: "5 товара",
-    },
-];
-
-const BlogTable = () => {
-    return <Table columns={columns} dataSource={data} />;
+const BlogTable = ({ data, loading }) => {
+    return (
+        <Table
+            columns={columns}
+            dataSource={data}
+            rowKey="id"
+            loading={loading}
+        />
+    );
 };
 
 export default BlogTable;

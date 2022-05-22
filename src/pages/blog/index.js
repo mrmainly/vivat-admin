@@ -1,15 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Space, Select, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 
 import { BlogStocksTable } from "../../components";
 import ROUTES from "../../routes";
+import API from "../../api";
 
 const { Search } = Input;
 const { Option } = Select;
 
 const Blog = () => {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const getBlog = async () => {
+            setLoading(true);
+            await API.getBlog()
+                .then((res) => {
+                    setData(res.data.results);
+                })
+                .catch((error) => console.log(error));
+            setLoading(false);
+        };
+        getBlog();
+    }, []);
 
     return (
         <div>
@@ -31,7 +48,7 @@ const Blog = () => {
                     <Option value="Company">Company</Option>
                 </Select>
             </Space>
-            <BlogStocksTable />
+            <BlogStocksTable data={data} loading={loading} />
         </div>
     );
 };
