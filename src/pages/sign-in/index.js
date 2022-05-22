@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import "./sign_in.css";
+import API from "../../api";
+import ROUTES from "../../routes";
 
 import { Form, Input, Button, Space, Typography } from "antd";
+import { toast } from "react-toastify";
+import cookie from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const SignIn = () => {
+    const navigate = useNavigate();
+
+    const onSubmit = (data) => {
+        console.log(data);
+        API.getToken({ ...data })
+            .then((res) => {
+                toast.success("авторизация прошла успешно");
+                cookie.set("jwttoken", res.data.token);
+                navigate(ROUTES.ORDERS);
+            })
+            .catch((error) => {
+                toast.error("такого пользователя не существует");
+            });
+    };
     return (
         <div
             style={{
@@ -18,17 +37,34 @@ const SignIn = () => {
             <div className="form">
                 <img src="/img/Frame62.png" />
                 <Title level={4} style={{ marginTop: 25 }}>
-                    Регистрация
+                    Авторизация
                 </Title>
-                <Form>
+                <Form onFinish={onSubmit}>
                     <Space direction="vertical">
-                        <Form.Item>
-                            <Input placeholder="Электронная почта" />
+                        <Form.Item
+                            name="username"
+                            required
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Пожалуйста введите свое имя",
+                                },
+                            ]}
+                        >
+                            <Input placeholder="Телефон" />
                         </Form.Item>
-                        <Form.Item>
-                            <Input placeholder="Номер телефона" />
+                        <Form.Item
+                            name="password"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Пожалуйста введите свой пароль!",
+                                },
+                            ]}
+                        >
+                            <Input placeholder="Пароль" type="password" />
                         </Form.Item>
-                        <Button>Далее</Button>
+                        <Button htmlType="submit">Войти</Button>
                     </Space>
                 </Form>
             </div>

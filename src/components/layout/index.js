@@ -1,6 +1,7 @@
 import React from "react";
 import { Layout, Menu, Typography } from "antd";
 import { useNavigate, Outlet, useLocation } from "react-router-dom";
+import cookie from "js-cookie";
 
 import "./layout.css";
 import ROUTES from "../../routes";
@@ -96,7 +97,14 @@ const MyLayout = () => {
                                     {item.label}
                                 </Menu.Item>
                             ))}
-                            <Menu.Item>Выйти</Menu.Item>
+                            <Menu.Item
+                                onClick={() => {
+                                    cookie.remove("jwttoken");
+                                    navigate(ROUTES.SIGN_IN);
+                                }}
+                            >
+                                Выйти
+                            </Menu.Item>
                         </Menu>
                     </Sider>
                     <Layout>
