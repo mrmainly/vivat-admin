@@ -14,7 +14,7 @@ const MyLayout = () => {
 
     const pathname = () => {
         switch (params.pathname) {
-            case "/ORDERS":
+            case "/orders":
                 return "Заказы";
                 break;
             case "/blog":
@@ -28,6 +28,12 @@ const MyLayout = () => {
                 break;
             case "/blog-create":
                 return "Создание блога";
+                break;
+            case "/city":
+                return "Города";
+                break;
+            case "/city-create":
+                return "Создание города";
                 break;
             case "/stock-create":
                 return "Создание акции";
@@ -50,6 +56,10 @@ const MyLayout = () => {
         {
             label: "Аналитика",
             navigate: ROUTES.ANALYTICS,
+        },
+        {
+            label: "Города",
+            navigate: ROUTES.CITY,
         },
     ];
 

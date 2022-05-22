@@ -13,6 +13,8 @@ import {
     BlogCreate,
     StockCreate,
     SignIn,
+    City,
+    CityCreate,
 } from "./pages";
 
 function App() {
@@ -31,6 +33,8 @@ function App() {
                         path={ROUTES.STOCK_CREATE}
                         element={<StockCreate />}
                     />
+                    <Route path={ROUTES.CITY} element={<City />} />
+                    <Route path={ROUTES.CITY_CREATE} element={<CityCreate />} />
                 </Route>
             </Routes>
         </BrowserRouter>

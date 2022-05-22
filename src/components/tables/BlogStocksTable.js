@@ -7,7 +7,7 @@ const columns = [
         title: "Действие",
         dataIndex: "",
         key: "x",
-        render: () => <a style={{ color: "#55CD61" }}>Посмотреть</a>,
+        render: () => <a style={{ color: "#55CD61" }}>Редактирование</a>,
     },
 ];
 

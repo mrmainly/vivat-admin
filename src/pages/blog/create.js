@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./create.css";
+import "../../create.css";
 import { Input, Space, Select, Upload, Button, Form } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { Editor } from "react-draft-wysiwyg";
