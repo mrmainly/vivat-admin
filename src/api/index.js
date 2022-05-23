@@ -5,25 +5,46 @@ import cookie from "js-cookie";
 const testURL = "http://127.0.0.1:8000/";
 const publicURL = "http://xn----7sbbagaytx2c4ad.xn--p1ai/";
 
-const api = (url) => {
+const api = (url, type) => {
     const token = cookie.get("jwttoken");
-    if (token) {
-        const instance = axios.create({
-            baseURL: publicURL + url,
-            headers: {
-                Authorization: "Token " + token,
-                "Content-Type": "application/json",
-            },
-        });
-        return instance;
+    if (type == "img") {
+        if (token) {
+            const instance = axios.create({
+                baseURL: publicURL + url,
+                headers: {
+                    Authorization: "Token " + token,
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            return instance;
+        } else {
+            const instance = axios.create({
+                baseURL: publicURL + url,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            return instance;
+        }
     } else {
-        const instance = axios.create({
-            baseURL: publicURL + url,
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        return instance;
+        if (token) {
+            const instance = axios.create({
+                baseURL: publicURL + url,
+                headers: {
+                    Authorization: "Token " + token,
+                    "Content-Type": "application/json",
+                },
+            });
+            return instance;
+        } else {
+            const instance = axios.create({
+                baseURL: publicURL + url,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            return instance;
+        }
     }
 };
 
@@ -69,6 +90,16 @@ class API {
         return result;
     }
 
+    async CreateCity(data) {
+        let result = await api(`api/v1/cities/add/`).post(null, data);
+        return result;
+    }
+
+    async PatchCity(data, id) {
+        let result = await api(`api/v1/cities/${id}`).patch(null, data);
+        return result;
+    }
+
     //stocks
     async getPromotion() {
         let result = await api(`api/v1/promotion/`).get();
@@ -88,6 +119,22 @@ class API {
                     : ""
             }`
         ).get();
+        return result;
+    }
+
+    async getBlogDetail(id) {
+        let result = await api(`api/v1/blogs/${id}/`).get();
+        return result;
+    }
+
+    async CreateBlog(data, convertedContent, img) {
+        console.log("asd", img);
+        let result = await api(`api/v1/blogs/`, "img").post(null, {
+            name: data.name,
+            topic: data.tag,
+            description: convertedContent,
+            image: img,
+        });
         return result;
     }
 

@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../create.css";
-import { Input, Space, Select, Upload, Button, Form } from "antd";
+import { Input, Space, Select, Upload, Button, Form, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
 import { convertToHTML } from "draft-convert";
 
+import API from "../../api";
+
 const { Option } = Select;
 
 const BlogCreate = () => {
+    const [tags, setTags] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [photo, setPhoto] = useState();
+
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
     );
@@ -25,9 +31,44 @@ const BlogCreate = () => {
         setConvertedContent(currentContentAsHTML);
     };
 
+    useEffect(() => {
+        const getBlogDetail = async () => {
+            setLoading(true);
+            await API.getTopic()
+                .then((res) => {
+                    setTags(res.data);
+                })
+                .catch((error) => console.log(error));
+            setLoading(false);
+        };
+        getBlogDetail();
+    }, []);
+
+    const handleCreate = (data) => {
+        API.CreateBlog(data, convertedContent, photo)
+            .then((res) => {
+                message.success("Блог создан");
+            })
+            .catch((error) => message.error("Блог не создан"));
+    };
+
+    // const props = {
+    //     onChange(info) {
+    //         if (info.file.status === "done") {
+    //             message.success(`${info.file.name} file uploaded successfully`);
+    //         } else if (info.file.status === "error") {
+    //             message.error(`${info.file.name} file upload failed.`);
+    //         }
+    //     },
+    // };
+
+    const fileSelectHandler = (e) => {
+        setPhoto(e.target.files[0]);
+    };
+
     return (
         <div>
-            <Form>
+            <Form onFinish={handleCreate}>
                 <Space direction="vertical">
                     <Form.Item
                         label="Название"
@@ -36,7 +77,7 @@ const BlogCreate = () => {
                         rules={[
                             {
                                 required: true,
-                                message: "Please input your username!",
+                                message: "Введите название",
                             },
                         ]}
                     >
@@ -46,38 +87,41 @@ const BlogCreate = () => {
                         />
                     </Form.Item>
 
-                    <Form.Item label="Тег" labelCol={{ span: 24 }} required>
-                        <Select
-                            style={{ width: 235 }}
-                            defaultValue="Home"
-                            name="tag"
-                        >
-                            <Option value="Home">Home</Option>
-                            <Option value="Company">Company</Option>
-                        </Select>
-                    </Form.Item>
-
                     <Form.Item
-                        label="Автор"
-                        name="producer"
+                        label="Тег"
                         labelCol={{ span: 24 }}
                         rules={[
                             {
                                 required: true,
-                                message: "Please input your username!",
+                                message: "Введите тег",
                             },
                         ]}
+                        name="tag"
                     >
-                        <Input
-                            placeholder="Basic usage"
+                        <Select
                             style={{ width: 235 }}
-                        />
+                            defaultValue="Теги"
+                            name="tag"
+                        >
+                            {tags.map((item, index) => (
+                                <Option value={item.topic} key={index}>
+                                    {item.topic}
+                                </Option>
+                            ))}
+                        </Select>
                     </Form.Item>
 
                     <Form.Item
                         label="Описание"
                         required
                         labelCol={{ span: 24 }}
+                        name="asd"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Введите описание",
+                            },
+                        ]}
                     >
                         <Editor
                             editorState={editorState}
@@ -92,13 +136,27 @@ const BlogCreate = () => {
                         label="Изображение"
                         labelCol={{ span: 24 }}
                         style={{ width: 200 }}
-                        required
+                        rules={[
+                            {
+                                required: true,
+                                message: "Загрузите фото",
+                            },
+                        ]}
+                        name="image"
                     >
-                        <Upload>
-                            <Button icon={<UploadOutlined />}>Upload</Button>
-                        </Upload>
+                        <input
+                            type="file"
+                            accept=".png, .jpg"
+                            onChange={(event) => {
+                                fileSelectHandler(event);
+                            }}
+                        />
                     </Form.Item>
-                    <Button style={{ background: "#55CD61" }} type="primary">
+                    <Button
+                        style={{ background: "#55CD61" }}
+                        type="primary"
+                        htmlType="submit"
+                    >
                         Сохранить
                     </Button>
                 </Space>

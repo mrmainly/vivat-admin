@@ -1,21 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../../create.css";
-import { Input, Space, Button, Form, message } from "antd";
+import { Input, Space, Select, Button, Form, message } from "antd";
+import { useParams } from "react-router-dom";
 
 import API from "../../api";
 
-const CityCreate = () => {
-    const createCity = (data) => {
-        API.CreateCity(data)
+const { Option } = Select;
+
+const CityDetail = () => {
+    const [name, setName] = useState("");
+
+    const params = useParams();
+
+    // useEffect(() => {
+    //     const getCity = () => {
+    //         API.getCityDetail(params.id)
+    //             .then((res) => {
+    //                 console.log(res);
+    //                 // setName(res)
+    //             })
+    //             .catch((error) => console.log(error));
+    //     };
+    //     getCity();
+    // }, []);
+
+    const patchCity = (data) => {
+        API.PatchCity(data, params.id)
             .then((res) => {
-                message.success("Город создан");
+                message.success("Город изменен");
             })
-            .catch((error) => message.error("Город не создан"));
+            .catch((error) => message.error("Город не изменен"));
     };
 
     return (
         <div>
-            <Form onFinish={createCity}>
+            <Form onFinish={patchCity}>
                 <Space direction="vertical">
                     <Form.Item
                         label="Название"
@@ -46,4 +65,4 @@ const CityCreate = () => {
     );
 };
 
-export default CityCreate;
+export default CityDetail;

@@ -32,14 +32,10 @@ const Orders = () => {
                     enterButton
                     style={{ width: 304 }}
                 />
-                <Select style={{ width: 200 }} defaultValue="Home">
+                {/* <Select style={{ width: 200 }} defaultValue="Home">
                     <Option value="Home">Home</Option>
                     <Option value="Company">Company</Option>
-                </Select>
-                <Select style={{ width: 200 }} defaultValue="Home">
-                    <Option value="Home">Home</Option>
-                    <Option value="Company">Company</Option>
-                </Select>
+                </Select> */}
             </Space>
             <OrdersTable loading={loading} data={data} />
         </div>

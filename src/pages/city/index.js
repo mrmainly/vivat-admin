@@ -38,7 +38,11 @@ const City = () => {
                     + Создать новый город
                 </Button>
             </Space>
-            <BlogStocksTable data={data} loading={loading} />
+            <BlogStocksTable
+                data={data}
+                loading={loading}
+                routes={ROUTES.CITY_DETAIL}
+            />
         </div>
     );
 };

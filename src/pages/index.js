@@ -8,6 +8,8 @@ import StockCreate from "./stocks/create";
 import SignIn from "./sign-in";
 import City from "./city";
 import CityCreate from "./city/create";
+import CityDetail from "./city/detail";
+
 import BlogDetail from "./blog/detail";
 
 export {
@@ -21,4 +23,5 @@ export {
     City,
     CityCreate,
     BlogDetail,
+    CityDetail,
 };

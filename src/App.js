@@ -16,6 +16,7 @@ import {
     City,
     CityCreate,
     BlogDetail,
+    CityDetail,
 } from "./pages";
 
 function App() {
@@ -42,6 +43,10 @@ function App() {
                     />
                     <Route path={ROUTES.CITY} element={<City />} />
                     <Route path={ROUTES.CITY_CREATE} element={<CityCreate />} />
+                    <Route
+                        path={`${ROUTES.CITY_DETAIL}/:id`}
+                        element={<CityDetail />}
+                    />
                 </Route>
             </Routes>
         </BrowserRouter>

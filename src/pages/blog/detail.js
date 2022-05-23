@@ -1,18 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../create.css";
 import { Input, Space, Select, Upload, Button, Form } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
 import { convertToHTML } from "draft-convert";
+import { useParams } from "react-router-dom";
+
+import API from "../../api";
 
 const { Option } = Select;
 
 const BlogDetail = () => {
+    const [name, setName] = useState("");
+    const [tags, setTags] = useState([]);
+    // const [description, setDescription] = useState("");
+    const [loading, setLoading] = useState(false);
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
     );
     const [convertedContent, setConvertedContent] = useState(null);
+    const params = useParams();
+
+    useEffect(() => {
+        const getBlogDetail = async () => {
+            setLoading(true);
+            await API.getBlogDetail(params.id)
+                .then((res) => {
+                    const data = res.data;
+                    console.log(res);
+                    setName(data.name);
+                })
+                .catch((error) => console.log(error));
+            await API.getTopic()
+                .then((res) => {
+                    setTags(res.data);
+                })
+                .catch((error) => console.log(error));
+            setLoading(false);
+        };
+        getBlogDetail();
+    }, []);
 
     const handleEditorChange = (state) => {
         setEditorState(state);
@@ -31,7 +59,6 @@ const BlogDetail = () => {
                 <Space direction="vertical">
                     <Form.Item
                         label="Название"
-                        name="name"
                         labelCol={{ span: 24 }}
                         rules={[
                             {
@@ -42,6 +69,7 @@ const BlogDetail = () => {
                     >
                         <Input
                             placeholder="Basic usage"
+                            value={name}
                             style={{ width: 235 }}
                         />
                     </Form.Item>
@@ -49,29 +77,15 @@ const BlogDetail = () => {
                     <Form.Item label="Тег" labelCol={{ span: 24 }} required>
                         <Select
                             style={{ width: 235 }}
-                            defaultValue="Home"
+                            defaultValue="Тег"
                             name="tag"
                         >
-                            <Option value="Home">Home</Option>
-                            <Option value="Company">Company</Option>
+                            {tags.map((item, index) => (
+                                <Option value={item.topic} key={index}>
+                                    {item.topic}
+                                </Option>
+                            ))}
                         </Select>
-                    </Form.Item>
-
-                    <Form.Item
-                        label="Автор"
-                        name="producer"
-                        labelCol={{ span: 24 }}
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input your username!",
-                            },
-                        ]}
-                    >
-                        <Input
-                            placeholder="Basic usage"
-                            style={{ width: 235 }}
-                        />
                     </Form.Item>
 
                     <Form.Item
