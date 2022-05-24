@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "../../create.css";
 import { Input, Space, Select, Button, Form, message, Spin } from "antd";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import API from "../../api";
+import ROUTES from "../../routes";
 
 const { Option } = Select;
 
@@ -12,6 +13,7 @@ const CityDetail = () => {
     const [loading, setLoading] = useState(false);
 
     const params = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getCity = async () => {
@@ -33,6 +35,15 @@ const CityDetail = () => {
                 message.success("Город изменен");
             })
             .catch((error) => message.error("Город не изменен"));
+    };
+
+    const deleteCity = () => {
+        API.deleteCity(params.id)
+            .then(() => {
+                navigate(ROUTES.CITY);
+                message.success("город удален");
+            })
+            .catch(() => message.error("город не найден"));
     };
 
     return (
@@ -69,13 +80,22 @@ const CityDetail = () => {
                                 onChange={(e) => setName(e.target.value)}
                             />
                         </Form.Item>
-                        <Button
-                            style={{ background: "#55CD61" }}
-                            type="primary"
-                            htmlType="submit"
-                        >
-                            Сохранить
-                        </Button>
+                        <Space>
+                            <Button
+                                style={{ background: "#55CD61" }}
+                                type="primary"
+                                htmlType="submit"
+                            >
+                                Сохранить
+                            </Button>
+                            <Button
+                                style={{ background: "#FE5860" }}
+                                type="primary"
+                                onClick={() => deleteCity()}
+                            >
+                                Удалить
+                            </Button>
+                        </Space>
                     </Space>
                 </Form>
             )}

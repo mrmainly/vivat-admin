@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Select, Spin, Form, Button, Space, message } from "antd";
+import { useNavigate } from "react-router-dom";
 
 import API from "../../api";
+import ROUTES from "../../routes";
 
 const { Option } = Select;
 
 const UsersDetail = () => {
     const [role, setRole] = useState("");
     const [roles, setRoles] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const params = useParams();
+    const navigate = useNavigate();
 
     const handleSelect = (value) => {
         setRole(value);
@@ -19,7 +22,6 @@ const UsersDetail = () => {
 
     useEffect(() => {
         const getUsers = async () => {
-            setLoading(true);
             await API.getUsersId(params.id)
                 .then((res) => {
                     setRole(res.data.role);
@@ -41,6 +43,15 @@ const UsersDetail = () => {
                 message.success("пользователь обновлен");
             })
             .catch((error) => message.error("не обновлен"));
+    };
+
+    const deleteUsers = () => {
+        API.deleteUsers(params.id)
+            .then(() => {
+                navigate(ROUTES.USERS);
+                message.success("пользователь удален");
+            })
+            .catch(() => message.error("пользователь не найден"));
     };
 
     return (
@@ -82,13 +93,22 @@ const UsersDetail = () => {
                                 ))}
                             </Select>
                         </Form.Item>
-                        <Button
-                            style={{ background: "#55CD61" }}
-                            type="primary"
-                            htmlType="submit"
-                        >
-                            Сохранить
-                        </Button>
+                        <Space>
+                            <Button
+                                style={{ background: "#55CD61" }}
+                                type="primary"
+                                htmlType="submit"
+                            >
+                                Сохранить
+                            </Button>
+                            <Button
+                                style={{ background: "#FE5860" }}
+                                type="primary"
+                                onClick={() => deleteUsers()}
+                            >
+                                Удалить
+                            </Button>
+                        </Space>
                     </Space>
                 </Form>
             )}

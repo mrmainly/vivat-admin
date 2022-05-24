@@ -84,7 +84,7 @@ class API {
         });
     }
 
-    //getCity
+    //city
     async getCity() {
         let result = await api(`api/v1/cities/`).get();
         return result;
@@ -104,6 +104,11 @@ class API {
 
     async getCityId(id) {
         let result = await api(`api/v1/cities/${id}`).get();
+        return result;
+    }
+
+    async deleteCity(id) {
+        let result = await api(`api/v1/cities/${id}`).delete(null);
         return result;
     }
 
@@ -146,7 +151,7 @@ class API {
     }
 
     async getTopic() {
-        let result = await api(`api/v1/blogs/topics/`).get();
+        let result = await api(`api/v1/blogs/tags/`).get();
         return result;
     }
 
@@ -159,6 +164,11 @@ class API {
     //users
     async getUsers() {
         let result = await api(`api/v1/users/admin/users/`).get();
+        return result;
+    }
+
+    async deleteUsers(id) {
+        let result = await api(`api/v1/users/admin/users/${id}/`).delete(null);
         return result;
     }
 

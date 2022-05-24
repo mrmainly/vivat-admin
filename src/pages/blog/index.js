@@ -63,8 +63,8 @@ const Blog = () => {
                     // onChange={(e) => setTopic(e.target.value)}
                 >
                     {topics.map((item, index) => (
-                        <Option value={item.topic} key={index}>
-                            {item.topic}
+                        <Option value={item.name} key={index}>
+                            {item.name}
                         </Option>
                     ))}
                 </Select>
