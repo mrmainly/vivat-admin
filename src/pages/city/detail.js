@@ -12,20 +12,20 @@ const CityDetail = () => {
 
     const params = useParams();
 
-    // useEffect(() => {
-    //     const getCity = () => {
-    //         API.getCityDetail(params.id)
-    //             .then((res) => {
-    //                 console.log(res);
-    //                 // setName(res)
-    //             })
-    //             .catch((error) => console.log(error));
-    //     };
-    //     getCity();
-    // }, []);
+    useEffect(() => {
+        const getCity = () => {
+            API.getCityId(params.id)
+                .then((res) => {
+                    console.log(res);
+                    setName(res.data.name);
+                })
+                .catch((error) => console.log(error));
+        };
+        getCity();
+    }, []);
 
-    const patchCity = (data) => {
-        API.PatchCity(data, params.id)
+    const patchCity = () => {
+        API.PatchCity(name, params.id)
             .then((res) => {
                 message.success("Город изменен");
             })
@@ -38,8 +38,8 @@ const CityDetail = () => {
                 <Space direction="vertical">
                     <Form.Item
                         label="Название"
-                        name="name"
                         labelCol={{ span: 24 }}
+                        required
                         rules={[
                             {
                                 required: true,
@@ -50,6 +50,8 @@ const CityDetail = () => {
                         <Input
                             placeholder="Basic usage"
                             style={{ width: 235 }}
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                         />
                     </Form.Item>
                     <Button

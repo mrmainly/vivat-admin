@@ -96,7 +96,14 @@ class API {
     }
 
     async PatchCity(data, id) {
-        let result = await api(`api/v1/cities/${id}`).patch(null, data);
+        let result = await api(`api/v1/cities/${id}`).patch(null, {
+            name: data,
+        });
+        return result;
+    }
+
+    async getCityId(id) {
+        let result = await api(`api/v1/cities/${id}`).get();
         return result;
     }
 
