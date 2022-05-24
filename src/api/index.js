@@ -155,6 +155,29 @@ class API {
         let result = await api(`api/v1/orders/`).get();
         return result;
     }
+
+    //users
+    async getUsers() {
+        let result = await api(`api/v1/users/admin/users/`).get();
+        return result;
+    }
+
+    async getRoles(id) {
+        let result = await api(`api/v1/users/admin/users/roles/`).get();
+        return result;
+    }
+
+    async getUsersId(id) {
+        let result = await api(`api/v1/users/admin/users/${id}`).get();
+        return result;
+    }
+
+    async patchUsers(role, id) {
+        let result = await api(`api/v1/users/admin/users/${id}/`).patch(null, {
+            role: role,
+        });
+        return result;
+    }
 }
 
 export default new API();

@@ -11,6 +11,8 @@ const ROUTES = {
     SIGN_IN: "/",
     BLOG_DETAIL: "/blog-detail",
     CITY_DETAIL: "/city-detail",
+    USERS: "/users",
+    USERS_DETAIL: "/users-detail",
 };
 
 export default ROUTES;

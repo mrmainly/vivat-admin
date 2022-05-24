@@ -12,6 +12,9 @@ import CityDetail from "./city/detail";
 
 import BlogDetail from "./blog/detail";
 
+import Users from "./users";
+import UsersDetail from "./users/detail";
+
 export {
     Blog,
     Orders,
@@ -24,4 +27,6 @@ export {
     CityCreate,
     BlogDetail,
     CityDetail,
+    Users,
+    UsersDetail,
 };

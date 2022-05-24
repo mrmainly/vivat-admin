@@ -3,8 +3,7 @@ import "./sign_in.css";
 import API from "../../api";
 import ROUTES from "../../routes";
 
-import { Form, Input, Button, Space, Typography } from "antd";
-import { toast } from "react-toastify";
+import { Form, Input, Button, Space, Typography, message } from "antd";
 import cookie from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
@@ -17,12 +16,12 @@ const SignIn = () => {
         console.log(data);
         API.getToken({ ...data })
             .then((res) => {
-                toast.success("авторизация прошла успешно");
+                message.success("авторизация прошла успешно");
                 cookie.set("jwttoken", res.data.token);
                 navigate(ROUTES.ORDERS);
             })
             .catch((error) => {
-                toast.error("такого пользователя не существует");
+                message.error("такого пользователя не существует");
             });
     };
     return (

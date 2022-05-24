@@ -1,42 +1,50 @@
-import React, { useState, useEffect } from "react";
-import "../../create.css";
-import { Input, Space, Select, Button, Form, message, Spin } from "antd";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Select, Spin, Form, Button, Space, message } from "antd";
 
 import API from "../../api";
 
 const { Option } = Select;
 
-const CityDetail = () => {
-    const [name, setName] = useState("");
+const UsersDetail = () => {
+    const [role, setRole] = useState("");
+    const [roles, setRoles] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const params = useParams();
 
+    const handleSelect = (value) => {
+        setRole(value);
+    };
+
     useEffect(() => {
-        const getCity = async () => {
+        const getUsers = async () => {
             setLoading(true);
-            await API.getCityId(params.id)
+            await API.getUsersId(params.id)
                 .then((res) => {
-                    console.log(res);
-                    setName(res.data.name);
+                    setRole(res.data.role);
+                })
+                .catch((error) => console.log(error));
+            await API.getRoles()
+                .then((res) => {
+                    setRoles(res.data);
                 })
                 .catch((error) => console.log(error));
             setLoading(false);
         };
-        getCity();
+        getUsers();
     }, []);
 
-    const patchCity = () => {
-        API.PatchCity(name, params.id)
+    const patchUsers = () => {
+        API.patchUsers(role, params.id)
             .then((res) => {
-                message.success("Город изменен");
+                message.success("пользователь обновлен");
             })
-            .catch((error) => message.error("Город не изменен"));
+            .catch((error) => message.error("не обновлен"));
     };
 
     return (
-        <div>
+        <div style={{ height: 135 }}>
             {loading ? (
                 <div
                     style={{
@@ -49,10 +57,10 @@ const CityDetail = () => {
                     <Spin />
                 </div>
             ) : (
-                <Form onFinish={patchCity}>
+                <Form onFinish={patchUsers}>
                     <Space direction="vertical">
                         <Form.Item
-                            label="Название"
+                            label="Роль"
                             labelCol={{ span: 24 }}
                             required
                             rules={[
@@ -62,12 +70,17 @@ const CityDetail = () => {
                                 },
                             ]}
                         >
-                            <Input
-                                placeholder="Basic usage"
-                                style={{ width: 235 }}
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                            />
+                            <Select
+                                style={{ width: 200 }}
+                                defaultValue={role}
+                                onChange={handleSelect}
+                            >
+                                {roles.map((item, index) => (
+                                    <Option value={item} key={index}>
+                                        {item}
+                                    </Option>
+                                ))}
+                            </Select>
                         </Form.Item>
                         <Button
                             style={{ background: "#55CD61" }}
@@ -83,4 +96,4 @@ const CityDetail = () => {
     );
 };
 
-export default CityDetail;
+export default UsersDetail;

@@ -39,6 +39,9 @@ const MyLayout = () => {
             case "/blog-detail":
                 return "Редактирование блога";
                 break;
+            case "/users":
+                return "Пользователи";
+                break;
             case "/stock-create":
                 return "Создание акции";
         }
@@ -64,6 +67,10 @@ const MyLayout = () => {
         {
             label: "Города",
             navigate: ROUTES.CITY,
+        },
+        {
+            label: "Пользователи",
+            navigate: ROUTES.USERS,
         },
     ];
 
