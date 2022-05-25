@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Menu, Typography } from "antd";
+import { Layout, Menu, Typography, Divider } from "antd";
 import { useNavigate, Outlet, useLocation } from "react-router-dom";
 import cookie from "js-cookie";
 
@@ -42,6 +42,12 @@ const MyLayout = () => {
             case "/users":
                 return "Пользователи";
                 break;
+            case "/work":
+                return "Вакансии";
+                break;
+            case "/work-create":
+                return "Создание вакансии";
+                break;
             case "/stock-create":
                 return "Создание акции";
         }
@@ -72,6 +78,10 @@ const MyLayout = () => {
             label: "Пользователи",
             navigate: ROUTES.USERS,
         },
+        {
+            label: "Вакансии",
+            navigate: ROUTES.WORK,
+        },
     ];
 
     return (
@@ -98,6 +108,7 @@ const MyLayout = () => {
                         >
                             <img src="/img/Frame62.png" />
                         </div>
+                        <Divider />
                         <Menu mode="inline">
                             {items.map((item, index) => (
                                 <Menu.Item

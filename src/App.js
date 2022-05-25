@@ -20,6 +20,8 @@ import {
     Users,
     UsersDetail,
     OrdersDetail,
+    Work,
+    WorkCreate,
 } from "./pages";
 
 function App() {
@@ -60,6 +62,8 @@ function App() {
                         path={`${ROUTES.ORDERS_DETAIL}/:id`}
                         element={<OrdersDetail />}
                     />
+                    <Route path={ROUTES.WORK} element={<Work />} />
+                    <Route path={ROUTES.WORK_CREATE} element={<WorkCreate />} />
                 </Route>
             </Routes>
         </BrowserRouter>

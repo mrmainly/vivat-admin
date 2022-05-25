@@ -14,6 +14,8 @@ const ROUTES = {
     USERS: "/users",
     USERS_DETAIL: "/users-detail",
     ORDERS_DETAIL: "/orders-detail",
+    WORK: "/work",
+    WORK_CREATE: "/work-create",
 };
 
 export default ROUTES;

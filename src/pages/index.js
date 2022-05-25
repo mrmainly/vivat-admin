@@ -17,6 +17,9 @@ import UsersDetail from "./users/detail";
 
 import OrdersDetail from "./orders/detail";
 
+import Work from "./work";
+import WorkCreate from "./work/create";
+
 export {
     Blog,
     Orders,
@@ -32,4 +35,6 @@ export {
     Users,
     UsersDetail,
     OrdersDetail,
+    Work,
+    WorkCreate,
 };

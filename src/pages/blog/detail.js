@@ -3,7 +3,7 @@ import "../../create.css";
 import { Input, Space, Select, Upload, Button, Form } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { Editor } from "react-draft-wysiwyg";
-import { EditorState } from "draft-js";
+import { EditorState, convertFromHTML, ContentState } from "draft-js";
 import { convertToHTML } from "draft-convert";
 import { useParams } from "react-router-dom";
 
@@ -14,7 +14,8 @@ const { Option } = Select;
 const BlogDetail = () => {
     const [name, setName] = useState("");
     const [tags, setTags] = useState([]);
-    // const [description, setDescription] = useState("");
+    const [tag, setTag] = useState("");
+    const [description, setDescription] = useState("");
     const [loading, setLoading] = useState(false);
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
@@ -28,8 +29,10 @@ const BlogDetail = () => {
             await API.getBlogDetail(params.id)
                 .then((res) => {
                     const data = res.data;
+                    // console.log(data.tags[0].name);
                     console.log(res);
                     setName(data.name);
+                    setTag(data.tags.name);
                 })
                 .catch((error) => console.log(error));
             await API.getTopic()
@@ -54,6 +57,10 @@ const BlogDetail = () => {
         setConvertedContent(currentContentAsHTML);
     };
 
+    const handleSelect = (value) => {
+        setTags(value);
+    };
+
     return (
         <div>
             <Form>
@@ -70,17 +77,14 @@ const BlogDetail = () => {
                     >
                         <Input
                             placeholder="Basic usage"
+                            onChange={(e) => setName(e.target.value)}
                             value={name}
                             style={{ width: 235 }}
                         />
                     </Form.Item>
 
                     <Form.Item label="Тег" labelCol={{ span: 24 }} required>
-                        <Select
-                            style={{ width: 235 }}
-                            defaultValue="Тег"
-                            name="tag"
-                        >
+                        <Select style={{ width: 235 }} onChange={handleSelect}>
                             {tags.map((item, index) => (
                                 <Option value={item.name} key={index}>
                                     {item.name}
@@ -95,6 +99,7 @@ const BlogDetail = () => {
                         labelCol={{ span: 24 }}
                     >
                         <Editor
+                            defaultContentState={description}
                             editorState={editorState}
                             onEditorStateChange={handleEditorChange}
                             wrapperClassName="wrapper-class"

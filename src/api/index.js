@@ -208,6 +208,22 @@ class API {
         });
         return result;
     }
+
+    //WORK
+
+    async getWork(city) {
+        let result = await api(`api/v1/employments/?city_name=${city}`).get();
+        return result;
+    }
+
+    async CreateWork(data, description) {
+        let result = await api(`api/v1/employments/add/`).post(null, {
+            name: data.name,
+            description: description,
+            city: { name: data.city },
+        });
+        return result;
+    }
 }
 
 export default new API();
