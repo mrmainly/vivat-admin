@@ -161,6 +161,26 @@ class API {
         return result;
     }
 
+    async getOrderId(id) {
+        let result = await api(`api/v1/orders/${id}/`).get();
+        return result;
+    }
+
+    async getStatuses() {
+        let result = await api(`api/v1/orders/statuses/`).get();
+        return result;
+    }
+
+    async patchOrderStatus(status, id) {
+        let result = await api(`api/v1/orders/change_status/${id}/`).patch(
+            null,
+            {
+                orderStatus: status,
+            }
+        );
+        return result;
+    }
+
     //users
     async getUsers() {
         let result = await api(`api/v1/users/admin/users/`).get();

@@ -15,6 +15,8 @@ import BlogDetail from "./blog/detail";
 import Users from "./users";
 import UsersDetail from "./users/detail";
 
+import OrdersDetail from "./orders/detail";
+
 export {
     Blog,
     Orders,
@@ -29,4 +31,5 @@ export {
     CityDetail,
     Users,
     UsersDetail,
+    OrdersDetail,
 };

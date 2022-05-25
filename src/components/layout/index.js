@@ -133,7 +133,7 @@ const MyLayout = () => {
                         <Content style={{ margin: "16px 16px 0" }}>
                             <div
                                 className="site-layout-background"
-                                style={{ padding: 24 }}
+                                style={{ padding: 24, minHeight: 900 }}
                             >
                                 <Outlet />
                             </div>

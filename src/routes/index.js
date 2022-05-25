@@ -13,6 +13,7 @@ const ROUTES = {
     CITY_DETAIL: "/city-detail",
     USERS: "/users",
     USERS_DETAIL: "/users-detail",
+    ORDERS_DETAIL: "/orders-detail",
 };
 
 export default ROUTES;

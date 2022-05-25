@@ -1,28 +1,40 @@
-import { Table } from "antd";
+import { Table, Button } from "antd";
+import { useNavigate } from "react-router-dom";
 
-const columns = [
-    { title: "id", dataIndex: "id", key: "id" },
-    {
-        title: "Количество товаров",
-        dataIndex: "total_count",
-        key: "total_count",
-    },
-    {
-        title: "Дата и время заказа",
-        dataIndex: "registered",
-        key: "registered",
-    },
-    { title: "Сумма", dataIndex: "total_price", key: "total_price" },
-    { title: "Статус", dataIndex: "delivery_type", key: "delivery_type" },
-    {
-        title: "Действие",
-        dataIndex: "",
-        key: "x",
-        render: () => <a style={{ color: "#55CD61" }}>Посмотреть</a>,
-    },
-];
+import ROUTES from "../../routes";
 
 const OrdersTable = ({ loading, data }) => {
+    const navigate = useNavigate();
+
+    const columns = [
+        { title: "id", dataIndex: "id", key: "id" },
+        {
+            title: "Количество товаров",
+            dataIndex: "total_count",
+            key: "total_count",
+        },
+        {
+            title: "Дата и время заказа",
+            dataIndex: "registered",
+            key: "registered",
+        },
+        { title: "Сумма", dataIndex: "total_price", key: "total_price" },
+        { title: "Статус", dataIndex: "orderStatus", key: "orderStatus" },
+        {
+            title: "Действие",
+            dataIndex: "id",
+            key: "x",
+            render: (id) => (
+                <Button
+                    type="primary"
+                    style={{ background: "#55CD61" }}
+                    onClick={() => navigate(`${ROUTES.ORDERS_DETAIL}/${id}`)}
+                >
+                    Посмотреть
+                </Button>
+            ),
+        },
+    ];
     return (
         <Table
             columns={columns}

@@ -19,6 +19,7 @@ import {
     CityDetail,
     Users,
     UsersDetail,
+    OrdersDetail,
 } from "./pages";
 
 function App() {
@@ -54,6 +55,10 @@ function App() {
                     <Route
                         path={`${ROUTES.USERS_DETAIL}/:id`}
                         element={<UsersDetail />}
+                    />
+                    <Route
+                        path={`${ROUTES.ORDERS_DETAIL}/:id`}
+                        element={<OrdersDetail />}
                     />
                 </Route>
             </Routes>
