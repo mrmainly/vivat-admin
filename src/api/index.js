@@ -51,7 +51,7 @@ const api = (url, type) => {
 class API {
     //sign-in
     getToken({ username, password }) {
-        const result = api("api/v1/users/login/").post(null, {
+        const result = api("api/v1/users/login/admin/").post(null, {
             username: username,
             password: password,
         });
@@ -127,7 +127,7 @@ class API {
                         ? query
                             ? `?query=${query}`
                             : ""
-                        : `?topic_query=${query}`
+                        : `?tags_query=${query}`
                     : ""
             }`
         ).get();
@@ -143,7 +143,7 @@ class API {
         console.log("asd", img);
         let result = await api(`api/v1/blogs/`, "img").post(null, {
             name: data.name,
-            topic: data.tag,
+            tags: data.tag,
             description: convertedContent,
             image: img,
         });

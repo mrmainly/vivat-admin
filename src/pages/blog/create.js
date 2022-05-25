@@ -104,8 +104,8 @@ const BlogCreate = () => {
                             name="tag"
                         >
                             {tags.map((item, index) => (
-                                <Option value={item.topic} key={index}>
-                                    {item.topic}
+                                <Option value={item.id} key={index}>
+                                    {item.name}
                                 </Option>
                             ))}
                         </Select>

@@ -35,6 +35,7 @@ const BlogDetail = () => {
             await API.getTopic()
                 .then((res) => {
                     setTags(res.data);
+                    console.log(res);
                 })
                 .catch((error) => console.log(error));
             setLoading(false);
@@ -81,8 +82,8 @@ const BlogDetail = () => {
                             name="tag"
                         >
                             {tags.map((item, index) => (
-                                <Option value={item.topic} key={index}>
-                                    {item.topic}
+                                <Option value={item.name} key={index}>
+                                    {item.name}
                                 </Option>
                             ))}
                         </Select>
