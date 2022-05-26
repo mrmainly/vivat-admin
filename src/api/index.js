@@ -187,8 +187,10 @@ class API {
         return result;
     }
 
-    async deleteUsers(id) {
-        let result = await api(`api/v1/users/admin/users/${id}/`).delete(null);
+    async putUsers(id, active) {
+        let result = await api(`api/v1/users/admin/users/${id}/`).put(null, {
+            is_active: active,
+        });
         return result;
     }
 
@@ -222,6 +224,11 @@ class API {
             description: description,
             city: { name: data.city },
         });
+        return result;
+    }
+
+    async getWorkId(id) {
+        let result = await api(`api/v1/employments/${id}`).get();
         return result;
     }
 }

@@ -22,7 +22,6 @@ const Work = () => {
             setLoading(true);
             await API.getWork(city)
                 .then((res) => {
-                    console.log(res);
                     setData(res.data.results);
                 })
                 .catch((error) => console.log(error));
@@ -67,7 +66,7 @@ const Work = () => {
             <BlogStocksTable
                 data={data}
                 loading={loading}
-                // routes={ROUTES.WORK_DETAIL}
+                routes={ROUTES.WORK_DETAIL}
             />
         </div>
     );

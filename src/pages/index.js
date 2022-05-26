@@ -19,6 +19,7 @@ import OrdersDetail from "./orders/detail";
 
 import Work from "./work";
 import WorkCreate from "./work/create";
+import WorkDetail from "./work/detail";
 
 export {
     Blog,
@@ -37,4 +38,5 @@ export {
     OrdersDetail,
     Work,
     WorkCreate,
+    WorkDetail,
 };

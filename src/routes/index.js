@@ -16,6 +16,7 @@ const ROUTES = {
     ORDERS_DETAIL: "/orders-detail",
     WORK: "/work",
     WORK_CREATE: "/work-create",
+    WORK_DETAIL: "/work-detail",
 };
 
 export default ROUTES;

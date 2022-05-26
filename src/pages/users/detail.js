@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Select, Spin, Form, Button, Space, message } from "antd";
+import { Select, Spin, Form, Button, Space, message, Checkbox } from "antd";
 import { useNavigate } from "react-router-dom";
 
 import API from "../../api";
@@ -11,6 +11,7 @@ const { Option } = Select;
 const UsersDetail = () => {
     const [role, setRole] = useState("");
     const [roles, setRoles] = useState([]);
+    const [active, setActive] = useState(true);
     const [loading, setLoading] = useState(true);
 
     const params = useParams();
@@ -25,6 +26,8 @@ const UsersDetail = () => {
             await API.getUsersId(params.id)
                 .then((res) => {
                     setRole(res.data.role);
+                    setActive(res.data.is_active);
+                    console.log(res);
                 })
                 .catch((error) => console.log(error));
             await API.getRoles()
@@ -43,16 +46,21 @@ const UsersDetail = () => {
                 message.success("пользователь обновлен");
             })
             .catch((error) => message.error("не обновлен"));
+        API.putUsers(params.id, active)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((error) => console.log(error));
     };
 
-    const deleteUsers = () => {
-        API.deleteUsers(params.id)
-            .then(() => {
-                navigate(ROUTES.USERS);
-                message.success("пользователь удален");
-            })
-            .catch(() => message.error("пользователь не найден"));
-    };
+    // const deleteUsers = () => {
+    //     API.deleteUsers(params.id)
+    //         .then(() => {
+    //             navigate(ROUTES.USERS);
+    //             message.success("пользователь удален");
+    //         })
+    //         .catch(() => message.success("пользователь удален"));
+    // };
 
     return (
         <div style={{ height: 135 }}>
@@ -73,7 +81,6 @@ const UsersDetail = () => {
                         <Form.Item
                             label="Роль"
                             labelCol={{ span: 24 }}
-                            required
                             rules={[
                                 {
                                     required: true,
@@ -93,21 +100,27 @@ const UsersDetail = () => {
                                 ))}
                             </Select>
                         </Form.Item>
+                        <Checkbox
+                            onChange={(e) => setActive(e.target.checked)}
+                            checked={active}
+                        >
+                            Активность
+                        </Checkbox>
                         <Space>
                             <Button
-                                style={{ background: "#55CD61" }}
+                                style={{ background: "#55CD61", marginTop: 25 }}
                                 type="primary"
                                 htmlType="submit"
                             >
                                 Сохранить
                             </Button>
-                            <Button
+                            {/* <Button
                                 style={{ background: "#FE5860" }}
                                 type="primary"
                                 onClick={() => deleteUsers()}
                             >
                                 Удалить
-                            </Button>
+                            </Button> */}
                         </Space>
                     </Space>
                 </Form>

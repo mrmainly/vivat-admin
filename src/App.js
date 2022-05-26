@@ -22,6 +22,7 @@ import {
     OrdersDetail,
     Work,
     WorkCreate,
+    WorkDetail,
 } from "./pages";
 
 function App() {
@@ -64,6 +65,10 @@ function App() {
                     />
                     <Route path={ROUTES.WORK} element={<Work />} />
                     <Route path={ROUTES.WORK_CREATE} element={<WorkCreate />} />
+                    <Route
+                        path={`${ROUTES.WORK_DETAIL}/:id`}
+                        element={<WorkDetail />}
+                    />
                 </Route>
             </Routes>
         </BrowserRouter>
