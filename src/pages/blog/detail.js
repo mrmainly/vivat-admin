@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "../../create.css";
-import { Input, Space, Select, Upload, Button, Form } from "antd";
+import { Input, Space, Select, Upload, Button, Form, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertFromHTML, ContentState } from "draft-js";
 import { convertToHTML } from "draft-convert";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import API from "../../api";
+import ROUTES from "../../routes";
 
 const { Option } = Select;
 
@@ -21,7 +22,9 @@ const BlogDetail = () => {
         EditorState.createEmpty()
     );
     const [convertedContent, setConvertedContent] = useState(null);
+
     const params = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getBlogDetail = async () => {
@@ -45,6 +48,18 @@ const BlogDetail = () => {
         };
         getBlogDetail();
     }, []);
+
+    const deleteBlog = () => {
+        API.deleteBlog(params.id)
+            .then((res) => {
+                console.log(res);
+                navigate(ROUTES.BLOG);
+                message.success("Блог удален");
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     const handleEditorChange = (state) => {
         setEditorState(state);
@@ -118,9 +133,21 @@ const BlogDetail = () => {
                             <Button icon={<UploadOutlined />}>Upload</Button>
                         </Upload>
                     </Form.Item>
-                    <Button style={{ background: "#55CD61" }} type="primary">
-                        Сохранить
-                    </Button>
+                    <Space>
+                        <Button
+                            style={{ background: "#55CD61" }}
+                            type="primary"
+                        >
+                            Сохранить
+                        </Button>
+                        <Button
+                            style={{ background: "#FE5860" }}
+                            type="primary"
+                            onClick={() => deleteBlog()}
+                        >
+                            Удалить
+                        </Button>
+                    </Space>
                 </Space>
             </Form>
         </div>

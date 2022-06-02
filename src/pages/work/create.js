@@ -104,7 +104,7 @@ const WorkCreate = () => {
                             // onChange={(e) => setTopic(e.target.value)}
                         >
                             {cities.map((item, index) => (
-                                <Option value={item.name} key={index}>
+                                <Option value={item.id} key={index}>
                                     {item.name}
                                 </Option>
                             ))}

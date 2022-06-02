@@ -51,7 +51,7 @@ const api = (url, type) => {
 class API {
     //sign-in
     getToken({ username, password }) {
-        const result = api("api/v1/users/login/admin/").post(null, {
+        const result = api("api/v1/users/admin/login/").post(null, {
             username: username,
             password: password,
         });
@@ -139,6 +139,11 @@ class API {
         return result;
     }
 
+    async deleteBlog(id) {
+        let result = await api(`api/v1/blogs/${id}/`).delete(null);
+        return result;
+    }
+
     async CreateBlog(data, convertedContent, img) {
         console.log("asd", img);
         let result = await api(`api/v1/blogs/`, "img").post(null, {
@@ -222,13 +227,18 @@ class API {
         let result = await api(`api/v1/employments/add/`).post(null, {
             name: data.name,
             description: description,
-            city: { name: data.city },
+            city: data.city,
         });
         return result;
     }
 
     async getWorkId(id) {
         let result = await api(`api/v1/employments/${id}`).get();
+        return result;
+    }
+
+    async deleteWork(id) {
+        let result = await api(`api/v1/employments/${id}/`).delete(null);
         return result;
     }
 }

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "../../create.css";
-import { Input, Space, Button, Form, message, Select } from "antd";
+import { Input, Space, Button, Form, message, Select, Spin } from "antd";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
 import { convertToHTML } from "draft-convert";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import API from "../../api";
+import ROUTES from "../../routes";
 
 const { Option } = Select;
 
@@ -14,6 +15,7 @@ const WorkDetail = () => {
     const [cities, setCities] = useState([]);
     const [city, setCity] = useState("");
     const [name, setName] = useState("");
+    const [loading, setLoading] = useState(true);
 
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
@@ -21,6 +23,7 @@ const WorkDetail = () => {
     const [convertedContent, setConvertedContent] = useState(null);
 
     const params = useParams();
+    const navigate = useNavigate();
 
     const handleEditorChange = (state) => {
         setEditorState(state);
@@ -43,96 +46,131 @@ const WorkDetail = () => {
             .catch((error) => message.error("Вакансия не создана"));
     };
 
+    const deleteWork = () => {
+        API.deleteWork(params.id)
+            .then((res) => {
+                message.success("вакансия удалена");
+                navigate(ROUTES.WORK);
+            })
+            .catch((error) => message.success("вакансия не удалена"));
+    };
+
     useEffect(() => {
-        const getWork = () => {
-            API.getWorkId(params.id)
-                .then((res) => {
-                    setName(res.data.name);
-                    console.log(res);
-                })
-                .catch((error) => console.log(error));
-            API.getCity()
+        const getWork = async () => {
+            await API.getCity()
                 .then((res) => {
                     setCities(res.data);
                 })
                 .catch((error) => console.log(error));
+            await API.getWorkId(params.id)
+                .then((res) => {
+                    setName(res.data.name);
+                    setCity(res.data.city.name);
+                    console.log(res.data.city);
+                })
+                .catch((error) => console.log(error));
+            setLoading(false);
         };
         getWork();
     }, []);
 
+    const handleSelect = (value) => {
+        setCity(value);
+    };
+
     return (
         <div>
-            <Form onFinish={createWork}>
-                <Space direction="vertical">
-                    <Form.Item
-                        label="Название"
-                        labelCol={{ span: 24 }}
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input your username!",
-                            },
-                        ]}
-                    >
-                        <Input
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="Basic usage"
-                            style={{ width: 235 }}
-                        />
-                    </Form.Item>
-                    <Form.Item
-                        label="Описание"
-                        required
-                        labelCol={{ span: 24 }}
-                        name="asd"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Введите описание",
-                            },
-                        ]}
-                    >
-                        <Editor
-                            editorState={editorState}
-                            onEditorStateChange={handleEditorChange}
-                            wrapperClassName="wrapper-class"
-                            editorClassName="editor-class"
-                            toolbarClassName="toolbar-class"
-                        />
-                    </Form.Item>
-                    <Form.Item
-                        label="Города"
-                        name="city"
-                        labelCol={{ span: 24 }}
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input your username!",
-                            },
-                        ]}
-                    >
-                        <Select
-                            style={{ width: 200 }}
-                            defaultValue="Выбор города"
-                            // onChange={(e) => setTopic(e.target.value)}
+            {loading ? (
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        marginTop: 50,
+                    }}
+                >
+                    <Spin />
+                </div>
+            ) : (
+                <Form onFinish={createWork}>
+                    <Space direction="vertical">
+                        <Form.Item
+                            label="Название"
+                            labelCol={{ span: 24 }}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input your username!",
+                                },
+                            ]}
                         >
-                            {cities.map((item, index) => (
-                                <Option value={item.name} key={index}>
-                                    {item.name}
-                                </Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
-                    <Button
-                        style={{ background: "#55CD61" }}
-                        type="primary"
-                        htmlType="submit"
-                    >
-                        Сохранить
-                    </Button>
-                </Space>
-            </Form>
+                            <Input
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                placeholder="Basic usage"
+                                style={{ width: 235 }}
+                            />
+                        </Form.Item>
+                        <Form.Item
+                            label="Описание"
+                            required
+                            labelCol={{ span: 24 }}
+                            name="asd"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Введите описание",
+                                },
+                            ]}
+                        >
+                            <Editor
+                                editorState={editorState}
+                                onEditorStateChange={handleEditorChange}
+                                wrapperClassName="wrapper-class"
+                                editorClassName="editor-class"
+                                toolbarClassName="toolbar-class"
+                            />
+                        </Form.Item>
+                        <Form.Item
+                            label="Города"
+                            labelCol={{ span: 24 }}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input your username!",
+                                },
+                            ]}
+                        >
+                            <Select
+                                style={{ width: 200 }}
+                                defaultValue={city}
+                                onChange={handleSelect}
+                            >
+                                {cities.map((item, index) => (
+                                    <Option value={item.id} key={index}>
+                                        {item.name}
+                                    </Option>
+                                ))}
+                            </Select>
+                        </Form.Item>
+                        <Space>
+                            <Button
+                                style={{ background: "#55CD61" }}
+                                type="primary"
+                                htmlType="submit"
+                            >
+                                Сохранить
+                            </Button>
+                            <Button
+                                style={{ background: "#FE5860" }}
+                                type="primary"
+                                onClick={() => deleteWork()}
+                            >
+                                Удалить
+                            </Button>
+                        </Space>
+                    </Space>
+                </Form>
+            )}
         </div>
     );
 };

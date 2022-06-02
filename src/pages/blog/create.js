@@ -5,8 +5,10 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
 import { convertToHTML } from "draft-convert";
+import { useNavigate } from "react-router-dom";
 
 import API from "../../api";
+import ROUTES from "../../routes";
 
 const { Option } = Select;
 
@@ -14,11 +16,12 @@ const BlogCreate = () => {
     const [tags, setTags] = useState([]);
     const [loading, setLoading] = useState(false);
     const [photo, setPhoto] = useState();
-
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
     );
     const [convertedContent, setConvertedContent] = useState(null);
+
+    const navigate = useNavigate();
 
     const handleEditorChange = (state) => {
         setEditorState(state);
@@ -48,6 +51,7 @@ const BlogCreate = () => {
         API.CreateBlog(data, convertedContent, photo)
             .then((res) => {
                 message.success("Блог создан");
+                navigate(ROUTES.BLOG);
             })
             .catch((error) => message.error("Блог не создан"));
     };
