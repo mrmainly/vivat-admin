@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "../../create.css";
-import { Input, Space, Select, Upload, Button, Form, message } from "antd";
+import {
+    Input,
+    Space,
+    Select,
+    Upload,
+    Button,
+    Form,
+    message,
+    Spin,
+} from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
