@@ -50,6 +50,10 @@ const MyLayout = () => {
                 break;
             case "/stock-create":
                 return "Создание акции";
+            case "/tags":
+                return "Теги";
+            case "/tags-create":
+                return "Создание тегов";
         }
     };
 
@@ -81,6 +85,10 @@ const MyLayout = () => {
         {
             label: "Вакансии",
             navigate: ROUTES.WORK,
+        },
+        {
+            label: "Теги",
+            navigate: ROUTES.TAGS,
         },
     ];
 

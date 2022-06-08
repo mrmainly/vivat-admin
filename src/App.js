@@ -23,6 +23,9 @@ import {
     Work,
     WorkCreate,
     WorkDetail,
+    Tags,
+    TagsCreate,
+    TagDetail,
 } from "./pages";
 
 function App() {
@@ -68,6 +71,12 @@ function App() {
                     <Route
                         path={`${ROUTES.WORK_DETAIL}/:id`}
                         element={<WorkDetail />}
+                    />
+                    <Route path={ROUTES.TAGS} element={<Tags />} />
+                    <Route path={ROUTES.TAGS_CREATE} element={<TagsCreate />} />
+                    <Route
+                        path={`${ROUTES.TAG_DETAIL}/:id`}
+                        element={<TagDetail />}
                     />
                 </Route>
             </Routes>

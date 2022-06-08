@@ -21,6 +21,10 @@ import Work from "./work";
 import WorkCreate from "./work/create";
 import WorkDetail from "./work/detail";
 
+import Tags from "./tags";
+import TagsCreate from "./tags/create";
+import TagDetail from "./tags/detail";
+
 export {
     Blog,
     Orders,
@@ -39,4 +43,7 @@ export {
     Work,
     WorkCreate,
     WorkDetail,
+    Tags,
+    TagsCreate,
+    TagDetail,
 };

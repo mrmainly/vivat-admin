@@ -17,6 +17,9 @@ const ROUTES = {
     WORK: "/work",
     WORK_CREATE: "/work-create",
     WORK_DETAIL: "/work-detail",
+    TAGS: "/tags",
+    TAGS_CREATE: "/tags-create",
+    TAG_DETAIL: "/tag-detail",
 };
 
 export default ROUTES;
