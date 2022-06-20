@@ -20,7 +20,6 @@ const CityDetail = () => {
             setLoading(true);
             await API.getCityId(params.id)
                 .then((res) => {
-                    console.log(res);
                     setName(res.data.name);
                 })
                 .catch((error) => console.log(error));
@@ -33,6 +32,7 @@ const CityDetail = () => {
         API.PatchCity(name, params.id)
             .then((res) => {
                 message.success("Город изменен");
+                navigate(ROUTES.CITY);
             })
             .catch((error) => message.error("Город не изменен"));
     };

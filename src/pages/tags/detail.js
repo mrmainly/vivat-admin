@@ -15,19 +15,19 @@ const TagDetail = () => {
     const params = useParams();
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     const getCity = async () => {
-    //         setLoading(true);
-    //         await API.getCityId(params.id)
-    //             .then((res) => {
-    //                 console.log(res);
-    //                 setName(res.data.name);
-    //             })
-    //             .catch((error) => console.log(error));
-    //         setLoading(false);
-    //     };
-    //     getCity();
-    // }, []);
+    useEffect(() => {
+        const getCity = async () => {
+            setLoading(true);
+            await API.getTopicId(params.id)
+                .then((res) => {
+                    console.log(res);
+                    setName(res.data.name);
+                })
+                .catch((error) => console.log(error));
+            setLoading(false);
+        };
+        getCity();
+    }, []);
 
     const patchTag = () => {
         API.patchTag(name, params.id)

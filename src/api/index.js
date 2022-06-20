@@ -51,7 +51,7 @@ const api = (url, type) => {
 class API {
     //sign-in
     getToken({ username, password }) {
-        const result = api("api/v1/users/login/admin/").post(null, {
+        const result = api("api/v1/users/admin/login/").post(null, {
             username: username,
             password: password,
         });
@@ -181,6 +181,11 @@ class API {
         return result;
     }
 
+    async cancelOrderStatus(id) {
+        let result = await api(`api/v1/orders/cancel/${id}/`).put(null);
+        return result;
+    }
+
     async patchOrderStatus(status, id) {
         let result = await api(`api/v1/orders/change_status/${id}/`).patch(
             null,
@@ -237,6 +242,15 @@ class API {
         return result;
     }
 
+    async patchWork(name, city, description, id) {
+        let result = await api(`api/v1/employments/${id}/`).patch(null, {
+            name: name,
+            description: description,
+            city: city,
+        });
+        return result;
+    }
+
     async getWorkId(id) {
         let result = await api(`api/v1/employments/${id}`).get();
         return result;
@@ -259,7 +273,7 @@ class API {
     }
 
     async getTopicId(id) {
-        let result = await api(`api/v1/blogs/tags/`).get();
+        let result = await api(`api/v1/blogs/tags/${id}`).get();
         return result;
     }
 
@@ -269,7 +283,7 @@ class API {
     }
 
     async patchTag(data, id) {
-        let result = await api(`api/v1/cities/${id}`).patch(null, {
+        let result = await api(`api/v1/blogs/tags/${id}`).put(null, {
             name: data,
         });
         return result;

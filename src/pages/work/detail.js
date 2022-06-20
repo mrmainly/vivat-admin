@@ -37,9 +37,8 @@ const WorkDetail = () => {
         setConvertedContent(currentContentAsHTML);
     };
 
-    const createWork = (data) => {
-        console.log(data);
-        API.CreateWork(data, convertedContent)
+    const createWork = () => {
+        API.patchWork(name, city, convertedContent, params.id)
             .then((res) => {
                 message.success("Вакансия создана");
             })
@@ -146,7 +145,7 @@ const WorkDetail = () => {
                                 onChange={handleSelect}
                             >
                                 {cities.map((item, index) => (
-                                    <Option value={item.id} key={index}>
+                                    <Option value={item.name} key={index}>
                                         {item.name}
                                     </Option>
                                 ))}
