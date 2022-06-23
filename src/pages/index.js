@@ -9,6 +9,7 @@ import SignIn from "./sign-in";
 import City from "./city";
 import CityCreate from "./city/create";
 import CityDetail from "./city/detail";
+import StockDetail from "./stocks/detail";
 
 import BlogDetail from "./blog/detail";
 
@@ -46,4 +47,5 @@ export {
     Tags,
     TagsCreate,
     TagDetail,
+    StockDetail,
 };

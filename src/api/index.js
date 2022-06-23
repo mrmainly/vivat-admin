@@ -3,7 +3,7 @@ import React from "react";
 import cookie from "js-cookie";
 
 const testURL = "http://127.0.0.1:8000/";
-const publicURL = "http://xn----7sbbagaytx2c4ad.xn--p1ai/";
+const publicURL = "https://xn----7sbbagaytx2c4ad.xn--p1ai/";
 
 const api = (url, type) => {
     const token = cookie.get("jwttoken");
@@ -118,6 +118,11 @@ class API {
         return result;
     }
 
+    async CreatePromotion(data) {
+        let result = await api(`api/v1/promotion/`, "img").post(null, data);
+        return result;
+    }
+
     //blog
     async getBlog(query, type) {
         let result = await api(
@@ -160,7 +165,7 @@ class API {
         return result;
     }
 
-    async patchBlog(data, id) {
+    async patchBlog(id, data) {
         let result = await api(`api/v1/blogs/${id}/`, "img").patch(null, data);
         return result;
     }
@@ -227,7 +232,6 @@ class API {
     }
 
     //WORK
-
     async getWork(city) {
         let result = await api(`api/v1/employments/?city_name=${city}`).get();
         return result;
@@ -272,20 +276,32 @@ class API {
         return result;
     }
 
-    async getTopicId(id) {
-        let result = await api(`api/v1/blogs/tags/${id}`).get();
+    getTopicId(id) {
+        let result = api(`api/v1/blogs/tags/${id}`).get();
         return result;
     }
 
-    async deleteTag(id) {
-        let result = await api(`api/v1/blogs/tags/${id}`).delete(null);
+    deleteTag(id) {
+        let result = api(`api/v1/blogs/tags/${id}`).delete(null);
         return result;
     }
 
-    async patchTag(data, id) {
-        let result = await api(`api/v1/blogs/tags/${id}`).put(null, {
+    patchTag(data, id) {
+        let result = api(`api/v1/blogs/tags/${id}`).put(null, {
             name: data,
         });
+        return result;
+    }
+
+    //autocomplite
+    getAutoComplite(value) {
+        const result = api(`api/v1/goods/autocomplete/?name=${value}`).get();
+        return result;
+    }
+
+    //goods
+    getGoodsId(id) {
+        const result = api(`api/v1/goods/${id}/`).get();
         return result;
     }
 }

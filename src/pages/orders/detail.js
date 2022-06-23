@@ -58,14 +58,6 @@ const OrdersDetail = () => {
         getOrdersId();
     }, []);
 
-    const putchStatus = () => {
-        API.patchOrderStatus(status, params.id)
-            .then((res) => {
-                message.success("Статус изменен");
-            })
-            .catch((error) => message.error("Статус не изменен"));
-    };
-
     const cancelStatus = () => {
         API.cancelOrderStatus(data.id)
             .then((res) => {
@@ -127,13 +119,6 @@ const OrdersDetail = () => {
                     </Space>
                     <OrderDetailTable data={tableData} />
                     <Space>
-                        <Button
-                            type="primary"
-                            style={{ background: "#55CD61" }}
-                            onClick={putchStatus}
-                        >
-                            Изменить статус
-                        </Button>
                         <Button
                             type="primary"
                             style={{ background: "#FE5860" }}

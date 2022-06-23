@@ -9,6 +9,9 @@ import {
     Form,
     message,
     Spin,
+    DatePicker,
+    TimePicker,
+    AutoComplete,
 } from "antd";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertFromHTML, ContentState } from "draft-js";
@@ -20,7 +23,7 @@ import ROUTES from "../../routes";
 
 const { Option } = Select;
 
-const BlogDetail = () => {
+const StockDetail = () => {
     const [name, setName] = useState("");
     const [tags, setTags] = useState([]);
     const [tag, setTag] = useState("");
@@ -28,7 +31,10 @@ const BlogDetail = () => {
     const [loading, setLoading] = useState(false);
     const [photo, setPhoto] = useState("");
     const [image, setImage] = useState("");
-    const [editorState, setEditorState] = useState();
+    const [autoCompliteValue, setAutoCompliteValue] = useState("");
+    const [editorState, setEditorState] = useState(() =>
+        EditorState.createEmpty()
+    );
     const [convertedContent, setConvertedContent] = useState(null);
 
     const params = useParams();
@@ -57,6 +63,7 @@ const BlogDetail = () => {
             await API.getTopic()
                 .then((res) => {
                     setTags(res.data);
+                    console.log(res);
                 })
                 .catch((error) => console.log(error));
             setLoading(false);
@@ -77,12 +84,10 @@ const BlogDetail = () => {
     };
 
     const patchBlog = () => {
-        console.log("convert", convertedContent);
-        console.log("editor", convertToHTML(editorState.getCurrentContent()));
         API.patchBlog(params.id, {
             name: name,
             image: photo,
-            description: convertToHTML(editorState.getCurrentContent()),
+            description: convertedContent,
         })
             .then((res) => {
                 console.log(res);
@@ -94,6 +99,13 @@ const BlogDetail = () => {
 
     const handleEditorChange = (state) => {
         setEditorState(state);
+        convertContentToHTML();
+    };
+    const convertContentToHTML = () => {
+        let currentContentAsHTML = convertToHTML(
+            editorState.getCurrentContent()
+        );
+        setConvertedContent(currentContentAsHTML);
     };
 
     const handleSelect = (value) => {
@@ -137,20 +149,6 @@ const BlogDetail = () => {
                             />
                         </Form.Item>
 
-                        <Form.Item label="Тег" labelCol={{ span: 24 }}>
-                            <Select
-                                style={{ width: 235 }}
-                                onChange={handleSelect}
-                                defaultValue={tag}
-                            >
-                                {tags.map((item, index) => (
-                                    <Option value={item.name} key={index}>
-                                        {item.name}
-                                    </Option>
-                                ))}
-                            </Select>
-                        </Form.Item>
-
                         <Form.Item label="Описание" labelCol={{ span: 24 }}>
                             <Editor
                                 defaultContentState={description}
@@ -160,6 +158,21 @@ const BlogDetail = () => {
                                 editorClassName="editor-class"
                                 toolbarClassName="toolbar-class"
                             />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="начало акции"
+                            labelCol={{ span: 24 }}
+                            required
+                        >
+                            <DatePicker />
+                        </Form.Item>
+                        <Form.Item
+                            label="конец акции"
+                            labelCol={{ span: 24 }}
+                            required
+                        >
+                            <DatePicker />
                         </Form.Item>
 
                         <img
@@ -182,6 +195,23 @@ const BlogDetail = () => {
                                 onChange={(event) => {
                                     fileSelectHandler(event);
                                 }}
+                            />
+                        </Form.Item>
+                        <Form.Item
+                            label="Акционные товары"
+                            labelCol={{ span: 24 }}
+                        >
+                            <AutoComplete
+                                value={autoCompliteValue}
+                                onChange={(data) => setAutoCompliteValue(data)}
+                                // options={options}
+                                style={{
+                                    width: 200,
+                                }}
+                                // onSelect={onSelect}
+                                // onSearch={onSearch}
+                                // onChange={onChange}
+                                placeholder="control mode"
                             />
                         </Form.Item>
 
@@ -208,4 +238,4 @@ const BlogDetail = () => {
     );
 };
 
-export default BlogDetail;
+export default StockDetail;

@@ -4,28 +4,28 @@ import { useNavigate } from "react-router-dom";
 
 import ROUTES from "../../routes";
 
-const OrderDetailTable = ({ data, routes, loading }) => {
+const StocksDetailTable = ({ data, loading, deleteItem }) => {
     const navigate = useNavigate();
 
     const columns = [
         { title: "id", dataIndex: "id", key: "id" },
         { title: "Наименование", dataIndex: "name", key: "name" },
+        { title: "Производитель", dataIndex: "producer", key: "producer" },
         { title: "Цена", dataIndex: "price", key: "price" },
         { title: "Количество", dataIndex: "count", key: "count" },
-        { title: "Сумма", dataIndex: "total_price", key: "total_price" },
-        // {
-        //     title: "Действие",
-        //     dataIndex: "id",
-        //     key: "x",
-        //     render: (id) => (
-        //         <Button
-        //             style={{ color: "#55CD61", borderColor: "#55CD61" }}
-        //             onClick={() => navigate(`${routes}/${id}`)}
-        //         >
-        //             Редактирование
-        //         </Button>
-        //     ),
-        // },
+        {
+            title: "Действие",
+            dataIndex: "id",
+            key: "x",
+            render: (id) => (
+                <Button
+                    style={{ color: "#FE5860", borderColor: "#FE5860" }}
+                    onClick={() => deleteItem(id)}
+                >
+                    Удаление
+                </Button>
+            ),
+        },
     ];
     return (
         <Table
@@ -37,4 +37,4 @@ const OrderDetailTable = ({ data, routes, loading }) => {
     );
 };
 
-export default OrderDetailTable;
+export default StocksDetailTable;

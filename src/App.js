@@ -26,6 +26,7 @@ import {
     Tags,
     TagsCreate,
     TagDetail,
+    StockDetail,
 } from "./pages";
 
 function App() {
@@ -49,6 +50,10 @@ function App() {
                     <Route
                         path={ROUTES.STOCK_CREATE}
                         element={<StockCreate />}
+                    />
+                    <Route
+                        path={`${ROUTES.STOCK_DETAIL}/:id`}
+                        element={<StockDetail />}
                     />
                     <Route path={ROUTES.CITY} element={<City />} />
                     <Route path={ROUTES.CITY_CREATE} element={<CityCreate />} />

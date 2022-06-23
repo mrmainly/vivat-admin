@@ -48,7 +48,11 @@ const Stocks = () => {
                     <Option value="Company">Company</Option>
                 </Select>
             </Space>
-            <BlogStocksTable data={data} loading={loading} />
+            <BlogStocksTable
+                data={data}
+                loading={loading}
+                routes={ROUTES.STOCK_DETAIL}
+            />
         </div>
     );
 };
