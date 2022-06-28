@@ -38,15 +38,6 @@ const Stocks = () => {
                 >
                     + Создать новые акции
                 </Button>
-                <Search
-                    placeholder="input search text"
-                    enterButton
-                    style={{ width: 304 }}
-                />
-                <Select style={{ width: 200 }} defaultValue="Home">
-                    <Option value="Home">Home</Option>
-                    <Option value="Company">Company</Option>
-                </Select>
             </Space>
             <BlogStocksTable
                 data={data}

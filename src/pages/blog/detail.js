@@ -40,7 +40,6 @@ const BlogDetail = () => {
             await API.getBlogDetail(params.id)
                 .then((res) => {
                     const data = res.data;
-                    // console.log(data.tags[0].name);
                     console.log(res);
                     setName(data.name);
                     setTag(data.tags.name);
@@ -169,7 +168,7 @@ const BlogDetail = () => {
                                 objectFit: "cover",
                                 border: "1px solid black",
                             }}
-                            src={`http://xn----7sbbagaytx2c4ad.xn--p1ai${image}`}
+                            src={image}
                         />
                         <Form.Item
                             label="Изображение"

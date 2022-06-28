@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../create.css";
+import "./create.css";
 import {
     Input,
     Space,
@@ -7,95 +7,46 @@ import {
     Upload,
     Button,
     Form,
-    message,
-    Spin,
     DatePicker,
     TimePicker,
     AutoComplete,
+    message,
+    Spin
 } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertFromHTML, ContentState } from "draft-js";
 import { convertToHTML } from "draft-convert";
-import { useParams, useNavigate } from "react-router-dom";
+import moment from 'moment';
+import { useParams, useNavigate } from 'react-router-dom'
 
+import { StocksDetailTable } from "../../components";
 import API from "../../api";
-import ROUTES from "../../routes";
+import ROUTES from '../../routes'
 
 const { Option } = Select;
 
+const dateFormat = 'YYYY-MM-DD';
+
 const StockDetail = () => {
-    const [name, setName] = useState("");
-    const [tags, setTags] = useState([]);
-    const [tag, setTag] = useState("");
-    const [description, setDescription] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [photo, setPhoto] = useState("");
-    const [image, setImage] = useState("");
     const [autoCompliteValue, setAutoCompliteValue] = useState("");
+    const [options, setOptions] = useState([]);
+    const [goods, setGoods] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [goodsLoading, setGoodsLoading] = useState(false)
+    const [name, setName] = useState("");
+    const [dateStart, setDateStart] = useState("");
+    const [dateEnd, setDateEnd] = useState("");
+    const [photo, setPhoto] = useState("");
+    const [image, setImage] = useState("")
+
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
     );
     const [convertedContent, setConvertedContent] = useState(null);
 
-    const params = useParams();
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        const getBlogDetail = async () => {
-            setLoading(true);
-            await API.getBlogDetail(params.id)
-                .then((res) => {
-                    const data = res.data;
-                    // console.log(data.tags[0].name);
-                    console.log(res);
-                    setName(data.name);
-                    setTag(data.tags.name);
-                    setImage(data.image);
-                    setEditorState(
-                        EditorState.createWithContent(
-                            ContentState.createFromBlockArray(
-                                convertFromHTML(data.description)
-                            )
-                        )
-                    );
-                })
-                .catch((error) => console.log(error));
-            await API.getTopic()
-                .then((res) => {
-                    setTags(res.data);
-                    console.log(res);
-                })
-                .catch((error) => console.log(error));
-            setLoading(false);
-        };
-        getBlogDetail();
-    }, []);
-
-    const deleteBlog = () => {
-        API.deleteBlog(params.id)
-            .then((res) => {
-                console.log(res);
-                navigate(ROUTES.BLOG);
-                message.success("Блог удален");
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
-
-    const patchBlog = () => {
-        API.patchBlog(params.id, {
-            name: name,
-            image: photo,
-            description: convertedContent,
-        })
-            .then((res) => {
-                console.log(res);
-                message.success("Блог изменен");
-                navigate(ROUTES.BLOG);
-            })
-            .catch((error) => message.success("Блог не изменен"));
-    };
+    const params = useParams()
+    const navigate = useNavigate()
 
     const handleEditorChange = (state) => {
         setEditorState(state);
@@ -108,27 +59,116 @@ const StockDetail = () => {
         setConvertedContent(currentContentAsHTML);
     };
 
-    const handleSelect = (value) => {
-        setTags(value);
+    const handleAutoComplite = (searchText) => {
+        API.getAutoComplite(searchText)
+            .then((res) => {
+                const newData = res.data.map((item) => {
+                    return { value: item.name, id: item.id };
+                });
+                setOptions(newData);
+            })
+            .catch((error) => console.log(error));
+    };
+
+    useEffect(() => {
+        const getPromotionId = async () => {
+            setLoading(true)
+            await API.getPromotionId(params.id).then((res) => {
+                console.log(res)
+                const data = res.data
+                let newData = res.data.goods.map((resGoods) => {
+                    return (
+                        {
+                            price: resGoods.stocks.priceSale,
+                            name: resGoods.name,
+                            producer: resGoods.country,
+                            id: resGoods.id,
+                            count: resGoods.stocks.qty,
+                        }
+                    )
+                })
+                setName(data.name)
+                setEditorState(
+                    EditorState.createWithContent(
+                        ContentState.createFromBlockArray(
+                            convertFromHTML(data.description)
+                        )
+                    )
+                );
+                setDateEnd(data.date_end)
+                setDateStart(data.date_start)
+                setImage(data.image)
+                setGoods(newData)
+            }).catch((error) => console.log(error))
+            setLoading(false)
+        }
+        getPromotionId()
+    }, [])
+
+    const deleteItem = (id) => {
+        console.log(id)
+        API.PromotionGoodsDelete(params.id, {
+            good_id: id
+        })
+        let copy = Object.assign([], goods);
+        copy.forEach((el, i) => {
+            if (el.id == id) copy.splice(i, 1);
+        });
+        setGoods(copy);
+    };
+
+    const onSelect = async (value, data) => {
+        setGoodsLoading(true)
+        await API.addedStocksGoodsId(params.id, {
+            good_id: data.id
+        }).then(() => {
+            API.getGoodsId(data.id).then((res) => {
+                let newData = {
+                    price: res.data.stocks.priceSale,
+                    name: res.data.name,
+                    producer: res.data.producer,
+                    id: res.data.id,
+                    count: res.data.stocks.qty,
+                };
+                let copy = Object.assign([], goods);
+                copy.push(newData);
+                setGoods(copy);
+            })
+        })
+
+        setGoodsLoading(false)
     };
 
     const fileSelectHandler = (e) => {
         setPhoto(e.target.files[0]);
     };
 
+    const CreateStocks = () => {
+        API.PromotionPatch({
+            name: name,
+            description: convertToHTML(editorState.getCurrentContent()),
+            date_start: dateStart,
+            date_end: dateEnd,
+            image: photo,
+        }, params.id)
+            .then((res) => {
+                navigate(ROUTES.STOCKS)
+                message.success('Блог изменен')
+            })
+            .catch((error) => message.error('Блог не изменен'));
+    };
+
+    const deletePromotion = () => {
+        API.promotionDelete(params.id).then((res) => {
+            message.success('Акция удалена')
+            navigate(ROUTES.STOCKS)
+        }).catch((error) => { message.error('Акция не удалена') })
+    }
+
     return (
         <div>
-            {loading ? (
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginTop: 50,
-                    }}
-                >
-                    <Spin />
-                </div>
-            ) : (
+            {loading ? <div style={{ marginTop: 80, display: 'flex', justifyContent: 'center' }}><Spin /></div>
+                :
                 <Form>
                     <Space direction="vertical">
                         <Form.Item
@@ -143,15 +183,18 @@ const StockDetail = () => {
                         >
                             <Input
                                 placeholder="Basic usage"
-                                onChange={(e) => setName(e.target.value)}
-                                value={name}
                                 style={{ width: 235 }}
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
                             />
                         </Form.Item>
 
-                        <Form.Item label="Описание" labelCol={{ span: 24 }}>
+                        <Form.Item
+                            label="Описание"
+                            required
+                            labelCol={{ span: 24 }}
+                        >
                             <Editor
-                                defaultContentState={description}
                                 editorState={editorState}
                                 onEditorStateChange={handleEditorChange}
                                 wrapperClassName="wrapper-class"
@@ -159,20 +202,30 @@ const StockDetail = () => {
                                 toolbarClassName="toolbar-class"
                             />
                         </Form.Item>
-
                         <Form.Item
                             label="начало акции"
                             labelCol={{ span: 24 }}
                             required
                         >
-                            <DatePicker />
+                            <DatePicker
+                                format={dateFormat}
+                                onChange={(date, dateString) => setDateStart(dateString)}
+                                defaultValue={dateStart ? moment(dateStart, dateFormat) : ''}
+                            />
                         </Form.Item>
                         <Form.Item
                             label="конец акции"
                             labelCol={{ span: 24 }}
                             required
+
                         >
-                            <DatePicker />
+                            <DatePicker
+                                onChange={(date, dateString) => setDateEnd(dateString)}
+                                format={dateFormat}
+                                defaultValue={dateEnd ? moment(dateEnd, dateFormat) : ''}
+                            // value={dateEnd}
+                            // onChange={(e) => setDateEnd(e.target.value)}
+                            />
                         </Form.Item>
 
                         <img
@@ -182,12 +235,13 @@ const StockDetail = () => {
                                 objectFit: "cover",
                                 border: "1px solid black",
                             }}
-                            src={`http://xn----7sbbagaytx2c4ad.xn--p1ai${image}`}
+                            src={image}
                         />
                         <Form.Item
                             label="Изображение"
                             labelCol={{ span: 24 }}
                             style={{ width: 200 }}
+                            required
                         >
                             <input
                                 type="file"
@@ -200,42 +254,45 @@ const StockDetail = () => {
                         <Form.Item
                             label="Акционные товары"
                             labelCol={{ span: 24 }}
+                            required
                         >
                             <AutoComplete
-                                value={autoCompliteValue}
-                                onChange={(data) => setAutoCompliteValue(data)}
-                                // options={options}
+                                options={options}
+                                onSelect={onSelect}
                                 style={{
-                                    width: 200,
+                                    width: 400,
                                 }}
-                                // onSelect={onSelect}
-                                // onSearch={onSearch}
-                                // onChange={onChange}
-                                placeholder="control mode"
+                                onSearch={handleAutoComplite}
+                                placeholder="найти товар"
                             />
                         </Form.Item>
-
-                        <Space>
+                        <StocksDetailTable
+                            data={goods}
+                            loading={loading}
+                            deleteItem={deleteItem}
+                        />
+                        <Space style={{ marginTop: 20 }}>
                             <Button
                                 style={{ background: "#55CD61" }}
                                 type="primary"
-                                onClick={() => patchBlog()}
+                                onClick={CreateStocks}
                             >
                                 Сохранить
                             </Button>
                             <Button
                                 style={{ background: "#FE5860" }}
                                 type="primary"
-                                onClick={() => deleteBlog()}
+                                onClick={() => deletePromotion()}
                             >
                                 Удалить
                             </Button>
                         </Space>
                     </Space>
                 </Form>
-            )}
+            }
         </div>
     );
 };
 
 export default StockDetail;
+

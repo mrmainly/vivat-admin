@@ -118,22 +118,49 @@ class API {
         return result;
     }
 
+    async getPromotionId(id) {
+        let result = await api(`api/v1/promotion/${id}`).get();
+        return result;
+    }
+
     async CreatePromotion(data) {
         let result = await api(`api/v1/promotion/`, "img").post(null, data);
         return result;
     }
 
+    async PromotionGoodsDelete(id, data) {
+        console.log(data)
+        let result = await api(`api/v1/promotion/goods/${id}`).delete(null, { data: data });
+        return result;
+    }
+
+    async PromotionPatch(data, id) {
+        let result = await api(`api/v1/promotion/${id}`, "img").patch(null, data);
+        return result;
+    }
+
+    async addedStocksGoodsId(id, data) {
+        let result = await api(`api/v1/promotion/goods/${id}`).post(null, data);
+        return result;
+    }
+
+    async promotionDelete(id) {
+        let result = await api(`api/v1/promotion/${id}`).delete(null);
+        return result;
+    }
+
+
+
     //blog
     async getBlog(query, type) {
         let result = await api(
-            `api/v1/blogs/${
-                type
-                    ? type == "query"
-                        ? query
-                            ? `?query=${query}`
-                            : ""
-                        : `?tags_query=${query}`
-                    : ""
+            `api/v1/blogs/${type
+                ? type == "query"
+                    ? query
+                        ? `?query=${query}`
+                        : ""
+                    : `?tags_query=${query}`
+                : ""
             }`
         ).get();
         return result;

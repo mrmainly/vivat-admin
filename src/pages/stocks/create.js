@@ -10,26 +10,25 @@ import {
     DatePicker,
     TimePicker,
     AutoComplete,
+    message,
+    Spin
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
 import { convertToHTML } from "draft-convert";
+import moment from 'moment';
+import { useNavigate } from 'react-router-dom'
 
 import { StocksDetailTable } from "../../components";
 import API from "../../api";
+import ROUTES from '../../routes'
 
 const { Option } = Select;
 
-const mockVal = (str, repeat = 1) => ({
-    value: str.repeat(repeat),
-});
+const dateFormat = 'YYYY-MM-DD';
 
 const StockCreate = () => {
-    const [autoCompliteValue, setAutoCompliteValue] = useState("");
-    const [options, setOptions] = useState([]);
-    const [goods, setGoods] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [name, setName] = useState("");
     const [dateStart, setDateStart] = useState("");
     const [dateEnd, setDateEnd] = useState("");
@@ -39,6 +38,8 @@ const StockCreate = () => {
         EditorState.createEmpty()
     );
     const [convertedContent, setConvertedContent] = useState(null);
+
+    const navigate = useNavigate()
 
     const handleEditorChange = (state) => {
         setEditorState(state);
@@ -51,64 +52,27 @@ const StockCreate = () => {
         setConvertedContent(currentContentAsHTML);
     };
 
-    const handleAutoComplite = (searchText) => {
-        API.getAutoComplite(searchText)
-            .then((res) => {
-                const newData = res.data.map((item) => {
-                    return { value: item.name, id: item.id };
-                });
-                setOptions(newData);
-            })
-            .catch((error) => console.log(error));
-    };
-
-    const deleteItem = (id) => {
-        let copy = Object.assign([], goods);
-        copy.forEach((el, i) => {
-            if (el.id == id) copy.splice(i, 1);
-        });
-        setGoods(copy);
-    };
-
-    const onSelect = async (value, data) => {
-        setLoading(true);
-        await API.getGoodsId(data.id).then((res) => {
-            let newData = {
-                price: res.data.stocks.priceSale,
-                name: res.data.name,
-                producer: res.data.producer,
-                id: res.data.id,
-                count: res.data.stocks.qty,
-            };
-            let copy = Object.assign([], goods);
-            copy.push(newData);
-            setGoods(copy);
-        });
-        setLoading(false);
-    };
-
     const fileSelectHandler = (e) => {
         setPhoto(e.target.files[0]);
     };
 
     const CreateStocks = () => {
-        const newGoods = goods.map((item) => {
-            return item.id;
-        });
 
         API.CreatePromotion({
             name: name,
             description: convertedContent,
             dateStart: dateStart,
             dateEnd: dateEnd,
-            goods: newGoods,
+            image: photo
+            // goods: newGoods,
         })
             .then((res) => {
                 console.log("res", res);
+                message.success('Акция создана')
+                navigate(ROUTES.STOCKS)
             })
-            .catch((error) => console.log(error));
+            .catch((error) => message.success('Акция не создана'));
     };
-
     return (
         <div>
             <Form>
@@ -151,18 +115,22 @@ const StockCreate = () => {
                         required
                     >
                         <DatePicker
-                            value={dateStart}
-                            onChange={(data) => setDateStart(data)}
+                            format={dateFormat}
+                            onChange={(date, dateString) => setDateStart(dateString)}
+
                         />
                     </Form.Item>
                     <Form.Item
                         label="конец акции"
                         labelCol={{ span: 24 }}
                         required
+
                     >
                         <DatePicker
-                            value={dateEnd}
-                            onChange={(data) => setDateEnd(data)}
+                            onChange={(date, dateString) => setDateEnd(dateString)}
+                            format={dateFormat}
+                        // value={dateEnd}
+                        // onChange={(e) => setDateEnd(e.target.value)}
                         />
                     </Form.Item>
 
@@ -180,26 +148,6 @@ const StockCreate = () => {
                             }}
                         />
                     </Form.Item>
-                    <Form.Item
-                        label="Акционные товары"
-                        labelCol={{ span: 24 }}
-                        required
-                    >
-                        <AutoComplete
-                            options={options}
-                            onSelect={onSelect}
-                            style={{
-                                width: 400,
-                            }}
-                            onSearch={handleAutoComplite}
-                            placeholder="найти товар"
-                        />
-                    </Form.Item>
-                    <StocksDetailTable
-                        data={goods}
-                        loading={loading}
-                        deleteItem={deleteItem}
-                    />
                     <Button
                         style={{ background: "#55CD61", marginTop: 20 }}
                         type="primary"
