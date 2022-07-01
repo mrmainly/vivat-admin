@@ -39,6 +39,8 @@ const StockDetail = () => {
     const [dateEnd, setDateEnd] = useState("");
     const [photo, setPhoto] = useState("");
     const [image, setImage] = useState("");
+    const [banner, setBanner] = useState("");
+    const [getBanner, setGetBanner] = useState("");
 
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
@@ -98,6 +100,7 @@ const StockDetail = () => {
                     setDateStart(data.date_start);
                     setImage(data.image);
                     setGoods(newData);
+                    setGetBanner(data.banner_image);
                 })
                 .catch((error) => console.log(error));
             setLoading(false);
@@ -151,6 +154,7 @@ const StockDetail = () => {
                 date_start: dateStart,
                 date_end: dateEnd,
                 image: photo,
+                banner_image: banner,
             },
             params.id
         )
@@ -253,15 +257,6 @@ const StockDetail = () => {
                             />
                         </Form.Item>
 
-                        <img
-                            style={{
-                                width: 100,
-                                height: 100,
-                                objectFit: "cover",
-                                border: "1px solid black",
-                            }}
-                            src={image}
-                        />
                         <Form.Item
                             label="Изображение"
                             labelCol={{ span: 24 }}
@@ -276,6 +271,38 @@ const StockDetail = () => {
                                 }}
                             />
                         </Form.Item>
+                        <img
+                            style={{
+                                width: 100,
+                                height: 100,
+                                objectFit: "cover",
+                                border: "1px solid black",
+                            }}
+                            src={image}
+                        />
+                        <Form.Item
+                            label="Баннер"
+                            labelCol={{ span: 24 }}
+                            style={{ width: 200 }}
+                            required
+                        >
+                            <input
+                                type="file"
+                                accept=".png, .jpg"
+                                onChange={(e) => {
+                                    setBanner(e.target.files[0]);
+                                }}
+                            />
+                        </Form.Item>
+                        <img
+                            style={{
+                                width: 100,
+                                height: 100,
+                                objectFit: "cover",
+                                border: "1px solid black",
+                            }}
+                            src={getBanner}
+                        />
                         <Form.Item
                             label="Акционные товары"
                             labelCol={{ span: 24 }}

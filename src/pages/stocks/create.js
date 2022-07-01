@@ -33,6 +33,7 @@ const StockCreate = () => {
     const [dateStart, setDateStart] = useState("");
     const [dateEnd, setDateEnd] = useState("");
     const [photo, setPhoto] = useState("");
+    const [banner, setBanner] = useState("");
 
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
@@ -54,7 +55,6 @@ const StockCreate = () => {
 
     const fileSelectHandler = (e) => {
         setPhoto(e.target.files[0]);
-        console.log(e.target.files[0]);
     };
 
     const CreateStocks = () => {
@@ -64,13 +64,13 @@ const StockCreate = () => {
             date_start: dateStart,
             date_end: dateEnd,
             image: photo,
-            // goods: newGoods,
+            banner_image: banner,
         })
             .then((res) => {
                 message.success("Акция создана");
                 navigate(ROUTES.STOCKS);
             })
-            .catch((error) => message.success("Акция не создана"));
+            .catch((error) => message.error("Акция не создана"));
     };
     return (
         <div>
@@ -146,6 +146,20 @@ const StockCreate = () => {
                             accept=".png, .jpg"
                             onChange={(event) => {
                                 fileSelectHandler(event);
+                            }}
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        label="Баннер"
+                        labelCol={{ span: 24 }}
+                        style={{ width: 200 }}
+                        required
+                    >
+                        <input
+                            type="file"
+                            accept=".png, .jpg"
+                            onChange={(e) => {
+                                setBanner(e.target.files[0]);
                             }}
                         />
                     </Form.Item>
