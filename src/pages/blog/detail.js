@@ -168,7 +168,7 @@ const BlogDetail = () => {
                                 objectFit: "cover",
                                 border: "1px solid black",
                             }}
-                            src={image}
+                            src={`https://xn----7sbbagaytx2c4ad.xn--p1ai${image}`}
                         />
                         <Form.Item
                             label="Изображение"

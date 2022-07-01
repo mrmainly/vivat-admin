@@ -27,7 +27,6 @@ const UsersDetail = () => {
                 .then((res) => {
                     setRole(res.data.role);
                     setActive(res.data.is_active);
-                    console.log(res);
                 })
                 .catch((error) => console.log(error));
             await API.getRoles()
@@ -44,6 +43,7 @@ const UsersDetail = () => {
         API.patchUsers(role, params.id)
             .then((res) => {
                 message.success("пользователь обновлен");
+                navigate(ROUTES.USERS);
             })
             .catch((error) => message.error("не обновлен"));
         API.putUsers(params.id, active)

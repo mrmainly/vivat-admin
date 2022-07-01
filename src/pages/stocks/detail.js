@@ -11,42 +11,42 @@ import {
     TimePicker,
     AutoComplete,
     message,
-    Spin
+    Spin,
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertFromHTML, ContentState } from "draft-js";
 import { convertToHTML } from "draft-convert";
-import moment from 'moment';
-import { useParams, useNavigate } from 'react-router-dom'
+import moment from "moment";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { StocksDetailTable } from "../../components";
 import API from "../../api";
-import ROUTES from '../../routes'
+import ROUTES from "../../routes";
 
 const { Option } = Select;
 
-const dateFormat = 'YYYY-MM-DD';
+const dateFormat = "YYYY-MM-DD";
 
 const StockDetail = () => {
     const [autoCompliteValue, setAutoCompliteValue] = useState("");
     const [options, setOptions] = useState([]);
     const [goods, setGoods] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [goodsLoading, setGoodsLoading] = useState(false)
+    const [goodsLoading, setGoodsLoading] = useState(false);
     const [name, setName] = useState("");
     const [dateStart, setDateStart] = useState("");
     const [dateEnd, setDateEnd] = useState("");
     const [photo, setPhoto] = useState("");
-    const [image, setImage] = useState("")
+    const [image, setImage] = useState("");
 
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
     );
     const [convertedContent, setConvertedContent] = useState(null);
 
-    const params = useParams()
-    const navigate = useNavigate()
+    const params = useParams();
+    const navigate = useNavigate();
 
     const handleEditorChange = (state) => {
         setEditorState(state);
@@ -72,44 +72,44 @@ const StockDetail = () => {
 
     useEffect(() => {
         const getPromotionId = async () => {
-            setLoading(true)
-            await API.getPromotionId(params.id).then((res) => {
-                console.log(res)
-                const data = res.data
-                let newData = res.data.goods.map((resGoods) => {
-                    return (
-                        {
+            setLoading(true);
+            await API.getPromotionId(params.id)
+                .then((res) => {
+                    console.log(res);
+                    const data = res.data;
+                    let newData = res.data.goods.map((resGoods) => {
+                        return {
                             price: resGoods.stocks.priceSale,
                             name: resGoods.name,
                             producer: resGoods.country,
                             id: resGoods.id,
                             count: resGoods.stocks.qty,
-                        }
-                    )
-                })
-                setName(data.name)
-                setEditorState(
-                    EditorState.createWithContent(
-                        ContentState.createFromBlockArray(
-                            convertFromHTML(data.description)
+                        };
+                    });
+                    setName(data.name);
+                    setEditorState(
+                        EditorState.createWithContent(
+                            ContentState.createFromBlockArray(
+                                convertFromHTML(data.description)
+                            )
                         )
-                    )
-                );
-                setDateEnd(data.date_end)
-                setDateStart(data.date_start)
-                setImage(data.image)
-                setGoods(newData)
-            }).catch((error) => console.log(error))
-            setLoading(false)
-        }
-        getPromotionId()
-    }, [])
+                    );
+                    setDateEnd(data.date_end);
+                    setDateStart(data.date_start);
+                    setImage(data.image);
+                    setGoods(newData);
+                })
+                .catch((error) => console.log(error));
+            setLoading(false);
+        };
+        getPromotionId();
+    }, []);
 
     const deleteItem = (id) => {
-        console.log(id)
+        console.log(id);
         API.PromotionGoodsDelete(params.id, {
-            good_id: id
-        })
+            good_id: id,
+        });
         let copy = Object.assign([], goods);
         copy.forEach((el, i) => {
             if (el.id == id) copy.splice(i, 1);
@@ -118,9 +118,9 @@ const StockDetail = () => {
     };
 
     const onSelect = async (value, data) => {
-        setGoodsLoading(true)
+        setGoodsLoading(true);
         await API.addedStocksGoodsId(params.id, {
-            good_id: data.id
+            good_id: data.id,
         }).then(() => {
             API.getGoodsId(data.id).then((res) => {
                 let newData = {
@@ -133,10 +133,10 @@ const StockDetail = () => {
                 let copy = Object.assign([], goods);
                 copy.push(newData);
                 setGoods(copy);
-            })
-        })
+            });
+        });
 
-        setGoodsLoading(false)
+        setGoodsLoading(false);
     };
 
     const fileSelectHandler = (e) => {
@@ -144,31 +144,47 @@ const StockDetail = () => {
     };
 
     const CreateStocks = () => {
-        API.PromotionPatch({
-            name: name,
-            description: convertToHTML(editorState.getCurrentContent()),
-            date_start: dateStart,
-            date_end: dateEnd,
-            image: photo,
-        }, params.id)
+        API.PromotionPatch(
+            {
+                name: name,
+                description: convertToHTML(editorState.getCurrentContent()),
+                date_start: dateStart,
+                date_end: dateEnd,
+                image: photo,
+            },
+            params.id
+        )
             .then((res) => {
-                navigate(ROUTES.STOCKS)
-                message.success('Блог изменен')
+                navigate(ROUTES.STOCKS);
+                message.success("Акция изменена");
             })
-            .catch((error) => message.error('Блог не изменен'));
+            .catch((error) => message.error("Акция не изменена"));
     };
 
     const deletePromotion = () => {
-        API.promotionDelete(params.id).then((res) => {
-            message.success('Акция удалена')
-            navigate(ROUTES.STOCKS)
-        }).catch((error) => { message.error('Акция не удалена') })
-    }
+        API.promotionDelete(params.id)
+            .then((res) => {
+                message.success("Акция удалена");
+                navigate(ROUTES.STOCKS);
+            })
+            .catch((error) => {
+                message.error("Акция не удалена");
+            });
+    };
 
     return (
         <div>
-            {loading ? <div style={{ marginTop: 80, display: 'flex', justifyContent: 'center' }}><Spin /></div>
-                :
+            {loading ? (
+                <div
+                    style={{
+                        marginTop: 80,
+                        display: "flex",
+                        justifyContent: "center",
+                    }}
+                >
+                    <Spin />
+                </div>
+            ) : (
                 <Form>
                     <Space direction="vertical">
                         <Form.Item
@@ -209,22 +225,31 @@ const StockDetail = () => {
                         >
                             <DatePicker
                                 format={dateFormat}
-                                onChange={(date, dateString) => setDateStart(dateString)}
-                                defaultValue={dateStart ? moment(dateStart, dateFormat) : ''}
+                                onChange={(date, dateString) =>
+                                    setDateStart(dateString)
+                                }
+                                defaultValue={
+                                    dateStart
+                                        ? moment(dateStart, dateFormat)
+                                        : ""
+                                }
                             />
                         </Form.Item>
                         <Form.Item
                             label="конец акции"
                             labelCol={{ span: 24 }}
                             required
-
                         >
                             <DatePicker
-                                onChange={(date, dateString) => setDateEnd(dateString)}
+                                onChange={(date, dateString) =>
+                                    setDateEnd(dateString)
+                                }
                                 format={dateFormat}
-                                defaultValue={dateEnd ? moment(dateEnd, dateFormat) : ''}
-                            // value={dateEnd}
-                            // onChange={(e) => setDateEnd(e.target.value)}
+                                defaultValue={
+                                    dateEnd ? moment(dateEnd, dateFormat) : ""
+                                }
+                                // value={dateEnd}
+                                // onChange={(e) => setDateEnd(e.target.value)}
                             />
                         </Form.Item>
 
@@ -289,10 +314,9 @@ const StockDetail = () => {
                         </Space>
                     </Space>
                 </Form>
-            }
+            )}
         </div>
     );
 };
 
 export default StockDetail;
-

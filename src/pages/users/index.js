@@ -13,7 +13,6 @@ const Users = () => {
             setLoading(true);
             await API.getUsers()
                 .then((res) => {
-                    console.log(res);
                     setData(res.data);
                 })
                 .catch((error) => {

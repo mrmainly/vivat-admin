@@ -4,18 +4,21 @@ import { Input, Space, Button, Form, message, Select } from "antd";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
 import { convertToHTML } from "draft-convert";
+import { useNavigate } from "react-router-dom";
 
 import API from "../../api";
+import ROUTES from "../../routes";
 
 const { Option } = Select;
 
 const WorkCreate = () => {
     const [cities, setCities] = useState([]);
-    const [city, setCity] = useState("");
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
     );
     const [convertedContent, setConvertedContent] = useState(null);
+
+    const navigate = useNavigate();
 
     const handleEditorChange = (state) => {
         setEditorState(state);
@@ -30,10 +33,10 @@ const WorkCreate = () => {
     };
 
     const createWork = (data) => {
-        console.log(data);
         API.CreateWork(data, convertedContent)
             .then((res) => {
                 message.success("Вакансия создана");
+                navigate(ROUTES.WORK);
             })
             .catch((error) => message.error("Вакансия не создана"));
     };
@@ -42,7 +45,6 @@ const WorkCreate = () => {
         API.getCity()
             .then((res) => {
                 setCities(res.data);
-                console.log(res.data[0].name);
             })
             .catch((error) => console.log(error));
     }, []);

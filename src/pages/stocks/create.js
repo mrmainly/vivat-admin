@@ -11,22 +11,22 @@ import {
     TimePicker,
     AutoComplete,
     message,
-    Spin
+    Spin,
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
 import { convertToHTML } from "draft-convert";
-import moment from 'moment';
-import { useNavigate } from 'react-router-dom'
+import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 import { StocksDetailTable } from "../../components";
 import API from "../../api";
-import ROUTES from '../../routes'
+import ROUTES from "../../routes";
 
 const { Option } = Select;
 
-const dateFormat = 'YYYY-MM-DD';
+const dateFormat = "YYYY-MM-DD";
 
 const StockCreate = () => {
     const [name, setName] = useState("");
@@ -39,7 +39,7 @@ const StockCreate = () => {
     );
     const [convertedContent, setConvertedContent] = useState(null);
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleEditorChange = (state) => {
         setEditorState(state);
@@ -54,24 +54,23 @@ const StockCreate = () => {
 
     const fileSelectHandler = (e) => {
         setPhoto(e.target.files[0]);
+        console.log(e.target.files[0]);
     };
 
     const CreateStocks = () => {
-
         API.CreatePromotion({
             name: name,
             description: convertedContent,
-            dateStart: dateStart,
-            dateEnd: dateEnd,
-            image: photo
+            date_start: dateStart,
+            date_end: dateEnd,
+            image: photo,
             // goods: newGoods,
         })
             .then((res) => {
-                console.log("res", res);
-                message.success('Акция создана')
-                navigate(ROUTES.STOCKS)
+                message.success("Акция создана");
+                navigate(ROUTES.STOCKS);
             })
-            .catch((error) => message.success('Акция не создана'));
+            .catch((error) => message.success("Акция не создана"));
     };
     return (
         <div>
@@ -116,21 +115,23 @@ const StockCreate = () => {
                     >
                         <DatePicker
                             format={dateFormat}
-                            onChange={(date, dateString) => setDateStart(dateString)}
-
+                            onChange={(date, dateString) =>
+                                setDateStart(dateString)
+                            }
                         />
                     </Form.Item>
                     <Form.Item
                         label="конец акции"
                         labelCol={{ span: 24 }}
                         required
-
                     >
                         <DatePicker
-                            onChange={(date, dateString) => setDateEnd(dateString)}
+                            onChange={(date, dateString) =>
+                                setDateEnd(dateString)
+                            }
                             format={dateFormat}
-                        // value={dateEnd}
-                        // onChange={(e) => setDateEnd(e.target.value)}
+                            // value={dateEnd}
+                            // onChange={(e) => setDateEnd(e.target.value)}
                         />
                     </Form.Item>
 

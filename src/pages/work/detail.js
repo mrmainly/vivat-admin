@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../create.css";
 import { Input, Space, Button, Form, message, Select, Spin } from "antd";
 import { Editor } from "react-draft-wysiwyg";
-import { EditorState } from "draft-js";
+import { EditorState, convertFromHTML, ContentState } from "draft-js";
 import { convertToHTML } from "draft-convert";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -38,11 +38,17 @@ const WorkDetail = () => {
     };
 
     const createWork = () => {
-        API.patchWork(name, city, convertedContent, params.id)
+        API.patchWork(
+            name,
+            city,
+            convertToHTML(editorState.getCurrentContent()),
+            params.id
+        )
             .then((res) => {
-                message.success("Вакансия создана");
+                message.success("Вакансия изменена");
+                navigate(ROUTES.WORK);
             })
-            .catch((error) => message.error("Вакансия не создана"));
+            .catch((error) => message.error("Вакансия не изщменена"));
     };
 
     const deleteWork = () => {
@@ -58,14 +64,22 @@ const WorkDetail = () => {
         const getWork = async () => {
             await API.getCity()
                 .then((res) => {
+                    console.log("city", res.data);
                     setCities(res.data);
                 })
                 .catch((error) => console.log(error));
             await API.getWorkId(params.id)
                 .then((res) => {
                     setName(res.data.name);
-                    setCity(res.data.city.name);
-                    console.log(res.data.city);
+                    setCity(res.data.city.id);
+                    setEditorState(
+                        EditorState.createWithContent(
+                            ContentState.createFromBlockArray(
+                                convertFromHTML(res.data.description)
+                            )
+                        )
+                    );
+                    console.log(res);
                 })
                 .catch((error) => console.log(error));
             setLoading(false);
@@ -145,7 +159,7 @@ const WorkDetail = () => {
                                 onChange={handleSelect}
                             >
                                 {cities.map((item, index) => (
-                                    <Option value={item.name} key={index}>
+                                    <Option value={item.id} key={index}>
                                         {item.name}
                                     </Option>
                                 ))}

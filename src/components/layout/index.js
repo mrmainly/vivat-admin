@@ -86,10 +86,10 @@ const MyLayout = () => {
             label: "Вакансии",
             navigate: ROUTES.WORK,
         },
-        {
-            label: "Теги",
-            navigate: ROUTES.TAGS,
-        },
+        // {
+        //     label: "Теги",
+        //     navigate: ROUTES.TAGS,
+        // },
     ];
 
     return (

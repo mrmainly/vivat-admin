@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
     Typography,
     Space,
@@ -12,6 +12,7 @@ import {
 
 import API from "../../api";
 import { OrderDetailTable } from "../../components";
+import ROUTES from "../../routes";
 
 const { Text, Title } = Typography;
 const { Option } = Select;
@@ -24,6 +25,7 @@ const OrdersDetail = () => {
     const [loading, setLoading] = useState(false);
 
     const params = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getOrdersId = async () => {
@@ -62,6 +64,7 @@ const OrdersDetail = () => {
         API.cancelOrderStatus(data.id)
             .then((res) => {
                 message.success("Статус отменен");
+                navigate(ROUTES.ORDERS);
             })
             .catch((error) => message.error("Статус не изменен"));
     };

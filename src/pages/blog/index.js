@@ -50,11 +50,18 @@ const Blog = () => {
                 >
                     + Создать новый блог
                 </Button>
-                <Search
+                <Button
+                    type="primary"
+                    style={{ background: "#55CD61" }}
+                    onClick={() => navigate(ROUTES.TAGS)}
+                >
+                    Создать новую тему
+                </Button>
+                {/* <Search
                     placeholder="input search text"
                     enterButton
                     style={{ width: 304 }}
-                />
+                /> */}
                 <Select
                     style={{ width: 200 }}
                     defaultValue={"Теги"}

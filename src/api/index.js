@@ -129,13 +129,18 @@ class API {
     }
 
     async PromotionGoodsDelete(id, data) {
-        console.log(data)
-        let result = await api(`api/v1/promotion/goods/${id}`).delete(null, { data: data });
+        console.log(data);
+        let result = await api(`api/v1/promotion/goods/${id}`).delete(null, {
+            data: data,
+        });
         return result;
     }
 
     async PromotionPatch(data, id) {
-        let result = await api(`api/v1/promotion/${id}`, "img").patch(null, data);
+        let result = await api(`api/v1/promotion/${id}`, "img").patch(
+            null,
+            data
+        );
         return result;
     }
 
@@ -149,18 +154,17 @@ class API {
         return result;
     }
 
-
-
     //blog
     async getBlog(query, type) {
         let result = await api(
-            `api/v1/blogs/${type
-                ? type == "query"
-                    ? query
-                        ? `?query=${query}`
-                        : ""
-                    : `?tags_query=${query}`
-                : ""
+            `api/v1/blogs/${
+                type
+                    ? type == "query"
+                        ? query
+                            ? `?query=${query}`
+                            : ""
+                        : `?tags_query=${query}`
+                    : ""
             }`
         ).get();
         return result;
