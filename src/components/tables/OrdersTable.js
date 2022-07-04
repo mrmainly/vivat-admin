@@ -1,7 +1,11 @@
-import { Table, Button } from "antd";
+import { Table, Button, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 
 import ROUTES from "../../routes";
+import { translationDelivery, translationStatus } from "../../interpreter";
+import moment from "moment";
+
+const { Text, Title } = Typography;
 
 const OrdersTable = ({ loading, data }) => {
     const navigate = useNavigate();
@@ -15,11 +19,29 @@ const OrdersTable = ({ loading, data }) => {
         },
         {
             title: "Дата и время заказа",
-            dataIndex: "registered",
-            key: "registered",
+            dataIndex: "date",
+            key: "date",
+            render: (date) => (
+                <Text>{moment(date).format("DD-MM-YYYY hhч:mmм:ssс")}</Text>
+            ),
         },
         { title: "Сумма", dataIndex: "total_price", key: "total_price" },
-        { title: "Статус", dataIndex: "orderStatus", key: "orderStatus" },
+        {
+            title: "Статус",
+            dataIndex: "orderStatus",
+            key: "orderStatus",
+            render: (orderStatus) => (
+                <Text>{translationStatus(orderStatus)}</Text>
+            ),
+        },
+        {
+            title: "Тип доставки",
+            dataIndex: "delivery_type",
+            key: "delivery_type",
+            render: (delivery_type) => (
+                <Text>{translationDelivery(delivery_type)}</Text>
+            ),
+        },
         {
             title: "Действие",
             dataIndex: "id",

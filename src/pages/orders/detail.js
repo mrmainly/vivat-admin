@@ -13,6 +13,11 @@ import {
 import API from "../../api";
 import { OrderDetailTable } from "../../components";
 import ROUTES from "../../routes";
+import {
+    translationDelivery,
+    translationStatus,
+    translationPayment,
+} from "../../interpreter";
 
 const { Text, Title } = Typography;
 const { Option } = Select;
@@ -69,10 +74,6 @@ const OrdersDetail = () => {
             .catch((error) => message.error("Статус не изменен"));
     };
 
-    const handleStatus = (value) => {
-        setStatus(value);
-    };
-
     return (
         <div>
             {loading ? (
@@ -88,18 +89,22 @@ const OrdersDetail = () => {
             ) : data ? (
                 <Space direction="vertical" size={12} style={{ width: "100%" }}>
                     <Space align="center">
+                        <Text style={{ color: "#a6a6a6" }}>Номер заказа:</Text>
+                        <Text>№ {data.num}</Text>
+                    </Space>
+                    <Space align="center">
                         <Text style={{ color: "#a6a6a6" }}>Статусы:</Text>
-                        <Select
-                            style={{ width: 250 }}
-                            defaultValue={data.orderStatus}
-                            onChange={handleStatus}
-                        >
-                            {statuses.map((item, index) => (
-                                <Option value={item} key={index}>
-                                    {item}
-                                </Option>
-                            ))}
-                        </Select>
+                        <Text>{translationStatus(data.orderStatus)}</Text>
+                    </Space>
+                    <Space align="center">
+                        <Text style={{ color: "#a6a6a6" }}>
+                            Способ доставки:
+                        </Text>
+                        <Text>{translationDelivery(data.delivery_type)}</Text>
+                    </Space>
+                    <Space align="center">
+                        <Text style={{ color: "#a6a6a6" }}>Тип оплаты:</Text>
+                        <Text>{translationPayment(data.payment_type)}</Text>
                     </Space>
                     <Space align="center">
                         <Text style={{ color: "#a6a6a6" }}>
@@ -111,10 +116,31 @@ const OrdersDetail = () => {
                         <Text style={{ color: "#a6a6a6" }}>Дата заказа:</Text>
                         <Text>{data.created}</Text>
                     </Space>
+
+                    {data.delivery_cost ? (
+                        <Space align="center">
+                            <Text style={{ color: "#a6a6a6" }}>
+                                Цена доставки:
+                            </Text>
+                            <Text>{data.delivery_cost} руб</Text>
+                        </Space>
+                    ) : (
+                        ""
+                    )}
                     <Space align="center">
-                        <Text style={{ color: "#a6a6a6" }}>Сумма:</Text>
+                        <Text style={{ color: "#a6a6a6" }}>Сумма товаров:</Text>
                         <Text>{data.total_price} руб</Text>
                     </Space>
+                    {data.delivery_cost ? (
+                        <Space align="center">
+                            <Text style={{ color: "#a6a6a6" }}>Итого:</Text>
+                            <Text>
+                                {data.total_price + data.delivery_cost} руб
+                            </Text>
+                        </Space>
+                    ) : (
+                        ""
+                    )}
                     <Space align="center" direction="vertical">
                         <Text style={{ color: "#a6a6a6" }}>
                             Список товаров:

@@ -202,8 +202,8 @@ class API {
     }
 
     //orders
-    async getAllOrders() {
-        let result = await api(`api/v1/orders/`).get();
+    async getAllOrders(status) {
+        let result = await api(`api/v1/orders/?orderStatus=${status}`).get();
         return result;
     }
 
