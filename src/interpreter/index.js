@@ -25,10 +25,10 @@ export const translationStatus = (name) => {
 
 export const translationDelivery = (name) => {
     switch (name) {
-        case "DELIVARY":
-            return "Самовызов";
-        case "PICKUP":
+        case "DELIVERY":
             return "Доставка курьером";
+        case "PICKUP":
+            return "Самовызов";
     }
 };
 

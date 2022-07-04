@@ -16,6 +16,7 @@ const OrdersTable = ({ loading, data }) => {
             title: "Количество товаров",
             dataIndex: "total_count",
             key: "total_count",
+            render: (total_count) => <Text>{total_count} шт</Text>,
         },
         {
             title: "Дата и время заказа",
@@ -25,7 +26,13 @@ const OrdersTable = ({ loading, data }) => {
                 <Text>{moment(date).format("DD-MM-YYYY hhч:mmм:ssс")}</Text>
             ),
         },
-        { title: "Сумма", dataIndex: "total_price", key: "total_price" },
+        {
+            title: "Сумма",
+            key: "total_price",
+            render: (_, record) => (
+                <Text>{record.total_price + record.delivery_cost} руб</Text>
+            ),
+        },
         {
             title: "Статус",
             dataIndex: "orderStatus",
