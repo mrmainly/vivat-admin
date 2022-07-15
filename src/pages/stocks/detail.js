@@ -19,6 +19,7 @@ import { EditorState, convertFromHTML, ContentState } from "draft-js";
 import { convertToHTML } from "draft-convert";
 import moment from "moment";
 import { useParams, useNavigate } from "react-router-dom";
+import Resizer from "react-image-file-resizer";
 
 import { StocksDetailTable } from "../../components";
 import API from "../../api";
@@ -27,6 +28,22 @@ import ROUTES from "../../routes";
 const { Option } = Select;
 
 const dateFormat = "YYYY-MM-DD";
+
+const resizeFile = (file) =>
+    new Promise((resolve) => {
+        Resizer.imageFileResizer(
+            file,
+            300,
+            400,
+            "JPEG",
+            5,
+            0,
+            (uri) => {
+                resolve(uri);
+            },
+            "base64"
+        );
+    });
 
 const StockDetail = () => {
     const [autoCompliteValue, setAutoCompliteValue] = useState("");
@@ -146,6 +163,12 @@ const StockDetail = () => {
         setPhoto(e.target.files[0]);
     };
 
+    const fileBanner = async (e) => {
+        const file = e.target.files[0];
+        const image = await resizeFile(file);
+        setBanner(image);
+    };
+
     const CreateStocks = () => {
         API.PromotionPatch(
             {
@@ -154,7 +177,7 @@ const StockDetail = () => {
                 date_start: dateStart,
                 date_end: dateEnd,
                 image: photo,
-                banner_image: banner,
+                image_banner: banner,
             },
             params.id
         )
@@ -290,7 +313,7 @@ const StockDetail = () => {
                                 type="file"
                                 accept=".png, .jpg"
                                 onChange={(e) => {
-                                    setBanner(e.target.files[0]);
+                                    fileBanner(e);
                                 }}
                             />
                         </Form.Item>
