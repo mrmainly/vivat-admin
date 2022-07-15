@@ -54,21 +54,11 @@ const StockCreate = () => {
     };
 
     const fileSelectHandler = (e) => {
-        var file = e.target.files[0];
-        var reader = new FileReader();
-        reader.onloadend = function () {
-            setPhoto(reader.result);
-        };
-        reader.readAsDataURL(file);
+        setPhoto(e.target.files[0]);
     };
 
     const fileSelectHandlerBanner = (e) => {
-        var file = e.target.files[0];
-        var reader = new FileReader();
-        reader.onloadend = function () {
-            setBanner(reader.result);
-        };
-        reader.readAsDataURL(file);
+        setBanner(e.target.files[0]);
     };
 
     const CreateStocks = () => {
@@ -77,8 +67,8 @@ const StockCreate = () => {
             description: convertedContent,
             date_start: dateStart,
             date_end: dateEnd,
-            base64_image: photo,
-            base64_image_banner: banner,
+            image: photo,
+            banner_image: banner,
         })
             .then((res) => {
                 message.success("Акция создана");

@@ -158,7 +158,7 @@ const StockDetail = () => {
                 date_start: dateStart,
                 date_end: dateEnd,
                 image: photo,
-                image_banner: banner,
+                banner_image: banner,
             },
             params.id
         )
