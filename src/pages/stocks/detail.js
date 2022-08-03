@@ -3,17 +3,13 @@ import "./create.css";
 import {
     Input,
     Space,
-    Select,
-    Upload,
     Button,
     Form,
     DatePicker,
-    TimePicker,
     AutoComplete,
     message,
     Spin,
 } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertFromHTML, ContentState } from "draft-js";
 import { convertToHTML } from "draft-convert";
@@ -24,12 +20,9 @@ import { StocksDetailTable } from "../../components";
 import API from "../../api";
 import ROUTES from "../../routes";
 
-const { Option } = Select;
-
 const dateFormat = "YYYY-MM-DD";
 
 const StockDetail = () => {
-    const [autoCompliteValue, setAutoCompliteValue] = useState("");
     const [options, setOptions] = useState([]);
     const [goods, setGoods] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -150,7 +143,7 @@ const StockDetail = () => {
         setBanner(e.target.files[0]);
     };
 
-    const CreateStocks = () => {
+    const PromotionPatch = () => {
         API.PromotionPatch(
             {
                 name: name,
@@ -331,7 +324,7 @@ const StockDetail = () => {
                             <Button
                                 style={{ background: "#55CD61" }}
                                 type="primary"
-                                onClick={CreateStocks}
+                                onClick={PromotionPatch}
                             >
                                 Сохранить
                             </Button>

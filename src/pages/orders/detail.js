@@ -113,6 +113,22 @@ const OrdersDetail = () => {
                         <Text>{data?.customer?.phone}</Text>
                     </Space>
                     <Space align="center">
+                        <Text style={{ color: "#a6a6a6" }}>Квартира:</Text>
+                        <Text>{data?.apartment}</Text>
+                    </Space>
+                    <Space align="center">
+                        <Text style={{ color: "#a6a6a6" }}>Подьезд:</Text>
+                        <Text>{data?.entrance}</Text>
+                    </Space>
+                    <Space align="center">
+                        <Text style={{ color: "#a6a6a6" }}>Адрес:</Text>
+                        <Text>{data?.delivery_addresse}</Text>
+                    </Space>
+                    <Space align="center">
+                        <Text style={{ color: "#a6a6a6" }}>Этаж:</Text>
+                        <Text>{data?.floor}</Text>
+                    </Space>
+                    <Space align="center">
                         <Text style={{ color: "#a6a6a6" }}>Дата заказа:</Text>
                         <Text>{data.created}</Text>
                     </Space>
