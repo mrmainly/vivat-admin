@@ -34,9 +34,9 @@ export const translationDelivery = (name) => {
 
 export const translationPayment = (name) => {
     switch (name) {
-        case "CARD":
-            return "Картой онлайн при получении";
-        case "CASH":
-            return "Наличными при получении";
+        case true:
+            return "Оплачено";
+        case false:
+            return "Не оплачено";
     }
 };

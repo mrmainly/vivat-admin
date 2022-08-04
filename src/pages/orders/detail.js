@@ -103,8 +103,14 @@ const OrdersDetail = () => {
                         <Text>{translationDelivery(data.delivery_type)}</Text>
                     </Space>
                     <Space align="center">
-                        <Text style={{ color: "#a6a6a6" }}>Тип оплаты:</Text>
-                        <Text>{translationPayment(data.payment_type)}</Text>
+                        <Text style={{ color: "#a6a6a6" }}>Статус оплаты:</Text>
+                        <Text>
+                            {data.transactions
+                                ? translationPayment(
+                                      data?.transactions[0].is_payed
+                                  )
+                                : ""}
+                        </Text>
                     </Space>
                     <Space align="center">
                         <Text style={{ color: "#a6a6a6" }}>
@@ -112,22 +118,32 @@ const OrdersDetail = () => {
                         </Text>
                         <Text>{data?.customer?.phone}</Text>
                     </Space>
-                    <Space align="center">
-                        <Text style={{ color: "#a6a6a6" }}>Квартира:</Text>
-                        <Text>{data?.apartment}</Text>
-                    </Space>
-                    <Space align="center">
-                        <Text style={{ color: "#a6a6a6" }}>Подьезд:</Text>
-                        <Text>{data?.entrance}</Text>
-                    </Space>
-                    <Space align="center">
-                        <Text style={{ color: "#a6a6a6" }}>Адрес:</Text>
-                        <Text>{data?.delivery_addresse}</Text>
-                    </Space>
-                    <Space align="center">
-                        <Text style={{ color: "#a6a6a6" }}>Этаж:</Text>
-                        <Text>{data?.floor}</Text>
-                    </Space>
+                    {data?.delivery_type === "PICKUP" ? (
+                        ""
+                    ) : (
+                        <>
+                            <Space align="center">
+                                <Text style={{ color: "#a6a6a6" }}>
+                                    Квартира:
+                                </Text>
+                                <Text>{data?.apartment}</Text>
+                            </Space>
+                            <Space align="center">
+                                <Text style={{ color: "#a6a6a6" }}>
+                                    Подьезд:
+                                </Text>
+                                <Text>{data?.entrance}</Text>
+                            </Space>
+                            <Space align="center">
+                                <Text style={{ color: "#a6a6a6" }}>Адрес:</Text>
+                                <Text>{data?.delivery_address}</Text>
+                            </Space>
+                            <Space align="center">
+                                <Text style={{ color: "#a6a6a6" }}>Этаж:</Text>
+                                <Text>{data?.floor}</Text>
+                            </Space>
+                        </>
+                    )}
                     <Space align="center">
                         <Text style={{ color: "#a6a6a6" }}>Дата заказа:</Text>
                         <Text>{data.created}</Text>

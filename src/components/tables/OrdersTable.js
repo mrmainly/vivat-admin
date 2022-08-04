@@ -2,7 +2,11 @@ import { Table, Button, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 
 import ROUTES from "../../routes";
-import { translationDelivery, translationStatus } from "../../interpreter";
+import {
+    translationDelivery,
+    translationStatus,
+    translationPayment,
+} from "../../interpreter";
 import moment from "moment";
 
 const { Text, Title } = Typography;
@@ -47,6 +51,14 @@ const OrdersTable = ({ loading, data }) => {
             key: "delivery_type",
             render: (delivery_type) => (
                 <Text>{translationDelivery(delivery_type)}</Text>
+            ),
+        },
+        {
+            title: "Статус оплаты",
+            dataIndex: "transactions",
+            key: "transactions",
+            render: (transactions) => (
+                <Text>{translationPayment(transactions[0].is_payed)}</Text>
             ),
         },
         {
