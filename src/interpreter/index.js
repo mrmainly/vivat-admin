@@ -19,7 +19,10 @@ export const translationStatus = (name) => {
             return "Завершен";
             break;
         case "REJECTED":
-            return "‘Отклонен’";
+            return "Отклонен";
+            break;
+        case "RESERVED":
+            return "Сдержанный";
     }
 };
 

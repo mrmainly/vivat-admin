@@ -3,6 +3,7 @@ import { Input, Space, Select } from "antd";
 
 import { OrdersTable } from "../../components";
 import API from "../../api";
+import { translationStatus } from "../../interpreter";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -10,14 +11,22 @@ const { Option } = Select;
 const Orders = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [statuses, setStatuses] = useState([]);
     const [status, setStatus] = useState("");
+
+    useEffect(() => {
+        API.getStatuses()
+            .then((res) => {
+                setStatuses(res.data);
+            })
+            .catch((error) => console.log(error));
+    }, []);
 
     useEffect(() => {
         const getAllOrders = async () => {
             setLoading(true);
             await API.getAllOrders(status)
                 .then((res) => {
-                    console.log(res.data);
                     setData(res.data);
                 })
                 .catch((error) => console.log(error));
@@ -26,32 +35,32 @@ const Orders = () => {
         getAllOrders();
     }, [status]);
 
-    const Statuses = [
-        {
-            label: "Новый",
-            value: "New",
-        },
-        {
-            label: "Зарегистрирован",
-            value: "REGISTERED",
-        },
-        {
-            label: "Зарезервирован частично",
-            value: "RESERVEDPARTIALLY",
-        },
-        {
-            label: "Отменено",
-            value: "CANCELLED",
-        },
-        {
-            label: "Готов к выдаче",
-            value: "READYTOPICKUP",
-        },
-        {
-            label: "Отклонен",
-            value: "REJECTED",
-        },
-    ];
+    // const Statuses = [
+    //     {
+    //         label: "Новый",
+    //         value: "New",
+    //     },
+    //     {
+    //         label: "Зарегистрирован",
+    //         value: "REGISTERED",
+    //     },
+    //     {
+    //         label: "Зарезервирован частично",
+    //         value: "RESERVEDPARTIALLY",
+    //     },
+    //     {
+    //         label: "Отменено",
+    //         value: "CANCELLED",
+    //     },
+    //     {
+    //         label: "Готов к выдаче",
+    //         value: "READYTOPICKUP",
+    //     },
+    //     {
+    //         label: "Отклонен",
+    //         value: "REJECTED",
+    //     },
+    // ];
 
     const handleSelect = (value) => {
         setStatus(value);
@@ -70,11 +79,13 @@ const Orders = () => {
                     defaultValue="Статусы"
                     onChange={handleSelect}
                 >
-                    {Statuses.map((item, index) => (
-                        <Option value={item.value} key={index}>
-                            {item.label}
-                        </Option>
-                    ))}
+                    {statuses.length
+                        ? statuses.map((item, index) => (
+                              <Option value={item} key={index}>
+                                  {translationStatus(item)}
+                              </Option>
+                          ))
+                        : ""}
                 </Select>
             </Space>
             <OrdersTable loading={loading} data={data} />
