@@ -91,7 +91,7 @@ class API {
     }
 
     async CreateCity(data) {
-        let result = await api(`api/v1/cities/add/`).post(null, data);
+        let result = await api(`api/v1/cities/`).post(null, data);
         return result;
     }
 
@@ -269,7 +269,7 @@ class API {
     }
 
     async CreateWork(data, description) {
-        let result = await api(`api/v1/employments/add/`).post(null, {
+        let result = await api(`api/v1/employments/`).post(null, {
             name: data.name,
             description: description,
             city: data.city,
