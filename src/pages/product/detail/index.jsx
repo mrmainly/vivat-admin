@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Button, Upload, message, Space } from "antd";
+import { Button, Upload, message, Space, Typography } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 import API from "../../../api";
 import ROUTES from "../../../routes";
+
+const { Title } = Typography;
 
 const uploadButton = (
     <div>
@@ -32,13 +34,16 @@ const ProductDetail = () => {
 
     const params = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
+    const state = location.state;
+
+    const { name } = state;
 
     const props = {
         beforeUpload: (file) => {
             getBase64(file).then((item) => {
                 setImg(item);
             });
-
             return false;
         },
     };
@@ -56,16 +61,18 @@ const ProductDetail = () => {
 
     return (
         <div>
+            <Title level={4} style={{ marginBottom: 20 }}>
+                {" "}
+                {name}
+            </Title>
             <Upload listType="picture-card" maxCount={1} {...props}>
                 {uploadButton}
             </Upload>
-            <Space>
-                <Button style={{ marginTop: 10 }} onClick={addedPhoto} disabled={img === "" ? true : false}>
+            <Space style={{ marginTop: 20 }}>
+                <Button onClick={addedPhoto} disabled={img === "" ? true : false}>
                     Сохранить
                 </Button>
-                <Button style={{ marginTop: 10 }} onClick={() => navigate(-1)}>
-                    Вернуться назад
-                </Button>
+                <Button onClick={() => navigate(-1)}>Вернуться назад</Button>
             </Space>
         </div>
     );

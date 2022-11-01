@@ -20,8 +20,18 @@ const ProductTable = ({ loading, data }) => {
             title: "Действие",
             dataIndex: "id",
             key: "x",
-            render: (id) => (
-                <Button type="primary" style={{ background: "#55CD61" }} onClick={() => navigate(`${ROUTES.PRODUCT_DETAIL}/${id}`)}>
+            render: (id, record) => (
+                <Button
+                    type="primary"
+                    style={{ background: "#55CD61" }}
+                    onClick={() =>
+                        navigate(`${ROUTES.PRODUCT_DETAIL}/${id}`, {
+                            state: {
+                                name: record.name,
+                            },
+                        })
+                    }
+                >
                     Посмотреть
                 </Button>
             ),
