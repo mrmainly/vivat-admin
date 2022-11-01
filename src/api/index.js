@@ -66,14 +66,7 @@ class API {
 
     //forgot
     sendPhoneMailForgotPassword(data, type) {
-        const result = api(
-            type == "phone"
-                ? `api/v1/users/reset_phone/`
-                : "api/v1/users/reset_email/"
-        ).post(
-            null,
-            type == "phone" ? { phone: data.phone } : { email: data.email }
-        );
+        const result = api(type == "phone" ? `api/v1/users/reset_phone/` : "api/v1/users/reset_email/").post(null, type == "phone" ? { phone: data.phone } : { email: data.email });
         return result;
     }
 
@@ -137,10 +130,7 @@ class API {
     }
 
     async PromotionPatch(data, id) {
-        let result = await api(`api/v1/promotion/${id}`, "img").patch(
-            null,
-            data
-        );
+        let result = await api(`api/v1/promotion/${id}`, "img").patch(null, data);
         return result;
     }
 
@@ -156,17 +146,7 @@ class API {
 
     //blog
     async getBlog(query, type) {
-        let result = await api(
-            `api/v1/blogs/${
-                type
-                    ? type == "query"
-                        ? query
-                            ? `?query=${query}`
-                            : ""
-                        : `?tags_query=${query}`
-                    : ""
-            }`
-        ).get();
+        let result = await api(`api/v1/blogs/${type ? (type == "query" ? (query ? `?query=${query}` : "") : `?tags_query=${query}`) : ""}`).get();
         return result;
     }
 
@@ -223,12 +203,9 @@ class API {
     }
 
     async patchOrderStatus(status, id) {
-        let result = await api(`api/v1/orders/change_status/${id}/`).patch(
-            null,
-            {
-                orderStatus: status,
-            }
-        );
+        let result = await api(`api/v1/orders/change_status/${id}/`).patch(null, {
+            orderStatus: status,
+        });
         return result;
     }
 
@@ -333,6 +310,17 @@ class API {
     //goods
     getGoodsId(id) {
         const result = api(`api/v1/goods/${id}/`).get();
+        return result;
+    }
+    getGoodsEmpty(currentPage) {
+        const result = api(`api/v1/goods/empty/?page=${currentPage}`).get();
+        return result;
+    }
+    async postGoodsEmpty(code, id) {
+        let result = await api(`api/v1/goods/empty/`).post(null, {
+            code: code,
+            good_id: id,
+        });
         return result;
     }
 }

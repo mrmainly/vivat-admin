@@ -5,6 +5,7 @@ import cookie from "js-cookie";
 
 import "./layout.css";
 import ROUTES from "../../routes";
+import pathname from './pathname'
 
 const { Header, Content, Sider } = Layout;
 const { Title } = Typography;
@@ -13,49 +14,7 @@ const MyLayout = () => {
     const navigate = useNavigate();
     const params = useLocation();
 
-    const pathname = () => {
-        switch (params.pathname) {
-            case "/orders":
-                return "Заказы";
-                break;
-            case "/blog":
-                return "Блог";
-                break;
-            case "/stocks":
-                return "Акции";
-                break;
-            case "/analytics":
-                return "Аналитика";
-                break;
-            case "/blog-create":
-                return "Создание блога";
-                break;
-            case "/city":
-                return "Города";
-                break;
-            case "/city-create":
-                return "Создание города";
-                break;
-            case "/blog-detail":
-                return "Редактирование блога";
-                break;
-            case "/users":
-                return "Пользователи";
-                break;
-            case "/work":
-                return "Вакансии";
-                break;
-            case "/work-create":
-                return "Создание вакансии";
-                break;
-            case "/stock-create":
-                return "Создание акции";
-            case "/tags":
-                return "Теги";
-            case "/tags-create":
-                return "Создание тегов";
-        }
-    };
+    
 
     const items = [
         {
@@ -86,10 +45,10 @@ const MyLayout = () => {
             label: "Вакансии",
             navigate: ROUTES.WORK,
         },
-        // {
-        //     label: "Теги",
-        //     navigate: ROUTES.TAGS,
-        // },
+        {
+            label: "Товары",
+            navigate: ROUTES.PRODUCTS,
+        },
     ];
 
     return (
@@ -146,7 +105,7 @@ const MyLayout = () => {
                             }}
                         >
                             <Title level={4} style={{ color: "#20B12E" }}>
-                                {pathname()}
+                                {pathname(params)}
                             </Title>
                         </Header>
                         <Content style={{ margin: "16px 16px 0" }}>

@@ -27,6 +27,8 @@ import {
     TagsCreate,
     TagDetail,
     StockDetail,
+    ProductPage,
+    ProductDetail,
 } from "./pages";
 
 function App() {
@@ -39,50 +41,28 @@ function App() {
                     {/* блог */}
                     <Route path={ROUTES.BLOG} element={<Blog />} />
                     <Route path={ROUTES.BLOG_CREATE} element={<BlogCreate />} />
-                    <Route
-                        path={`${ROUTES.BLOG_DETAIL}/:id`}
-                        element={<BlogDetail />}
-                    />
+                    <Route path={`${ROUTES.BLOG_DETAIL}/:id`} element={<BlogDetail />} />
 
                     <Route path={ROUTES.STOCKS} element={<Stocks />} />
                     <Route path={ROUTES.ANALYTICS} element={<Analytics />} />
 
-                    <Route
-                        path={ROUTES.STOCK_CREATE}
-                        element={<StockCreate />}
-                    />
-                    <Route
-                        path={`${ROUTES.STOCK_DETAIL}/:id`}
-                        element={<StockDetail />}
-                    />
+                    <Route path={ROUTES.STOCK_CREATE} element={<StockCreate />} />
+                    <Route path={`${ROUTES.STOCK_DETAIL}/:id`} element={<StockDetail />} />
                     <Route path={ROUTES.CITY} element={<City />} />
                     <Route path={ROUTES.CITY_CREATE} element={<CityCreate />} />
-                    <Route
-                        path={`${ROUTES.CITY_DETAIL}/:id`}
-                        element={<CityDetail />}
-                    />
+                    <Route path={`${ROUTES.CITY_DETAIL}/:id`} element={<CityDetail />} />
 
                     <Route path={ROUTES.USERS} element={<Users />} />
-                    <Route
-                        path={`${ROUTES.USERS_DETAIL}/:id`}
-                        element={<UsersDetail />}
-                    />
-                    <Route
-                        path={`${ROUTES.ORDERS_DETAIL}/:id`}
-                        element={<OrdersDetail />}
-                    />
+                    <Route path={`${ROUTES.USERS_DETAIL}/:id`} element={<UsersDetail />} />
+                    <Route path={`${ROUTES.ORDERS_DETAIL}/:id`} element={<OrdersDetail />} />
                     <Route path={ROUTES.WORK} element={<Work />} />
                     <Route path={ROUTES.WORK_CREATE} element={<WorkCreate />} />
-                    <Route
-                        path={`${ROUTES.WORK_DETAIL}/:id`}
-                        element={<WorkDetail />}
-                    />
+                    <Route path={`${ROUTES.WORK_DETAIL}/:id`} element={<WorkDetail />} />
                     <Route path={ROUTES.TAGS} element={<Tags />} />
                     <Route path={ROUTES.TAGS_CREATE} element={<TagsCreate />} />
-                    <Route
-                        path={`${ROUTES.TAG_DETAIL}/:id`}
-                        element={<TagDetail />}
-                    />
+                    <Route path={ROUTES.PRODUCTS} element={<ProductPage />} />
+                    <Route path={`${ROUTES.TAG_DETAIL}/:id`} element={<TagDetail />} />
+                    <Route path={`${ROUTES.PRODUCT_DETAIL}/:id`} element={<ProductDetail />} />
                 </Route>
             </Routes>
         </BrowserRouter>

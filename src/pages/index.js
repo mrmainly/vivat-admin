@@ -25,6 +25,8 @@ import WorkDetail from "./work/detail";
 import Tags from "./tags";
 import TagsCreate from "./tags/create";
 import TagDetail from "./tags/detail";
+import ProductPage from "./product";
+import ProductDetail from "./product/detail";
 
 export {
     Blog,
@@ -48,4 +50,6 @@ export {
     TagsCreate,
     TagDetail,
     StockDetail,
+    ProductPage,
+    ProductDetail,
 };

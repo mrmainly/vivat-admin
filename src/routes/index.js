@@ -21,6 +21,8 @@ const ROUTES = {
     TAGS_CREATE: "/tags-create",
     TAG_DETAIL: "/tag-detail",
     STOCK_DETAIL: "/stock-detail",
+    PRODUCTS: "/products",
+    PRODUCT_DETAIL: "/product-detail",
 };
 
 export default ROUTES;
