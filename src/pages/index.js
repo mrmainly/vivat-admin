@@ -27,6 +27,9 @@ import TagsCreate from "./tags/create";
 import TagDetail from "./tags/detail";
 import ProductPage from "./product";
 import ProductDetail from "./product/detail";
+import Catalog from "./catalog";
+import CatalogCreate from "./catalog/create";
+import CatalogDetail from "./catalog/detail";
 
 export {
     Blog,
@@ -52,4 +55,7 @@ export {
     StockDetail,
     ProductPage,
     ProductDetail,
+    Catalog,
+    CatalogCreate,
+    CatalogDetail,
 };

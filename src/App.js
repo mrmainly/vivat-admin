@@ -29,6 +29,9 @@ import {
     StockDetail,
     ProductPage,
     ProductDetail,
+    Catalog,
+    CatalogCreate,
+    CatalogDetail,
 } from "./pages";
 
 function App() {
@@ -61,6 +64,9 @@ function App() {
                     <Route path={ROUTES.TAGS} element={<Tags />} />
                     <Route path={ROUTES.TAGS_CREATE} element={<TagsCreate />} />
                     <Route path={ROUTES.PRODUCTS} element={<ProductPage />} />
+                    <Route path={ROUTES.CATALOG} element={<Catalog />} />
+                    <Route path={ROUTES.CATALOG_DETAIL} element={<CatalogDetail />} />
+                    <Route path={ROUTES.CATALOG_CREATE} element={<CatalogCreate />} />
                     <Route path={`${ROUTES.TAG_DETAIL}/:id`} element={<TagDetail />} />
                     <Route path={`${ROUTES.PRODUCT_DETAIL}/:id`} element={<ProductDetail />} />
                 </Route>

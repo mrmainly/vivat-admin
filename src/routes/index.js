@@ -23,6 +23,9 @@ const ROUTES = {
     STOCK_DETAIL: "/stock-detail",
     PRODUCTS: "/products",
     PRODUCT_DETAIL: "/product-detail",
+    CATALOG: "/catalog",
+    CATALOG_CREATE: "/catalog-create",
+    CATALOG_DETAIL: "/catalog-detail",
 };
 
 export default ROUTES;

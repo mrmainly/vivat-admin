@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./create.css";
-import {
-    Input,
-    Space,
-    Button,
-    Form,
-    DatePicker,
-    AutoComplete,
-    message,
-    Spin,
-} from "antd";
+import { Input, Space, Button, Form, DatePicker, AutoComplete, message, Spin } from "antd";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertFromHTML, ContentState } from "draft-js";
 import { convertToHTML } from "draft-convert";
@@ -35,9 +26,7 @@ const StockDetail = () => {
     const [banner, setBanner] = useState("");
     const [getBanner, setGetBanner] = useState("");
 
-    const [editorState, setEditorState] = useState(() =>
-        EditorState.createEmpty()
-    );
+    const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
     const [convertedContent, setConvertedContent] = useState(null);
 
     const params = useParams();
@@ -48,9 +37,7 @@ const StockDetail = () => {
         convertContentToHTML();
     };
     const convertContentToHTML = () => {
-        let currentContentAsHTML = convertToHTML(
-            editorState.getCurrentContent()
-        );
+        let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
         setConvertedContent(currentContentAsHTML);
     };
 
@@ -82,13 +69,7 @@ const StockDetail = () => {
                         };
                     });
                     setName(data.name);
-                    setEditorState(
-                        EditorState.createWithContent(
-                            ContentState.createFromBlockArray(
-                                convertFromHTML(data.description)
-                            )
-                        )
-                    );
+                    setEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(data.description))));
                     setDateEnd(data.date_end);
                     setDateStart(data.date_start);
                     setImage(data.image);
@@ -198,19 +179,10 @@ const StockDetail = () => {
                                 },
                             ]}
                         >
-                            <Input
-                                placeholder="Basic usage"
-                                style={{ width: 235 }}
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                            />
+                            <Input placeholder="Basic usage" style={{ width: 235 }} value={name} onChange={(e) => setName(e.target.value)} />
                         </Form.Item>
 
-                        <Form.Item
-                            label="Описание"
-                            required
-                            labelCol={{ span: 24 }}
-                        >
+                        <Form.Item label="Описание" required labelCol={{ span: 24 }}>
                             <Editor
                                 editorState={editorState}
                                 onEditorStateChange={handleEditorChange}
@@ -219,47 +191,20 @@ const StockDetail = () => {
                                 toolbarClassName="toolbar-class"
                             />
                         </Form.Item>
-                        <Form.Item
-                            label="начало акции"
-                            labelCol={{ span: 24 }}
-                            required
-                        >
-                            <DatePicker
-                                format={dateFormat}
-                                onChange={(date, dateString) =>
-                                    setDateStart(dateString)
-                                }
-                                defaultValue={
-                                    dateStart
-                                        ? moment(dateStart, dateFormat)
-                                        : ""
-                                }
-                            />
+                        <Form.Item label="начало акции" labelCol={{ span: 24 }} required>
+                            <DatePicker format={dateFormat} onChange={(date, dateString) => setDateStart(dateString)} defaultValue={dateStart ? moment(dateStart, dateFormat) : ""} />
                         </Form.Item>
-                        <Form.Item
-                            label="конец акции"
-                            labelCol={{ span: 24 }}
-                            required
-                        >
+                        <Form.Item label="конец акции" labelCol={{ span: 24 }} required>
                             <DatePicker
-                                onChange={(date, dateString) =>
-                                    setDateEnd(dateString)
-                                }
+                                onChange={(date, dateString) => setDateEnd(dateString)}
                                 format={dateFormat}
-                                defaultValue={
-                                    dateEnd ? moment(dateEnd, dateFormat) : ""
-                                }
+                                defaultValue={dateEnd ? moment(dateEnd, dateFormat) : ""}
                                 // value={dateEnd}
                                 // onChange={(e) => setDateEnd(e.target.value)}
                             />
                         </Form.Item>
 
-                        <Form.Item
-                            label="Изображение"
-                            labelCol={{ span: 24 }}
-                            style={{ width: 200 }}
-                            required
-                        >
+                        <Form.Item label="Изображение" labelCol={{ span: 24 }} style={{ width: 200 }} required>
                             <input
                                 type="file"
                                 accept=".png, .jpg"
@@ -277,12 +222,7 @@ const StockDetail = () => {
                             }}
                             src={image}
                         />
-                        <Form.Item
-                            label="Баннер"
-                            labelCol={{ span: 24 }}
-                            style={{ width: 200 }}
-                            required
-                        >
+                        <Form.Item label="Баннер" labelCol={{ span: 24 }} style={{ width: 200 }} required>
                             <input
                                 type="file"
                                 accept=".png, .jpg"
@@ -299,12 +239,9 @@ const StockDetail = () => {
                                 border: "1px solid black",
                             }}
                             src={getBanner}
+                            alt=""
                         />
-                        <Form.Item
-                            label="Акционные товары"
-                            labelCol={{ span: 24 }}
-                            required
-                        >
+                        <Form.Item label="Акционные товары" labelCol={{ span: 24 }} required>
                             <AutoComplete
                                 options={options}
                                 onSelect={onSelect}
@@ -315,24 +252,12 @@ const StockDetail = () => {
                                 placeholder="найти товар"
                             />
                         </Form.Item>
-                        <StocksDetailTable
-                            data={goods}
-                            loading={loading}
-                            deleteItem={deleteItem}
-                        />
+                        <StocksDetailTable data={goods} loading={loading} deleteItem={deleteItem} />
                         <Space style={{ marginTop: 20 }}>
-                            <Button
-                                style={{ background: "#55CD61" }}
-                                type="primary"
-                                onClick={PromotionPatch}
-                            >
+                            <Button style={{ background: "#55CD61" }} type="primary" onClick={PromotionPatch}>
                                 Сохранить
                             </Button>
-                            <Button
-                                style={{ background: "#FE5860" }}
-                                type="primary"
-                                onClick={() => deletePromotion()}
-                            >
+                            <Button style={{ background: "#FE5860" }} type="primary" onClick={() => deletePromotion()}>
                                 Удалить
                             </Button>
                         </Space>

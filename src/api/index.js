@@ -324,6 +324,21 @@ class API {
         });
         return result;
     }
+
+    getCatalogs(page) {
+        const result = api(`api/v1/promotion/collection/?page=${page}`).get();
+        return result;
+    }
+
+    async postCatalog(data) {
+        let result = await api(`api/v1/promotion/collection/`).post(null, data);
+        return result;
+    }
+
+    async patchCatalog(data, id) {
+        let result = await api(`api/v1/promotion/collection/${id}`).patch(null, data);
+        return result;
+    }
 }
 
 export default new API();

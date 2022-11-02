@@ -47,6 +47,10 @@ const MyLayout = () => {
             label: "Товары",
             navigate: ROUTES.PRODUCTS,
         },
+        {
+            label: "Тематические подборки",
+            navigate: ROUTES.CATALOG,
+        },
     ];
 
     return (
