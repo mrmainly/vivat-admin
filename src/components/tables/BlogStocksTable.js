@@ -18,7 +18,7 @@ const BlogTable = ({ data, loading, routes }) => {
             ),
         },
     ];
-    return <Table columns={columns} dataSource={data} rowKey="id" loading={loading} pagination={false} />;
+    return <Table columns={columns} dataSource={data} rowKey="id" loading={loading} pagination={false} scroll={{ x: true }} />;
 };
 
 export default BlogTable;

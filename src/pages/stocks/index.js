@@ -17,7 +17,7 @@ const Stocks = () => {
     useEffect(() => {
         const getPromotion = async () => {
             setLoading(true);
-            await API.getPromotion()
+            await API.getPromotion(currentPage)
                 .then((res) => {
                     setData(res.data.results);
                     getTotalPage(res.data.count);

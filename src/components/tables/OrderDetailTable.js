@@ -27,14 +27,7 @@ const OrderDetailTable = ({ data, routes, loading }) => {
         //     ),
         // },
     ];
-    return (
-        <Table
-            columns={columns}
-            rowKey="id"
-            dataSource={data}
-            loading={loading}
-        />
-    );
+    return <Table columns={columns} rowKey="id" dataSource={data} scroll={{ x: true }} loading={loading} />;
 };
 
 export default OrderDetailTable;

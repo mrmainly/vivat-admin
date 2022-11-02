@@ -18,23 +18,13 @@ const StocksDetailTable = ({ data, loading, deleteItem }) => {
             dataIndex: "id",
             key: "x",
             render: (id) => (
-                <Button
-                    style={{ color: "#FE5860", borderColor: "#FE5860" }}
-                    onClick={() => deleteItem(id)}
-                >
+                <Button style={{ color: "#FE5860", borderColor: "#FE5860" }} onClick={() => deleteItem(id)}>
                     Удаление
                 </Button>
             ),
         },
     ];
-    return (
-        <Table
-            columns={columns}
-            rowKey="id"
-            dataSource={data}
-            loading={loading}
-        />
-    );
+    return <Table columns={columns} rowKey="id" dataSource={data} loading={loading} scroll={{ x: true }} />;
 };
 
 export default StocksDetailTable;
