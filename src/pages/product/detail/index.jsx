@@ -62,7 +62,6 @@ const ProductDetail = () => {
     return (
         <div>
             <Title level={4} style={{ marginBottom: 20 }}>
-                {" "}
                 {name}
             </Title>
             <Upload listType="picture-card" maxCount={1} {...props}>

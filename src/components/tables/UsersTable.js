@@ -35,13 +35,7 @@ const UsersTable = ({ loading, data, routes }) => {
             dataIndex: "is_active",
             key: "is_active",
             render: (is_active) => (
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                    {is_active ? (
-                        <CheckCircleOutlined style={{ color: "#55CD61" }} />
-                    ) : (
-                        <CloseCircleOutlined style={{ color: "red" }} />
-                    )}
-                </div>
+                <div style={{ display: "flex", justifyContent: "center" }}>{is_active ? <CheckCircleOutlined style={{ color: "#55CD61" }} /> : <CloseCircleOutlined style={{ color: "red" }} />}</div>
             ),
         },
         {
@@ -49,24 +43,14 @@ const UsersTable = ({ loading, data, routes }) => {
             dataIndex: "id",
             key: "id",
             render: (id) => (
-                <Button
-                    style={{ color: "#55CD61", borderColor: "#55CD61" }}
-                    onClick={() => navigate(`${routes}/${id}`)}
-                >
+                <Button style={{ color: "#55CD61", borderColor: "#55CD61" }} onClick={() => navigate(`${routes}/${id}`)}>
                     Редактирование
                 </Button>
             ),
         },
     ];
 
-    return (
-        <Table
-            columns={columns}
-            dataSource={data}
-            rowKey="id"
-            loading={loading}
-        />
-    );
+    return <Table columns={columns} dataSource={data} rowKey="id" loading={loading} pagination={false} />;
 };
 
 export default UsersTable;

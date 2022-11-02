@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button, Space, Select, Input } from "antd";
+import { Button, Space, Select, Pagination } from "antd";
 import { useNavigate } from "react-router-dom";
 
 import { BlogStocksTable } from "../../components";
 import ROUTES from "../../routes";
 import API from "../../api";
+import usePagination from "../../hooks/usePagination";
 
-const { Search } = Input;
 const { Option } = Select;
 
 const Work = () => {
@@ -16,6 +16,7 @@ const Work = () => {
     const [city, setCity] = useState("");
 
     const navigate = useNavigate();
+    const { totalPage, currentPage, handlePage, getTotalPage } = usePagination();
 
     useEffect(() => {
         const getWork = async () => {
@@ -23,6 +24,7 @@ const Work = () => {
             await API.getWork(city)
                 .then((res) => {
                     setData(res.data.results);
+                    getTotalPage(res.data.count);
                 })
                 .catch((error) => console.log(error));
             await API.getCity()
@@ -42,20 +44,10 @@ const Work = () => {
     return (
         <div>
             <Space style={{ marginBottom: 20 }}>
-                <Button
-                    type="primary"
-                    style={{ background: "#55CD61" }}
-                    onClick={() => navigate(ROUTES.WORK_CREATE)}
-                >
+                <Button type="primary" style={{ background: "#55CD61" }} onClick={() => navigate(ROUTES.WORK_CREATE)}>
                     + Создать новые вакансии
                 </Button>
-                <Select
-                    style={{ width: 200 }}
-                    defaultValue={"Города"}
-                    onChange={handleSelect}
-                    // value={topic}
-                    // onChange={(e) => setTopic(e.target.value)}
-                >
+                <Select style={{ width: 200 }} defaultValue={"Города"} onChange={handleSelect}>
                     {cities.map((item, index) => (
                         <Option value={item.name} key={index}>
                             {item.name}
@@ -63,11 +55,8 @@ const Work = () => {
                     ))}
                 </Select>
             </Space>
-            <BlogStocksTable
-                data={data}
-                loading={loading}
-                routes={ROUTES.WORK_DETAIL}
-            />
+            <BlogStocksTable data={data} loading={loading} routes={ROUTES.WORK_DETAIL} />
+            <Pagination current={currentPage} total={totalPage} pageSize={30} style={{ marginTop: 20 }} onChange={handlePage} showSizeChanger={false} />
         </div>
     );
 };

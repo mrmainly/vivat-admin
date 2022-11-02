@@ -14,6 +14,7 @@ const Users = () => {
             await API.getUsers()
                 .then((res) => {
                     setData(res.data);
+                    console.log(res);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -24,11 +25,7 @@ const Users = () => {
     }, []);
     return (
         <div>
-            <UsersTable
-                loading={loading}
-                data={data}
-                routes={ROUTES.USERS_DETAIL}
-            />
+            <UsersTable loading={loading} data={data} routes={ROUTES.USERS_DETAIL} />
         </div>
     );
 };

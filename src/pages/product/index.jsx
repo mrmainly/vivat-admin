@@ -3,12 +3,13 @@ import { Pagination } from "antd";
 
 import ProductTable from "./components/table/ProductTable";
 import API from "../../api";
+import usePagination from "../../hooks/usePagination";
 
 const ProductPage = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPage, setTotalPage] = useState();
+
+    const { totalPage, currentPage, handlePage, getTotalPage } = usePagination();
 
     useEffect(() => {
         const getGoodsData = async () => {
@@ -16,7 +17,7 @@ const ProductPage = () => {
             await API.getGoodsEmpty(currentPage)
                 .then((res) => {
                     setData(res.data.results);
-                    setTotalPage(res.data.count);
+                    getTotalPage(res.data.count);
                 })
                 .catch((error) => console.log(error));
             setLoading(false);
@@ -24,14 +25,10 @@ const ProductPage = () => {
         getGoodsData();
     }, [currentPage]);
 
-    const onChange = (page) => {
-        setCurrentPage(page);
-        console.log(page);
-    };
     return (
         <div>
             <ProductTable data={data} loading={loading} />
-            <Pagination defaultCurrent={1} total={totalPage} pageSize={20} style={{ marginTop: 20 }} onChange={onChange} showSizeChanger={false} />
+            <Pagination current={currentPage} total={totalPage} pageSize={30} style={{ marginTop: 20 }} onChange={handlePage} showSizeChanger={false} />
         </div>
     );
 };

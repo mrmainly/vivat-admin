@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Input, Space, Select } from "antd";
+import { Space, Select } from "antd";
 
 import { OrdersTable } from "../../components";
 import API from "../../api";
 import { translationStatus } from "../../interpreter";
+import usePagination from "../../hooks/usePagination";
 
-const { Search } = Input;
 const { Option } = Select;
 
 const Orders = () => {
@@ -13,6 +13,8 @@ const Orders = () => {
     const [loading, setLoading] = useState(false);
     const [statuses, setStatuses] = useState([]);
     const [status, setStatus] = useState("");
+
+    const { totalPage, currentPage, handlePage, getTotalPage } = usePagination();
 
     useEffect(() => {
         API.getStatuses()
@@ -28,39 +30,13 @@ const Orders = () => {
             await API.getAllOrders(status)
                 .then((res) => {
                     setData(res.data);
+                    console.log(res);
                 })
                 .catch((error) => console.log(error));
             setLoading(false);
         };
         getAllOrders();
     }, [status]);
-
-    // const Statuses = [
-    //     {
-    //         label: "Новый",
-    //         value: "New",
-    //     },
-    //     {
-    //         label: "Зарегистрирован",
-    //         value: "REGISTERED",
-    //     },
-    //     {
-    //         label: "Зарезервирован частично",
-    //         value: "RESERVEDPARTIALLY",
-    //     },
-    //     {
-    //         label: "Отменено",
-    //         value: "CANCELLED",
-    //     },
-    //     {
-    //         label: "Готов к выдаче",
-    //         value: "READYTOPICKUP",
-    //     },
-    //     {
-    //         label: "Отклонен",
-    //         value: "REJECTED",
-    //     },
-    // ];
 
     const handleSelect = (value) => {
         setStatus(value);
@@ -69,23 +45,13 @@ const Orders = () => {
     return (
         <div>
             <Space style={{ marginBottom: 20 }}>
-                {/* <Search
-                    placeholder="input search text"
-                    enterButton
-                    style={{ width: 304 }}
-                /> */}
-                <Select
-                    style={{ width: 200 }}
-                    defaultValue="Статусы"
-                    onChange={handleSelect}
-                >
-                    {statuses.length
-                        ? statuses.map((item, index) => (
-                              <Option value={item} key={index}>
-                                  {translationStatus(item)}
-                              </Option>
-                          ))
-                        : ""}
+                <Select style={{ width: 200 }} defaultValue="Статусы" onChange={handleSelect}>
+                    {statuses.length > 0 &&
+                        statuses.map((item, index) => (
+                            <Option value={item} key={index}>
+                                {translationStatus(item)}
+                            </Option>
+                        ))}
                 </Select>
             </Space>
             <OrdersTable loading={loading} data={data} />
