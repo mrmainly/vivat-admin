@@ -106,8 +106,8 @@ class API {
     }
 
     //stocks
-    async getPromotion() {
-        let result = await api(`api/v1/promotion/`).get();
+    async getPromotion(page) {
+        let result = await api(`api/v1/promotion/?page=${page}`).get();
         return result;
     }
 
@@ -145,8 +145,8 @@ class API {
     }
 
     //blog
-    async getBlog(query, type) {
-        let result = await api(`api/v1/blogs/${type ? (type == "query" ? (query ? `?query=${query}` : "") : `?tags_query=${query}`) : ""}`).get();
+    async getBlog(query, type, page) {
+        let result = await api(`api/v1/blogs/?page=${page}${type ? (type === "query" ? (query ? `&query=${query}` : "") : `&tags_query=${query}`) : ""}`).get();
         return result;
     }
 
@@ -171,8 +171,8 @@ class API {
         return result;
     }
 
-    async getTopic() {
-        let result = await api(`api/v1/blogs/tags/`).get();
+    async getTopic(currentPage) {
+        let result = await api(`api/v1/blogs/tags/?page=${currentPage}`).get();
         return result;
     }
 
@@ -182,8 +182,8 @@ class API {
     }
 
     //orders
-    async getAllOrders(status) {
-        let result = await api(`api/v1/orders/?orderStatus=${status}`).get();
+    async getAllOrders(status, page) {
+        let result = await api(`api/v1/orders/?page=${page}&orderStatus=${status}`).get();
         return result;
     }
 
@@ -210,8 +210,8 @@ class API {
     }
 
     //users
-    async getUsers() {
-        let result = await api(`api/v1/users/admin/users/`).get();
+    async getUsers(page) {
+        let result = await api(`api/v1/users/admin/users/?page=${page}`).get();
         return result;
     }
 
@@ -240,8 +240,8 @@ class API {
     }
 
     //WORK
-    async getWork(city) {
-        let result = await api(`api/v1/employments/?city_name=${city}`).get();
+    async getWork(city, page) {
+        let result = await api(`api/v1/employments/?page=${page}&city_name=${city}`).get();
         return result;
     }
 
@@ -312,8 +312,9 @@ class API {
         const result = api(`api/v1/goods/${id}/`).get();
         return result;
     }
-    getGoodsEmpty(currentPage) {
-        const result = api(`api/v1/goods/empty/?page=${currentPage}`).get();
+
+    getGoodsEmpty(currentPage, emptyStatus) {
+        const result = api(`api/v1/goods/empty/?page=${currentPage}&esphoto_empty_values=${emptyStatus}`).get();
         return result;
     }
     async postGoodsEmpty(code, id) {

@@ -5,7 +5,7 @@ import cookie from "js-cookie";
 
 import "./layout.css";
 import ROUTES from "../../routes";
-import pathname from './pathname'
+import pathname from "./pathname";
 
 const { Header, Content, Sider } = Layout;
 const { Title } = Typography;
@@ -13,8 +13,6 @@ const { Title } = Typography;
 const MyLayout = () => {
     const navigate = useNavigate();
     const params = useLocation();
-
-    
 
     const items = [
         {
@@ -53,18 +51,13 @@ const MyLayout = () => {
 
     return (
         <>
-            {params.pathname == "/" ? (
+            {params.pathname === "/" ? (
                 <div>
                     <Outlet />
                 </div>
             ) : (
                 <Layout style={{ minHeight: 950 }}>
-                    <Sider
-                        width={250}
-                        breakpoint="lg"
-                        collapsedWidth="0"
-                        className="site-layout-background"
-                    >
+                    <Sider width={250} breakpoint="lg" collapsedWidth="0" className="site-layout-background">
                         <div
                             style={{
                                 display: "flex",
@@ -73,15 +66,12 @@ const MyLayout = () => {
                                 marginBottom: 20,
                             }}
                         >
-                            <img src="/img/Frame62.png" />
+                            <img src="/img/Frame62.png" alt="" />
                         </div>
                         <Divider />
                         <Menu mode="inline">
                             {items.map((item, index) => (
-                                <Menu.Item
-                                    key={index}
-                                    onClick={() => navigate(item.navigate)}
-                                >
+                                <Menu.Item key={index} onClick={() => navigate(item.navigate)}>
                                     {item.label}
                                 </Menu.Item>
                             ))}
@@ -109,10 +99,7 @@ const MyLayout = () => {
                             </Title>
                         </Header>
                         <Content style={{ margin: "16px 16px 0" }}>
-                            <div
-                                className="site-layout-background"
-                                style={{ padding: 24, minHeight: 900 }}
-                            >
+                            <div className="site-layout-background" style={{ padding: 24, minHeight: 900 }}>
                                 <Outlet />
                             </div>
                         </Content>

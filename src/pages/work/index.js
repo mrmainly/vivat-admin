@@ -21,7 +21,7 @@ const Work = () => {
     useEffect(() => {
         const getWork = async () => {
             setLoading(true);
-            await API.getWork(city)
+            await API.getWork(city, currentPage)
                 .then((res) => {
                     setData(res.data.results);
                     getTotalPage(res.data.count);
@@ -35,7 +35,7 @@ const Work = () => {
             setLoading(false);
         };
         getWork();
-    }, [city]);
+    }, [city, currentPage]);
 
     const handleSelect = (value) => {
         setCity(value);

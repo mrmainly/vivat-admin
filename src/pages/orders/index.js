@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Space, Select } from "antd";
+import { Space, Select, Pagination } from "antd";
 
 import { OrdersTable } from "../../components";
 import API from "../../api";
@@ -27,16 +27,16 @@ const Orders = () => {
     useEffect(() => {
         const getAllOrders = async () => {
             setLoading(true);
-            await API.getAllOrders(status)
+            await API.getAllOrders(status, currentPage)
                 .then((res) => {
-                    setData(res.data);
-                    console.log(res);
+                    setData(res.data.results);
+                    getTotalPage(res.data.count);
                 })
                 .catch((error) => console.log(error));
             setLoading(false);
         };
         getAllOrders();
-    }, [status]);
+    }, [status, currentPage]);
 
     const handleSelect = (value) => {
         setStatus(value);
@@ -55,6 +55,7 @@ const Orders = () => {
                 </Select>
             </Space>
             <OrdersTable loading={loading} data={data} />
+            <Pagination current={currentPage} total={totalPage} pageSize={20} style={{ marginTop: 20 }} onChange={handlePage} showSizeChanger={false} />
         </div>
     );
 };

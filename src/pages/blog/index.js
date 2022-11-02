@@ -18,21 +18,24 @@ const Blog = () => {
     const { totalPage, currentPage, handlePage, getTotalPage } = usePagination();
 
     const navigate = useNavigate();
+    useEffect(() => {
+        API.getTopic()
+            .then((res) => {
+                setTopics(res.data.results);
+            })
+            .catch((error) => console.log(error));
+    }, []);
 
     useEffect(() => {
         const getBlog = async () => {
             setLoading(true);
-            await API.getBlog(topic, "topic")
+            await API.getBlog(topic, "topic", currentPage)
                 .then((res) => {
                     setData(res.data.results);
                     getTotalPage(res.data.count);
                 })
                 .catch((error) => console.log(error));
-            await API.getTopic()
-                .then((res) => {
-                    setTopics(res.data);
-                })
-                .catch((error) => console.log(error));
+
             setLoading(false);
         };
         getBlog();
@@ -60,7 +63,7 @@ const Blog = () => {
                 </Select>
             </Space>
             <BlogStocksTable data={data} loading={loading} routes={ROUTES.BLOG_DETAIL} />
-            <Pagination current={currentPage} total={totalPage} pageSize={30} style={{ marginTop: 20 }} onChange={handlePage} showSizeChanger={false} />
+            <Pagination current={currentPage} total={totalPage} pageSize={20} style={{ marginTop: 20 }} onChange={handlePage} showSizeChanger={false} />
         </div>
     );
 };
