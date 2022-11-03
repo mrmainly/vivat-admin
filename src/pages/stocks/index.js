@@ -21,6 +21,7 @@ const Stocks = () => {
                 .then((res) => {
                     setData(res.data.results);
                     getTotalPage(res.data.count);
+                    console.log(res);
                 })
                 .catch((error) => console.log(error));
             setLoading(false);

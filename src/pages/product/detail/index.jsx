@@ -37,7 +37,7 @@ const ProductDetail = () => {
     const location = useLocation();
     const state = location.state;
 
-    const { name } = state;
+    const { data } = state;
 
     const props = {
         beforeUpload: (file) => {
@@ -49,20 +49,31 @@ const ProductDetail = () => {
     };
 
     const addedPhoto = () => {
-        API.postGoodsEmpty(img, params.id)
-            .then((res) => {
-                navigate(ROUTES.PRODUCTS);
-                message.success("Фотография добавлена");
-            })
-            .catch((error) => {
-                message.error("Товар не найден");
-            });
+        if (data.good_esphoto) {
+            API.patchGoodsEmpty(img, params.id)
+                .then((res) => {
+                    navigate(ROUTES.PRODUCTS);
+                    message.success("Фотография изменена");
+                })
+                .catch((error) => {
+                    message.error("Товар не найден");
+                });
+        } else {
+            API.postGoodsEmpty(img, params.id)
+                .then((res) => {
+                    navigate(ROUTES.PRODUCTS);
+                    message.success("Фотография добавлена");
+                })
+                .catch((error) => {
+                    message.error("Товар не найден");
+                });
+        }
     };
 
     return (
         <div>
             <Title level={4} style={{ marginBottom: 20 }}>
-                {name}
+                {data?.name}
             </Title>
             <Upload listType="picture-card" maxCount={1} {...props}>
                 {uploadButton}

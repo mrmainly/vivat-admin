@@ -27,7 +27,7 @@ const OrdersTable = ({ loading, data }) => {
         {
             title: "Сумма",
             key: "total_price",
-            render: (_, record) => <Text>{record.total_price + record.delivery_cost} руб</Text>,
+            render: (_, record) => <Text>{record.total_price} руб</Text>,
         },
         {
             title: "Статус",

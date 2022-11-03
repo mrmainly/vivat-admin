@@ -182,8 +182,8 @@ class API {
     }
 
     //orders
-    async getAllOrders(status, page) {
-        let result = await api(`api/v1/orders/?page=${page}&orderStatus=${status}`).get();
+    async getAllOrders(status, page, ordering) {
+        let result = await api(`api/v1/orders/?page=${page}&orderStatus=${status}&ordering=${ordering}`).get();
         return result;
     }
 
@@ -210,8 +210,8 @@ class API {
     }
 
     //users
-    async getUsers(page) {
-        let result = await api(`api/v1/users/admin/users/?page=${page}`).get();
+    async getUsers(page, ordering, role, phone, fullName) {
+        let result = await api(`api/v1/users/admin/users/?page=${page}&ordering=${ordering}&role=${role}&phone=${phone}&full_name=${fullName}`).get();
         return result;
     }
 
@@ -222,7 +222,7 @@ class API {
         return result;
     }
 
-    async getRoles(id) {
+    async getRoles() {
         let result = await api(`api/v1/users/admin/users/roles/`).get();
         return result;
     }
@@ -319,6 +319,14 @@ class API {
     }
     async postGoodsEmpty(code, id) {
         let result = await api(`api/v1/goods/empty/`).post(null, {
+            code: code,
+            good_id: id,
+        });
+        return result;
+    }
+
+    async patchGoodsEmpty(code, id) {
+        let result = await api(`api/v1/goods/empty/`).patch(null, {
             code: code,
             good_id: id,
         });

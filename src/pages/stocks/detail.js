@@ -16,7 +16,7 @@ const dateFormat = "YYYY-MM-DD";
 const StockDetail = () => {
     const [options, setOptions] = useState([]);
     const [goods, setGoods] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [goodsLoading, setGoodsLoading] = useState(false);
     const [name, setName] = useState("");
     const [dateStart, setDateStart] = useState("");
@@ -159,7 +159,7 @@ const StockDetail = () => {
             {loading ? (
                 <div
                     style={{
-                        marginTop: 80,
+                        marginTop: 120,
                         display: "flex",
                         justifyContent: "center",
                     }}
@@ -220,6 +220,7 @@ const StockDetail = () => {
                                 objectFit: "cover",
                                 border: "1px solid black",
                             }}
+                            alt=""
                             src={image}
                         />
                         <Form.Item label="Баннер" labelCol={{ span: 24 }} style={{ width: 200 }} required>

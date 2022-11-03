@@ -27,7 +27,7 @@ const ProductTable = ({ loading, data }) => {
                     onClick={() =>
                         navigate(`${ROUTES.PRODUCT_DETAIL}/${id}`, {
                             state: {
-                                name: record.name,
+                                data: record,
                             },
                         })
                     }

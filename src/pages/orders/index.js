@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Space, Select, Pagination } from "antd";
+import { Space, Select, Pagination, Input } from "antd";
 
 import { OrdersTable } from "../../components";
 import API from "../../api";
@@ -13,6 +13,8 @@ const Orders = () => {
     const [loading, setLoading] = useState(false);
     const [statuses, setStatuses] = useState([]);
     const [status, setStatus] = useState("");
+    const [paymantAmount, setPaymantAmount] = useState("");
+    const [ordering, setOrdering] = useState("");
 
     const { totalPage, currentPage, handlePage, getTotalPage } = usePagination();
 
@@ -27,7 +29,7 @@ const Orders = () => {
     useEffect(() => {
         const getAllOrders = async () => {
             setLoading(true);
-            await API.getAllOrders(status, currentPage)
+            await API.getAllOrders(status, currentPage, ordering)
                 .then((res) => {
                     setData(res.data.results);
                     getTotalPage(res.data.count);
@@ -36,11 +38,42 @@ const Orders = () => {
             setLoading(false);
         };
         getAllOrders();
-    }, [status, currentPage]);
+    }, [status, currentPage, ordering]);
 
     const handleSelect = (value) => {
         setStatus(value);
     };
+
+    const handleOrdering = (value) => {
+        setOrdering(value);
+    };
+
+    const orderingList = [
+        {
+            label: "id (по возрастанию)",
+            value: "id",
+        },
+        {
+            label: "id (по убыванию)",
+            value: "-id",
+        },
+        {
+            label: "цена заказа (по возрастанию)",
+            value: "paymentAmount",
+        },
+        {
+            label: "цена заказа (по убыванию)",
+            value: "-paymentAmount",
+        },
+        {
+            label: "дата заказа (по возрастанию)",
+            value: "date",
+        },
+        {
+            label: "дата заказа (по убыванию)",
+            value: "-date",
+        },
+    ];
 
     return (
         <div>
@@ -53,6 +86,18 @@ const Orders = () => {
                             </Option>
                         ))}
                 </Select>
+                <Select style={{ width: 200 }} defaultValue="Сортировка" onChange={handleOrdering}>
+                    {orderingList.map((item, index) => (
+                        <Option value={item.value} key={index}>
+                            {item.label}
+                        </Option>
+                    ))}
+                </Select>
+                <Space>
+                    <Input onChange={(e) => setPaymantAmount(e.target.value)} value={paymantAmount} placeholder="Цена заказа мин" />
+                    <div style={{ color: "gray" }}>-</div>
+                    <Input onChange={(e) => setPaymantAmount(e.target.value)} value={paymantAmount} placeholder="Цена заказа макс" />
+                </Space>
             </Space>
             <OrdersTable loading={loading} data={data} />
             <Pagination current={currentPage} total={totalPage} pageSize={20} style={{ marginTop: 20 }} onChange={handlePage} showSizeChanger={false} />
