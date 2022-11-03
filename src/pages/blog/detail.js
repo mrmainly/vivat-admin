@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../create.css";
-import {
-    Input,
-    Space,
-    Select,
-    Upload,
-    Button,
-    Form,
-    message,
-    Spin,
-} from "antd";
+import { Input, Space, Select, Upload, Button, Form, message, Spin } from "antd";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertFromHTML, ContentState } from "draft-js";
 import { convertToHTML } from "draft-convert";
@@ -44,18 +35,12 @@ const BlogDetail = () => {
                     setName(data.name);
                     setTag(data.tags.name);
                     setImage(data.image);
-                    setEditorState(
-                        EditorState.createWithContent(
-                            ContentState.createFromBlockArray(
-                                convertFromHTML(data.description)
-                            )
-                        )
-                    );
+                    setEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(data.description))));
                 })
                 .catch((error) => console.log(error));
             await API.getTopic()
                 .then((res) => {
-                    setTags(res.data);
+                    setTags(res.data.results);
                 })
                 .catch((error) => console.log(error));
             setLoading(false);
@@ -128,20 +113,11 @@ const BlogDetail = () => {
                                 },
                             ]}
                         >
-                            <Input
-                                placeholder="Basic usage"
-                                onChange={(e) => setName(e.target.value)}
-                                value={name}
-                                style={{ width: 235 }}
-                            />
+                            <Input placeholder="Basic usage" onChange={(e) => setName(e.target.value)} value={name} style={{ width: 235 }} />
                         </Form.Item>
 
                         <Form.Item label="Тег" labelCol={{ span: 24 }}>
-                            <Select
-                                style={{ width: 235 }}
-                                onChange={handleSelect}
-                                defaultValue={tag}
-                            >
+                            <Select style={{ width: 235 }} onChange={handleSelect} defaultValue={tag}>
                                 {tags.map((item, index) => (
                                     <Option value={item.name} key={index}>
                                         {item.name}
@@ -170,11 +146,7 @@ const BlogDetail = () => {
                             }}
                             src={`https://xn----7sbbagaytx2c4ad.xn--p1ai${image}`}
                         />
-                        <Form.Item
-                            label="Изображение"
-                            labelCol={{ span: 24 }}
-                            style={{ width: 200 }}
-                        >
+                        <Form.Item label="Изображение" labelCol={{ span: 24 }} style={{ width: 200 }}>
                             <input
                                 type="file"
                                 accept=".png, .jpg"
@@ -185,18 +157,10 @@ const BlogDetail = () => {
                         </Form.Item>
 
                         <Space>
-                            <Button
-                                style={{ background: "#55CD61" }}
-                                type="primary"
-                                onClick={() => patchBlog()}
-                            >
+                            <Button style={{ background: "#55CD61" }} type="primary" onClick={() => patchBlog()}>
                                 Сохранить
                             </Button>
-                            <Button
-                                style={{ background: "#FE5860" }}
-                                type="primary"
-                                onClick={() => deleteBlog()}
-                            >
+                            <Button style={{ background: "#FE5860" }} type="primary" onClick={() => deleteBlog()}>
                                 Удалить
                             </Button>
                         </Space>

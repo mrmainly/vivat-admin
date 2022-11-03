@@ -13,7 +13,8 @@ const Orders = () => {
     const [loading, setLoading] = useState(false);
     const [statuses, setStatuses] = useState([]);
     const [status, setStatus] = useState("");
-    const [paymantAmount, setPaymantAmount] = useState("");
+    const [paymantAmountMin, setPaymantAmountMin] = useState("");
+    const [paymantAmountMax, setPaymantAmountMax] = useState("");
     const [ordering, setOrdering] = useState("");
 
     const { totalPage, currentPage, handlePage, getTotalPage } = usePagination();
@@ -29,7 +30,7 @@ const Orders = () => {
     useEffect(() => {
         const getAllOrders = async () => {
             setLoading(true);
-            await API.getAllOrders(status, currentPage, ordering)
+            await API.getAllOrders(status, currentPage, ordering, paymantAmountMin, paymantAmountMax)
                 .then((res) => {
                     setData(res.data.results);
                     getTotalPage(res.data.count);
@@ -38,7 +39,7 @@ const Orders = () => {
             setLoading(false);
         };
         getAllOrders();
-    }, [status, currentPage, ordering]);
+    }, [status, currentPage, ordering, paymantAmountMin, paymantAmountMax]);
 
     const handleSelect = (value) => {
         setStatus(value);
@@ -94,9 +95,9 @@ const Orders = () => {
                     ))}
                 </Select>
                 <Space>
-                    <Input onChange={(e) => setPaymantAmount(e.target.value)} value={paymantAmount} placeholder="Цена заказа мин" />
+                    <Input.Search enterButton onSearch={(value) => setPaymantAmountMin(value)} placeholder="Цена заказа мин" />
                     <div style={{ color: "gray" }}>-</div>
-                    <Input onChange={(e) => setPaymantAmount(e.target.value)} value={paymantAmount} placeholder="Цена заказа макс" />
+                    <Input.Search enterButton onSearch={(value) => setPaymantAmountMax(value)} placeholder="Цена заказа макс" />
                 </Space>
             </Space>
             <OrdersTable loading={loading} data={data} />

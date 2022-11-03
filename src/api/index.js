@@ -145,7 +145,7 @@ class API {
     }
 
     //blog
-    async getBlog(query, type, page) {
+    async getBlog(query, type, page, ordering) {
         let result = await api(`api/v1/blogs/?page=${page}${type ? (type === "query" ? (query ? `&query=${query}` : "") : `&tags_query=${query}`) : ""}`).get();
         return result;
     }
@@ -182,8 +182,8 @@ class API {
     }
 
     //orders
-    async getAllOrders(status, page, ordering) {
-        let result = await api(`api/v1/orders/?page=${page}&orderStatus=${status}&ordering=${ordering}`).get();
+    async getAllOrders(status, page, ordering, paymantAmountMin, paymantAmountMax) {
+        let result = await api(`api/v1/orders/?page=${page}&orderStatus=${status}&ordering=${ordering}&paymentAmount_min=${paymantAmountMin}&paymentAmount_max=${paymantAmountMax}`).get();
         return result;
     }
 

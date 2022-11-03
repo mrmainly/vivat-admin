@@ -14,6 +14,7 @@ const Blog = () => {
     const [topics, setTopics] = useState([]);
     const [topic, setTopic] = useState("");
     const [loading, setLoading] = useState(false);
+    const [ordering, setOrdering] = useState("");
 
     const { totalPage, currentPage, handlePage, getTotalPage } = usePagination();
 
@@ -29,7 +30,7 @@ const Blog = () => {
     useEffect(() => {
         const getBlog = async () => {
             setLoading(true);
-            await API.getBlog(topic, "topic", currentPage)
+            await API.getBlog(topic, "topic", currentPage, ordering)
                 .then((res) => {
                     setData(res.data.results);
                     getTotalPage(res.data.count);
@@ -45,6 +46,38 @@ const Blog = () => {
         setTopic(value);
     };
 
+    const handleOrdering = (value) => {
+        setOrdering(value);
+    };
+
+    const orderingList = [
+        {
+            label: "id (по возрастанию)",
+            value: "id",
+        },
+        {
+            label: "id (по убыванию)",
+            value: "-id",
+        },
+
+        {
+            label: "созданные не давно",
+            value: "created",
+        },
+        {
+            label: "созданные давно",
+            value: "-created",
+        },
+        {
+            label: "популярные за все время",
+            value: "popularity_all_time",
+        },
+        {
+            label: "популярные",
+            value: "popularity",
+        },
+    ];
+
     return (
         <div>
             <Space style={{ marginBottom: 20 }}>
@@ -58,6 +91,13 @@ const Blog = () => {
                     {topics.map((item, index) => (
                         <Option value={item.name} key={index}>
                             {item.name}
+                        </Option>
+                    ))}
+                </Select>
+                <Select style={{ width: 200 }} defaultValue={"Сортировка"} onChange={handleOrdering}>
+                    {orderingList.map((item, index) => (
+                        <Option value={item.value} key={index}>
+                            {item.label}
                         </Option>
                     ))}
                 </Select>
