@@ -51,6 +51,10 @@ const MyLayout = () => {
             label: "Тематические подборки",
             navigate: ROUTES.CATALOG,
         },
+        {
+            label: "Наши преимущества",
+            navigate: ROUTES.ADVANTAGES,
+        },
     ];
 
     return (

@@ -347,6 +347,25 @@ class API {
         let result = await api(`api/v1/promotion/collection/${id}`).patch(null, data);
         return result;
     }
+
+    getAdvantages(page, deportaments) {
+        const result = api(`api/v1/blogs/advantage/?page=${page}&department=${deportaments}`).get();
+        return result;
+    }
+
+    getDeportaments() {
+        const result = api(`api/v1/departments/`).get();
+        return result;
+    }
+
+    async postAdvantage(data) {
+        let result = await api(`api/v1/blogs/advantage/`).post(null, data);
+        return result;
+    }
+    async patchAdvantage(data, id) {
+        let result = await api(`api/v1/blogs/advantage/${id}`).patch(null, data);
+        return result;
+    }
 }
 
 export default new API();

@@ -36,6 +36,12 @@ const pathname = (params) => {
             return "Создание тематической подборки";
         case "/catalog-detail":
             return "Редактирование тематической подборки";
+        case "/advantage":
+            return "Наши преимущества";
+        case "/advantage-create":
+            return "Создание наших преимуществ";
+        case "/advantage-detail":
+            return "Редактирование наших преимуществ";
         default:
             return "";
     }

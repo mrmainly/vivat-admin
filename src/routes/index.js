@@ -26,6 +26,9 @@ const ROUTES = {
     CATALOG: "/catalog",
     CATALOG_CREATE: "/catalog-create",
     CATALOG_DETAIL: "/catalog-detail",
+    ADVANTAGES: "/advantage",
+    ADVANTAGES_CREATE: "/advantage-create",
+    ADVANTAGES_DETAIL: "/advantage-detail",
 };
 
 export default ROUTES;

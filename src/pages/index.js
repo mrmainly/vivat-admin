@@ -30,6 +30,9 @@ import ProductDetail from "./product/detail";
 import Catalog from "./catalog";
 import CatalogCreate from "./catalog/create";
 import CatalogDetail from "./catalog/detail";
+import Advantages from "./advantages";
+import AdvantageCreat from "./advantages/create";
+import AdvantageDetail from "./advantages/detail";
 
 export {
     Blog,
@@ -58,4 +61,7 @@ export {
     Catalog,
     CatalogCreate,
     CatalogDetail,
+    Advantages,
+    AdvantageCreat,
+    AdvantageDetail,
 };

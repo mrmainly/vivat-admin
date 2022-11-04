@@ -32,6 +32,9 @@ import {
     Catalog,
     CatalogCreate,
     CatalogDetail,
+    Advantages,
+    AdvantageCreat,
+    AdvantageDetail,
 } from "./pages";
 
 function App() {
@@ -67,8 +70,11 @@ function App() {
                     <Route path={ROUTES.CATALOG} element={<Catalog />} />
                     <Route path={ROUTES.CATALOG_DETAIL} element={<CatalogDetail />} />
                     <Route path={ROUTES.CATALOG_CREATE} element={<CatalogCreate />} />
+                    <Route path={ROUTES.ADVANTAGES} element={<Advantages />} />
+                    <Route path={ROUTES.ADVANTAGES_CREATE} element={<AdvantageCreat />} />
                     <Route path={`${ROUTES.TAG_DETAIL}/:id`} element={<TagDetail />} />
                     <Route path={`${ROUTES.PRODUCT_DETAIL}/:id`} element={<ProductDetail />} />
+                    <Route path={ROUTES.ADVANTAGES_DETAIL} element={<AdvantageDetail />} />
                 </Route>
             </Routes>
         </BrowserRouter>
