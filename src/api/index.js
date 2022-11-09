@@ -66,7 +66,14 @@ class API {
 
     //forgot
     sendPhoneMailForgotPassword(data, type) {
-        const result = api(type == "phone" ? `api/v1/users/reset_phone/` : "api/v1/users/reset_email/").post(null, type == "phone" ? { phone: data.phone } : { email: data.email });
+        const result = api(
+            type == "phone"
+                ? `api/v1/users/reset_phone/`
+                : "api/v1/users/reset_email/"
+        ).post(
+            null,
+            type == "phone" ? { phone: data.phone } : { email: data.email }
+        );
         return result;
     }
 
@@ -130,7 +137,10 @@ class API {
     }
 
     async PromotionPatch(data, id) {
-        let result = await api(`api/v1/promotion/${id}`, "img").patch(null, data);
+        let result = await api(`api/v1/promotion/${id}`, "img").patch(
+            null,
+            data
+        );
         return result;
     }
 
@@ -146,7 +156,17 @@ class API {
 
     //blog
     async getBlog(query, type, page, ordering) {
-        let result = await api(`api/v1/blogs/?page=${page}${type ? (type === "query" ? (query ? `&query=${query}` : "") : `&tags_query=${query}`) : ""}`).get();
+        let result = await api(
+            `api/v1/blogs/?page=${page}${
+                type
+                    ? type === "query"
+                        ? query
+                            ? `&query=${query}`
+                            : ""
+                        : `&tags_query=${query}`
+                    : ""
+            }`
+        ).get();
         return result;
     }
 
@@ -182,8 +202,16 @@ class API {
     }
 
     //orders
-    async getAllOrders(status, page, ordering, paymantAmountMin, paymantAmountMax) {
-        let result = await api(`api/v1/orders/?page=${page}&orderStatus=${status}&ordering=${ordering}&paymentAmount_min=${paymantAmountMin}&paymentAmount_max=${paymantAmountMax}`).get();
+    async getAllOrders(
+        status,
+        page,
+        ordering,
+        paymantAmountMin,
+        paymantAmountMax
+    ) {
+        let result = await api(
+            `api/v1/orders/?page=${page}&orderStatus=${status}&ordering=${ordering}&paymentAmount_min=${paymantAmountMin}&paymentAmount_max=${paymantAmountMax}`
+        ).get();
         return result;
     }
 
@@ -203,15 +231,20 @@ class API {
     }
 
     async patchOrderStatus(status, id) {
-        let result = await api(`api/v1/orders/change_status/${id}/`).patch(null, {
-            orderStatus: status,
-        });
+        let result = await api(`api/v1/orders/change_status/${id}/`).patch(
+            null,
+            {
+                orderStatus: status,
+            }
+        );
         return result;
     }
 
     //users
     async getUsers(page, ordering, role, phone, fullName) {
-        let result = await api(`api/v1/users/admin/users/?page=${page}&ordering=${ordering}&role=${role}&phone=${phone}&full_name=${fullName}`).get();
+        let result = await api(
+            `api/v1/users/admin/users/?page=${page}&ordering=${ordering}&role=${role}&phone=${phone}&full_name=${fullName}`
+        ).get();
         return result;
     }
 
@@ -241,7 +274,9 @@ class API {
 
     //WORK
     async getWork(city, page) {
-        let result = await api(`api/v1/employments/?page=${page}&city_name=${city}`).get();
+        let result = await api(
+            `api/v1/employments/?page=${page}&city_name=${city}`
+        ).get();
         return result;
     }
 
@@ -314,7 +349,9 @@ class API {
     }
 
     getGoodsEmpty(currentPage, emptyStatus) {
-        const result = api(`api/v1/goods/empty/?page=${currentPage}&esphoto_empty_values=${emptyStatus}`).get();
+        const result = api(
+            `api/v1/goods/empty/?page=${currentPage}&esphoto_empty_values=${emptyStatus}`
+        ).get();
         return result;
     }
     async postGoodsEmpty(code, id) {
@@ -333,6 +370,13 @@ class API {
         return result;
     }
 
+    async deleteCatalog(id) {
+        let result = await api(`api/v1/promotion/collection/${id}`).delete(
+            null
+        );
+        return result;
+    }
+
     getCatalogs(page) {
         const result = api(`api/v1/promotion/collection/?page=${page}`).get();
         return result;
@@ -344,12 +388,17 @@ class API {
     }
 
     async patchCatalog(data, id) {
-        let result = await api(`api/v1/promotion/collection/${id}`).patch(null, data);
+        let result = await api(`api/v1/promotion/collection/${id}`).patch(
+            null,
+            data
+        );
         return result;
     }
 
     getAdvantages(page, deportaments) {
-        const result = api(`api/v1/blogs/advantage/?page=${page}&department=${deportaments}`).get();
+        const result = api(
+            `api/v1/blogs/advantage/?page=${page}&department=${deportaments}`
+        ).get();
         return result;
     }
 
@@ -363,7 +412,10 @@ class API {
         return result;
     }
     async patchAdvantage(data, id) {
-        let result = await api(`api/v1/blogs/advantage/${id}`).patch(null, data);
+        let result = await api(`api/v1/blogs/advantage/${id}`).patch(
+            null,
+            data
+        );
         return result;
     }
 }

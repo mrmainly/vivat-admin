@@ -26,6 +26,13 @@ const CatalogDetail = () => {
             .catch((error) => console.log(error));
     };
 
+    const deleteCatalog = () => {
+        API.deleteCatalog(data?.id).then((res) => {
+            navigate(ROUTES.CATALOG);
+            message.success("Вы удалили каталог");
+        });
+    };
+
     const onFinish = (formData) => {
         if (formData.goods?.length === 0) {
             message.error("Вы не добавили товары");
@@ -45,7 +52,11 @@ const CatalogDetail = () => {
                     navigate(ROUTES.CATALOG);
                     message.success("Тематическая подборка редактирована");
                 })
-                .catch((error) => message.error("При редактировании тематической подборки что то пошло не так :("));
+                .catch((error) =>
+                    message.error(
+                        "При редактировании тематической подборки что то пошло не так :("
+                    )
+                );
         }
     };
 
@@ -79,17 +90,32 @@ const CatalogDetail = () => {
             </Form.Item>
             <div>
                 <div style={{ marginBottom: 15 }}>Добавление товаров</div>
-                <FormListGoods options={options} handleAutoComplite={handleAutoComplite} />
+                <FormListGoods
+                    options={options}
+                    handleAutoComplite={handleAutoComplite}
+                />
             </div>
-            <Space align="baseline" style={{ marginTop: "-5px", marginBottom: 15 }}>
+            <Space
+                align="baseline"
+                style={{ marginTop: "-5px", marginBottom: 15 }}
+            >
                 <Form.Item name="is_active" valuePropName="checked" noStyle>
                     <Switch checkedChildren="Да" unCheckedChildren="Нет" />
                 </Form.Item>
                 <span>Активность тематической подборки</span>
             </Space>
-            <Button style={{ width: "max-content" }} htmlType="submit">
-                Сохранить
-            </Button>
+            <Space>
+                <Button style={{ width: "max-content" }} htmlType="submit">
+                    Сохранить
+                </Button>
+                <Button
+                    style={{ width: "max-content" }}
+                    onClick={deleteCatalog}
+                    danger
+                >
+                    Удалить
+                </Button>
+            </Space>
         </Form>
     );
 };
