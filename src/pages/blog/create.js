@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../create.css";
-import {
-    Input,
-    Space,
-    Select,
-    Upload,
-    Button,
-    Form,
-    message,
-    Spin,
-} from "antd";
+import { Input, Space, Select, Upload, Button, Form, message, Spin } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
@@ -25,9 +16,7 @@ const BlogCreate = () => {
     const [tags, setTags] = useState([]);
     const [loading, setLoading] = useState(false);
     const [photo, setPhoto] = useState();
-    const [editorState, setEditorState] = useState(() =>
-        EditorState.createEmpty()
-    );
+    const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
     const [convertedContent, setConvertedContent] = useState(null);
 
     const navigate = useNavigate();
@@ -37,9 +26,7 @@ const BlogCreate = () => {
         convertContentToHTML();
     };
     const convertContentToHTML = () => {
-        let currentContentAsHTML = convertToHTML(
-            editorState.getCurrentContent()
-        );
+        let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
         setConvertedContent(currentContentAsHTML);
     };
 
@@ -48,7 +35,7 @@ const BlogCreate = () => {
             setLoading(true);
             await API.getTopic()
                 .then((res) => {
-                    setTags(res.data);
+                    setTags(res.results.data);
                 })
                 .catch((error) => console.log(error));
             setLoading(false);
@@ -94,10 +81,7 @@ const BlogCreate = () => {
                             },
                         ]}
                     >
-                        <Input
-                            placeholder="Basic usage"
-                            style={{ width: 235 }}
-                        />
+                        <Input placeholder="Basic usage" style={{ width: 235 }} />
                     </Form.Item>
 
                     <Form.Item
@@ -111,11 +95,7 @@ const BlogCreate = () => {
                         ]}
                         name="tag"
                     >
-                        <Select
-                            style={{ width: 235 }}
-                            defaultValue="Теги"
-                            name="tag"
-                        >
+                        <Select style={{ width: 235 }} defaultValue="Теги" name="tag">
                             {tags.map((item, index) => (
                                 <Option value={item.id} key={index}>
                                     {item.name}
@@ -136,13 +116,7 @@ const BlogCreate = () => {
                             },
                         ]}
                     >
-                        <Editor
-                            editorState={editorState}
-                            onEditorStateChange={handleEditorChange}
-                            wrapperClassName="wrapper-class"
-                            editorClassName="editor-class"
-                            toolbarClassName="toolbar-class"
-                        />
+                        <Editor editorState={editorState} onEditorStateChange={handleEditorChange} wrapperClassName="wrapper-class" editorClassName="editor-class" toolbarClassName="toolbar-class" />
                     </Form.Item>
 
                     <Form.Item
@@ -165,11 +139,7 @@ const BlogCreate = () => {
                             }}
                         />
                     </Form.Item>
-                    <Button
-                        style={{ background: "#55CD61" }}
-                        type="primary"
-                        htmlType="submit"
-                    >
+                    <Button style={{ background: "#55CD61" }} type="primary" htmlType="submit">
                         Сохранить
                     </Button>
                 </Space>
