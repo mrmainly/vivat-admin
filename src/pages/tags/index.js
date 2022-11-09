@@ -31,6 +31,9 @@ const Tags = () => {
     return (
         <div>
             <Space style={{ marginBottom: 20 }}>
+                <Button type="primary" onClick={() => navigate(-1)}>
+                    Назад к блогам
+                </Button>
                 <Button type="primary" style={{ background: "#55CD61" }} onClick={() => navigate(ROUTES.TAGS_CREATE)}>
                     + Создать новый тег
                 </Button>

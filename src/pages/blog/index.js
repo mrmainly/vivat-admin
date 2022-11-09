@@ -87,7 +87,7 @@ const Blog = () => {
                 <Button type="primary" style={{ background: "#55CD61" }} onClick={() => navigate(ROUTES.TAGS)}>
                     Создать новую тему
                 </Button>
-                <Select style={{ width: 200 }} defaultValue={"Теги"} onChange={handleSelect}>
+                <Select style={{ width: 200 }} defaultValue={"Темы"} onChange={handleSelect}>
                     {topics.map((item, index) => (
                         <Option value={item.name} key={index}>
                             {item.name}

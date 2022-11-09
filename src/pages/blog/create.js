@@ -35,7 +35,8 @@ const BlogCreate = () => {
             setLoading(true);
             await API.getTopic()
                 .then((res) => {
-                    setTags(res.results.data);
+                    console.log(res);
+                    setTags(res.data.results);
                 })
                 .catch((error) => console.log(error));
             setLoading(false);
@@ -95,7 +96,7 @@ const BlogCreate = () => {
                         ]}
                         name="tag"
                     >
-                        <Select style={{ width: 235 }} defaultValue="Теги" name="tag">
+                        <Select style={{ width: 235 }} defaultValue="Темы" name="tag">
                             {tags.map((item, index) => (
                                 <Option value={item.id} key={index}>
                                     {item.name}

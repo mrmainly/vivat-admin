@@ -25,7 +25,7 @@ const pathname = (params) => {
         case "/stock-create":
             return "Создание акции";
         case "/tags":
-            return "Теги";
+            return "Темы";
         case "/tags-create":
             return "Создание тегов";
         case "/products":
