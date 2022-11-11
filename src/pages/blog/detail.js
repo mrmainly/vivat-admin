@@ -13,8 +13,6 @@ const { Option } = Select;
 
 const BlogDetail = () => {
     const [name, setName] = useState("");
-    const [tags, setTags] = useState([]);
-    const [tag, setTag] = useState("");
     const [description, setDescription] = useState("");
     const [loading, setLoading] = useState(false);
     const [photo, setPhoto] = useState("");
@@ -33,14 +31,9 @@ const BlogDetail = () => {
                     const data = res.data;
                     console.log(res);
                     setName(data.name);
-                    setTag(data.tags.name);
+
                     setImage(data.image);
                     setEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(data.description))));
-                })
-                .catch((error) => console.log(error));
-            await API.getTopic()
-                .then((res) => {
-                    setTags(res.data.results);
                 })
                 .catch((error) => console.log(error));
             setLoading(false);
@@ -80,10 +73,6 @@ const BlogDetail = () => {
         setEditorState(state);
     };
 
-    const handleSelect = (value) => {
-        setTags(value);
-    };
-
     const fileSelectHandler = (e) => {
         setPhoto(e.target.files[0]);
     };
@@ -116,14 +105,18 @@ const BlogDetail = () => {
                             <Input placeholder="Basic usage" onChange={(e) => setName(e.target.value)} value={name} style={{ width: 235 }} />
                         </Form.Item>
 
-                        <Form.Item label="Тег" labelCol={{ span: 24 }}>
-                            <Select style={{ width: 235 }} onChange={handleSelect} defaultValue={tag}>
-                                {tags.map((item, index) => (
-                                    <Option value={item.name} key={index}>
-                                        {item.name}
-                                    </Option>
-                                ))}
-                            </Select>
+                        <Form.Item
+                            label="Короткое описание"
+                            name="preview"
+                            labelCol={{ span: 24 }}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Введите название",
+                                },
+                            ]}
+                        >
+                            <Input placeholder="Basic usage" style={{ width: 235 }} />
                         </Form.Item>
 
                         <Form.Item label="Описание" labelCol={{ span: 24 }}>
@@ -145,6 +138,7 @@ const BlogDetail = () => {
                                 border: "1px solid black",
                             }}
                             src={`https://xn----7sbbagaytx2c4ad.xn--p1ai${image}`}
+                            alt=""
                         />
                         <Form.Item label="Изображение" labelCol={{ span: 24 }} style={{ width: 200 }}>
                             <input

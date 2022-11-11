@@ -13,8 +13,6 @@ import ROUTES from "../../routes";
 const { Option } = Select;
 
 const BlogCreate = () => {
-    const [tags, setTags] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [photo, setPhoto] = useState();
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
     const [convertedContent, setConvertedContent] = useState(null);
@@ -29,20 +27,6 @@ const BlogCreate = () => {
         let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
         setConvertedContent(currentContentAsHTML);
     };
-
-    useEffect(() => {
-        const getBlogDetail = async () => {
-            setLoading(true);
-            await API.getTopic()
-                .then((res) => {
-                    console.log(res);
-                    setTags(res.data.results);
-                })
-                .catch((error) => console.log(error));
-            setLoading(false);
-        };
-        getBlogDetail();
-    }, []);
 
     const handleCreate = (data) => {
         API.CreateBlog(data, convertedContent, photo)
@@ -86,23 +70,17 @@ const BlogCreate = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label="Тег"
+                        label="Короткое описание"
+                        name="preview"
                         labelCol={{ span: 24 }}
                         rules={[
                             {
                                 required: true,
-                                message: "Введите тег",
+                                message: "Введите название",
                             },
                         ]}
-                        name="tag"
                     >
-                        <Select style={{ width: 235 }} defaultValue="Темы" name="tag">
-                            {tags.map((item, index) => (
-                                <Option value={item.id} key={index}>
-                                    {item.name}
-                                </Option>
-                            ))}
-                        </Select>
+                        <Input placeholder="Basic usage" style={{ width: 235 }} />
                     </Form.Item>
 
                     <Form.Item

@@ -84,23 +84,6 @@ const Blog = () => {
                 <Button type="primary" style={{ background: "#55CD61" }} onClick={() => navigate(ROUTES.BLOG_CREATE)}>
                     + Создать новый блог
                 </Button>
-                <Button type="primary" style={{ background: "#55CD61" }} onClick={() => navigate(ROUTES.TAGS)}>
-                    Создать новую тему
-                </Button>
-                <Select style={{ width: 200 }} defaultValue={"Темы"} onChange={handleSelect}>
-                    {topics.map((item, index) => (
-                        <Option value={item.name} key={index}>
-                            {item.name}
-                        </Option>
-                    ))}
-                </Select>
-                <Select style={{ width: 200 }} defaultValue={"Сортировка"} onChange={handleOrdering}>
-                    {orderingList.map((item, index) => (
-                        <Option value={item.value} key={index}>
-                            {item.label}
-                        </Option>
-                    ))}
-                </Select>
             </Space>
             <BlogStocksTable data={data} loading={loading} routes={ROUTES.BLOG_DETAIL} />
             <Pagination current={currentPage} total={totalPage} pageSize={20} style={{ marginTop: 20 }} onChange={handlePage} showSizeChanger={false} />
