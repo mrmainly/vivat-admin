@@ -28,10 +28,6 @@ const MyLayout = () => {
             navigate: ROUTES.STOCKS,
         },
         {
-            label: "Аналитика",
-            navigate: ROUTES.ANALYTICS,
-        },
-        {
             label: "Города",
             navigate: ROUTES.CITY,
         },
