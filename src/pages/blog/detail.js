@@ -19,6 +19,7 @@ const BlogDetail = () => {
     const [image, setImage] = useState("");
     const [editorState, setEditorState] = useState();
     const [convertedContent, setConvertedContent] = useState(null);
+    const [preview, setPreview] = useState("");
 
     const params = useParams();
     const navigate = useNavigate();
@@ -31,7 +32,7 @@ const BlogDetail = () => {
                     const data = res.data;
                     console.log(res);
                     setName(data.name);
-
+                    setPreview(data.preview);
                     setImage(data.image);
                     setEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(data.description))));
                 })
@@ -59,6 +60,7 @@ const BlogDetail = () => {
         API.patchBlog(params.id, {
             name: name,
             image: photo,
+            preview: preview,
             description: convertToHTML(editorState.getCurrentContent()),
         })
             .then((res) => {
@@ -105,18 +107,8 @@ const BlogDetail = () => {
                             <Input placeholder="Basic usage" onChange={(e) => setName(e.target.value)} value={name} style={{ width: 235 }} />
                         </Form.Item>
 
-                        <Form.Item
-                            label="Короткое описание"
-                            name="preview"
-                            labelCol={{ span: 24 }}
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Введите название",
-                                },
-                            ]}
-                        >
-                            <Input placeholder="Basic usage" style={{ width: 235 }} />
+                        <Form.Item label="Короткое описание" labelCol={{ span: 24 }}>
+                            <Input placeholder="Basic usage" style={{ width: 235 }} value={preview} onChange={(e) => setPreview(e.target.value)} />
                         </Form.Item>
 
                         <Form.Item label="Описание" labelCol={{ span: 24 }}>

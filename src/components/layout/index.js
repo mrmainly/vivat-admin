@@ -16,40 +16,40 @@ const MyLayout = () => {
 
     const items = [
         {
-            label: "Заказы",
-            navigate: ROUTES.ORDERS,
-        },
-        {
-            label: "Блог",
-            navigate: ROUTES.BLOG,
-        },
-        {
-            label: "Акции",
-            navigate: ROUTES.STOCKS,
-        },
-        {
             label: "Города",
             navigate: ROUTES.CITY,
         },
         {
-            label: "Пользователи",
-            navigate: ROUTES.USERS,
-        },
-        {
-            label: "Вакансии",
-            navigate: ROUTES.WORK,
+            label: "Заказы",
+            navigate: ROUTES.ORDERS,
         },
         {
             label: "Товары",
             navigate: ROUTES.PRODUCTS,
         },
         {
+            label: "Блог",
+            navigate: ROUTES.BLOG,
+        },
+        {
             label: "Тематические подборки",
             navigate: ROUTES.CATALOG,
         },
         {
+            label: "Акции",
+            navigate: ROUTES.STOCKS,
+        },
+        {
             label: "Наши преимущества",
             navigate: ROUTES.ADVANTAGES,
+        },
+        {
+            label: "Вакансии",
+            navigate: ROUTES.WORK,
+        },
+        {
+            label: "Пользователи",
+            navigate: ROUTES.USERS,
         },
     ];
 
