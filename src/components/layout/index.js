@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Layout, Menu, Typography, Divider } from "antd";
 import { useNavigate, Outlet, useLocation } from "react-router-dom";
 import cookie from "js-cookie";
@@ -13,6 +13,14 @@ const { Title } = Typography;
 const MyLayout = () => {
     const navigate = useNavigate();
     const params = useLocation();
+
+    const token = cookie.get("jwttoken");
+
+    useEffect(() => {
+        if (token === "" || token === undefined || token === null) {
+            navigate(ROUTES.SIGN_IN);
+        }
+    }, [token]);
 
     const items = [
         {
@@ -55,7 +63,7 @@ const MyLayout = () => {
 
     return (
         <>
-            {params.pathname === "/" ? (
+            {params.pathname === "/sign-in" ? (
                 <div>
                     <Outlet />
                 </div>

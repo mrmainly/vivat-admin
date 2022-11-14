@@ -41,9 +41,9 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path={ROUTES.SIGN_IN} element={<MyLayout />}>
-                    <Route index element={<SignIn />} />
-                    <Route path={ROUTES.ORDERS} element={<Orders />} />
+                <Route path={ROUTES.ORDERS} element={<MyLayout />}>
+                    <Route index element={<Orders />} />
+                    <Route path={ROUTES.SIGN_IN} element={<SignIn />} />
                     {/* блог */}
                     <Route path={ROUTES.BLOG} element={<Blog />} />
                     <Route path={ROUTES.BLOG_CREATE} element={<BlogCreate />} />

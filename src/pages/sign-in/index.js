@@ -17,7 +17,7 @@ const SignIn = () => {
         API.getToken({ ...data })
             .then((res) => {
                 message.success("авторизация прошла успешно");
-                cookie.set("jwttoken", res.data.token);
+                cookie.set("jwttoken", res.data.token, { expires: 2555, path: "/" });
                 navigate(ROUTES.ORDERS);
             })
             .catch((error) => {
