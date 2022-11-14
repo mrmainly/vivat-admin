@@ -11,6 +11,7 @@ import ROUTES from "../../routes";
 import "./work.css";
 
 const { Option } = Select;
+const { TextArea } = Input;
 
 const WorkCreate = () => {
     const [cities, setCities] = useState([]);
@@ -57,24 +58,16 @@ const WorkCreate = () => {
                         rules={[
                             {
                                 required: true,
-                                message: "Please input your username!",
+                                message: "Название вакансии обязательное поле",
                             },
                         ]}
                     >
-                        <Input placeholder="Basic usage" style={{ width: 235 }} />
+                        <Input placeholder="Введите назавние" style={{ width: 235 }} />
                     </Form.Item>
-                    <Form.Item
-                        label="Описание"
-                        required
-                        labelCol={{ span: 24 }}
-                        className="wusi"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Введите описание",
-                            },
-                        ]}
-                    >
+                    <Form.Item label={"Короткое описание"} labelCol={{ span: 24 }} name="preview">
+                        <TextArea placeholder={"Введите короткое описание"} style={{ height: 150 }} />
+                    </Form.Item>
+                    <Form.Item label="Описание" labelCol={{ span: 24 }} className="wusi">
                         <Editor editorState={editorState} onEditorStateChange={handleEditorChange} wrapperClassName="wrapper-class" editorClassName="editor-class" toolbarClassName="toolbar-class" />
                     </Form.Item>
                     <Form.Item
@@ -84,7 +77,7 @@ const WorkCreate = () => {
                         rules={[
                             {
                                 required: true,
-                                message: "Please input your username!",
+                                message: "Выбор города обязателен",
                             },
                         ]}
                     >

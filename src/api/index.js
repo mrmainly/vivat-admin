@@ -7,7 +7,7 @@ const publicURL = "https://xn----7sbbagaytx2c4ad.xn--p1ai/";
 
 const api = (url, type) => {
     const token = cookie.get("jwttoken");
-    if (type == "img") {
+    if (type === "img") {
         if (token) {
             const instance = axios.create({
                 baseURL: publicURL + url,
@@ -251,15 +251,17 @@ class API {
             name: data.name,
             description: description,
             city: data.city,
+            preview: data.preview,
         });
         return result;
     }
 
-    async patchWork(name, city, description, id) {
+    async patchWork(name, city, preview, description, id) {
         let result = await api(`api/v1/employments/${id}/`).patch(null, {
             name: name,
             description: description,
             city: city,
+            preview: preview,
         });
         return result;
     }

@@ -11,11 +11,13 @@ import ROUTES from "../../routes";
 import "./work.css";
 
 const { Option } = Select;
+const { TextArea } = Input;
 
 const WorkDetail = () => {
     const [cities, setCities] = useState([]);
     const [city, setCity] = useState("");
     const [name, setName] = useState("");
+    const [preview, setPreview] = useState("");
     const [loading, setLoading] = useState(true);
 
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
@@ -35,7 +37,7 @@ const WorkDetail = () => {
     };
 
     const createWork = () => {
-        API.patchWork(name, city, convertToHTML(editorState.getCurrentContent()), params.id)
+        API.patchWork(name, city, preview, convertToHTML(editorState.getCurrentContent()), params.id)
             .then((res) => {
                 message.success("Вакансия изменена");
                 navigate(ROUTES.WORK);
@@ -65,7 +67,7 @@ const WorkDetail = () => {
                     setName(res.data.name);
                     setCity(res.data.city.id);
                     setEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(res.data.description))));
-                    console.log(res);
+                    setPreview(res.data.preview);
                 })
                 .catch((error) => console.log(error));
             setLoading(false);
@@ -98,15 +100,17 @@ const WorkDetail = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: "Please input your username!",
+                                    message: "Название вакансии обязательное поле",
                                 },
                             ]}
                         >
                             <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Basic usage" style={{ width: 235 }} />
                         </Form.Item>
+                        <Form.Item label={"Короткое описание"} labelCol={{ span: 24 }}>
+                            <TextArea placeholder={"Введите короткое описание"} style={{ height: 150 }} value={preview} onChange={(e) => setPreview(e.target.value)} />
+                        </Form.Item>
                         <Form.Item
                             label="Описание"
-                            required
                             labelCol={{ span: 24 }}
                             rules={[
                                 {
@@ -130,7 +134,7 @@ const WorkDetail = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: "Please input your username!",
+                                    message: "Выбор города обязателен",
                                 },
                             ]}
                         >
