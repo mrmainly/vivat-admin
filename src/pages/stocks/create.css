@@ -11,3 +11,13 @@
 .toolbar-class {
     border: 1px solid #ccc;
 }
+
+.wusi {
+    width: 1200px;
+}
+
+@media only screen and (max-width: 1517px) {
+    .wusi {
+        width: 900px;
+    }
+}

@@ -37,7 +37,7 @@ const Stocks = () => {
                 </Button>
             </Space>
             <BlogStocksTable data={data} loading={loading} routes={ROUTES.STOCK_DETAIL} />
-            <Pagination current={currentPage} total={totalPage} pageSize={20} style={{ marginTop: 20 }} onChange={handlePage} showSizeChanger={false} />
+            <Pagination current={currentPage} total={totalPage} pageSize={10} style={{ marginTop: 20 }} onChange={handlePage} showSizeChanger={false} />
         </div>
     );
 };

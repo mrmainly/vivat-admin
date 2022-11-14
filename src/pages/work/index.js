@@ -56,7 +56,7 @@ const Work = () => {
                 </Select>
             </Space>
             <BlogStocksTable data={data} loading={loading} routes={ROUTES.WORK_DETAIL} />
-            <Pagination current={currentPage} total={totalPage} pageSize={30} style={{ marginTop: 20 }} onChange={handlePage} showSizeChanger={false} />
+            <Pagination current={currentPage} total={totalPage} pageSize={10} style={{ marginTop: 20 }} onChange={handlePage} showSizeChanger={false} />
         </div>
     );
 };

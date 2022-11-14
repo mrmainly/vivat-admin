@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../../create.css";
-import { Input, Space, Select, Upload, Button, Form, message, Spin } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { Input, Space, Select, Button, Form, message } from "antd";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
 import { convertToHTML } from "draft-convert";
@@ -9,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 import API from "../../api";
 import ROUTES from "../../routes";
+import "./blog.css";
 
 const { Option } = Select;
 
@@ -94,6 +94,7 @@ const BlogCreate = () => {
                                 message: "Введите описание",
                             },
                         ]}
+                        className="wusi"
                     >
                         <Editor editorState={editorState} onEditorStateChange={handleEditorChange} wrapperClassName="wrapper-class" editorClassName="editor-class" toolbarClassName="toolbar-class" />
                     </Form.Item>

@@ -8,6 +8,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import API from "../../api";
 import ROUTES from "../../routes";
+import "./work.css";
 
 const { Option } = Select;
 
@@ -17,9 +18,7 @@ const WorkDetail = () => {
     const [name, setName] = useState("");
     const [loading, setLoading] = useState(true);
 
-    const [editorState, setEditorState] = useState(() =>
-        EditorState.createEmpty()
-    );
+    const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
     const [convertedContent, setConvertedContent] = useState(null);
 
     const params = useParams();
@@ -31,19 +30,12 @@ const WorkDetail = () => {
     };
 
     const convertContentToHTML = () => {
-        let currentContentAsHTML = convertToHTML(
-            editorState.getCurrentContent()
-        );
+        let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
         setConvertedContent(currentContentAsHTML);
     };
 
     const createWork = () => {
-        API.patchWork(
-            name,
-            city,
-            convertToHTML(editorState.getCurrentContent()),
-            params.id
-        )
+        API.patchWork(name, city, convertToHTML(editorState.getCurrentContent()), params.id)
             .then((res) => {
                 message.success("Вакансия изменена");
                 navigate(ROUTES.WORK);
@@ -72,13 +64,7 @@ const WorkDetail = () => {
                 .then((res) => {
                     setName(res.data.name);
                     setCity(res.data.city.id);
-                    setEditorState(
-                        EditorState.createWithContent(
-                            ContentState.createFromBlockArray(
-                                convertFromHTML(res.data.description)
-                            )
-                        )
-                    );
+                    setEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(res.data.description))));
                     console.log(res);
                 })
                 .catch((error) => console.log(error));
@@ -116,24 +102,19 @@ const WorkDetail = () => {
                                 },
                             ]}
                         >
-                            <Input
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                placeholder="Basic usage"
-                                style={{ width: 235 }}
-                            />
+                            <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Basic usage" style={{ width: 235 }} />
                         </Form.Item>
                         <Form.Item
                             label="Описание"
                             required
                             labelCol={{ span: 24 }}
-                            name="asd"
                             rules={[
                                 {
                                     required: true,
                                     message: "Введите описание",
                                 },
                             ]}
+                            className="wusi"
                         >
                             <Editor
                                 editorState={editorState}
@@ -153,11 +134,7 @@ const WorkDetail = () => {
                                 },
                             ]}
                         >
-                            <Select
-                                style={{ width: 200 }}
-                                defaultValue={city}
-                                onChange={handleSelect}
-                            >
+                            <Select style={{ width: 200 }} defaultValue={city} onChange={handleSelect}>
                                 {cities.map((item, index) => (
                                     <Option value={item.id} key={index}>
                                         {item.name}
@@ -166,18 +143,10 @@ const WorkDetail = () => {
                             </Select>
                         </Form.Item>
                         <Space>
-                            <Button
-                                style={{ background: "#55CD61" }}
-                                type="primary"
-                                htmlType="submit"
-                            >
+                            <Button style={{ background: "#55CD61" }} type="primary" htmlType="submit">
                                 Сохранить
                             </Button>
-                            <Button
-                                style={{ background: "#FE5860" }}
-                                type="primary"
-                                onClick={() => deleteWork()}
-                            >
+                            <Button style={{ background: "#FE5860" }} type="primary" onClick={() => deleteWork()}>
                                 Удалить
                             </Button>
                         </Space>

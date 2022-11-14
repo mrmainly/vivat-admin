@@ -1,14 +1,19 @@
 import React from "react";
 import "../../create.css";
 import { Input, Space, Button, Form, message } from "antd";
+import { useNavigate } from "react-router-dom";
 
 import API from "../../api";
+import ROUTES from "../../routes";
 
 const CityCreate = () => {
+    const navigate = useNavigate();
+
     const createCity = (data) => {
         API.CreateCity(data)
             .then((res) => {
                 message.success("Город создан");
+                navigate(ROUTES.CITY);
             })
             .catch((error) => message.error("Город не создан"));
     };
@@ -28,16 +33,9 @@ const CityCreate = () => {
                             },
                         ]}
                     >
-                        <Input
-                            placeholder="Basic usage"
-                            style={{ width: 235 }}
-                        />
+                        <Input placeholder="Basic usage" style={{ width: 235 }} />
                     </Form.Item>
-                    <Button
-                        style={{ background: "#55CD61" }}
-                        type="primary"
-                        htmlType="submit"
-                    >
+                    <Button style={{ background: "#55CD61" }} type="primary" htmlType="submit">
                         Сохранить
                     </Button>
                 </Space>

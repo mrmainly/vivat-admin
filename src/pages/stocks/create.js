@@ -1,26 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./create.css";
-import {
-    Input,
-    Space,
-    Select,
-    Upload,
-    Button,
-    Form,
-    DatePicker,
-    TimePicker,
-    AutoComplete,
-    message,
-    Spin,
-} from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { Input, Space, Select, Button, Form, DatePicker, message } from "antd";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
 import { convertToHTML } from "draft-convert";
-import moment from "moment";
 import { useNavigate } from "react-router-dom";
 
-import { StocksDetailTable } from "../../components";
 import API from "../../api";
 import ROUTES from "../../routes";
 
@@ -35,9 +20,7 @@ const StockCreate = () => {
     const [photo, setPhoto] = useState("");
     const [banner, setBanner] = useState("");
 
-    const [editorState, setEditorState] = useState(() =>
-        EditorState.createEmpty()
-    );
+    const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
     const [convertedContent, setConvertedContent] = useState(null);
 
     const navigate = useNavigate();
@@ -47,9 +30,7 @@ const StockCreate = () => {
         convertContentToHTML();
     };
     const convertContentToHTML = () => {
-        let currentContentAsHTML = convertToHTML(
-            editorState.getCurrentContent()
-        );
+        let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
         setConvertedContent(currentContentAsHTML);
     };
 
@@ -91,60 +72,20 @@ const StockCreate = () => {
                             },
                         ]}
                     >
-                        <Input
-                            placeholder="Basic usage"
-                            style={{ width: 235 }}
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
+                        <Input placeholder="Basic usage" style={{ width: 235 }} value={name} onChange={(e) => setName(e.target.value)} />
                     </Form.Item>
 
-                    <Form.Item
-                        label="Описание"
-                        required
-                        labelCol={{ span: 24 }}
-                    >
-                        <Editor
-                            editorState={editorState}
-                            onEditorStateChange={handleEditorChange}
-                            wrapperClassName="wrapper-class"
-                            editorClassName="editor-class"
-                            toolbarClassName="toolbar-class"
-                        />
+                    <Form.Item label="Описание" required labelCol={{ span: 24 }} className="wusi">
+                        <Editor editorState={editorState} onEditorStateChange={handleEditorChange} wrapperClassName="wrapper-class" editorClassName="editor-class" toolbarClassName="toolbar-class" />
                     </Form.Item>
-                    <Form.Item
-                        label="начало акции"
-                        labelCol={{ span: 24 }}
-                        required
-                    >
-                        <DatePicker
-                            format={dateFormat}
-                            onChange={(date, dateString) =>
-                                setDateStart(dateString)
-                            }
-                        />
+                    <Form.Item label="начало акции" labelCol={{ span: 24 }} required>
+                        <DatePicker format={dateFormat} onChange={(date, dateString) => setDateStart(dateString)} />
                     </Form.Item>
-                    <Form.Item
-                        label="конец акции"
-                        labelCol={{ span: 24 }}
-                        required
-                    >
-                        <DatePicker
-                            onChange={(date, dateString) =>
-                                setDateEnd(dateString)
-                            }
-                            format={dateFormat}
-                            // value={dateEnd}
-                            // onChange={(e) => setDateEnd(e.target.value)}
-                        />
+                    <Form.Item label="конец акции" labelCol={{ span: 24 }} required>
+                        <DatePicker onChange={(date, dateString) => setDateEnd(dateString)} format={dateFormat} />
                     </Form.Item>
 
-                    <Form.Item
-                        label="Изображение"
-                        labelCol={{ span: 24 }}
-                        style={{ width: 200 }}
-                        required
-                    >
+                    <Form.Item label="Изображение" labelCol={{ span: 24 }} style={{ width: 200 }} required>
                         <input
                             type="file"
                             accept=".png, .jpg"
@@ -153,12 +94,7 @@ const StockCreate = () => {
                             }}
                         />
                     </Form.Item>
-                    <Form.Item
-                        label="Баннер"
-                        labelCol={{ span: 24 }}
-                        style={{ width: 200 }}
-                        required
-                    >
+                    <Form.Item label="Баннер" labelCol={{ span: 24 }} style={{ width: 200 }} required>
                         <input
                             type="file"
                             accept=".png, .jpg"
@@ -167,11 +103,7 @@ const StockCreate = () => {
                             }}
                         />
                     </Form.Item>
-                    <Button
-                        style={{ background: "#55CD61", marginTop: 20 }}
-                        type="primary"
-                        onClick={CreateStocks}
-                    >
+                    <Button style={{ background: "#55CD61", marginTop: 20 }} type="primary" onClick={CreateStocks}>
                         Сохранить
                     </Button>
                 </Space>

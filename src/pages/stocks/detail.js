@@ -182,7 +182,7 @@ const StockDetail = () => {
                             <Input placeholder="Basic usage" style={{ width: 235 }} value={name} onChange={(e) => setName(e.target.value)} />
                         </Form.Item>
 
-                        <Form.Item label="Описание" required labelCol={{ span: 24 }}>
+                        <Form.Item label="Описание" required labelCol={{ span: 24 }} className="wusi">
                             <Editor
                                 editorState={editorState}
                                 onEditorStateChange={handleEditorChange}

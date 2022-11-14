@@ -8,14 +8,13 @@ import { useNavigate } from "react-router-dom";
 
 import API from "../../api";
 import ROUTES from "../../routes";
+import "./work.css";
 
 const { Option } = Select;
 
 const WorkCreate = () => {
     const [cities, setCities] = useState([]);
-    const [editorState, setEditorState] = useState(() =>
-        EditorState.createEmpty()
-    );
+    const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
     const [convertedContent, setConvertedContent] = useState(null);
 
     const navigate = useNavigate();
@@ -26,9 +25,7 @@ const WorkCreate = () => {
     };
 
     const convertContentToHTML = () => {
-        let currentContentAsHTML = convertToHTML(
-            editorState.getCurrentContent()
-        );
+        let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
         setConvertedContent(currentContentAsHTML);
     };
 
@@ -64,16 +61,13 @@ const WorkCreate = () => {
                             },
                         ]}
                     >
-                        <Input
-                            placeholder="Basic usage"
-                            style={{ width: 235 }}
-                        />
+                        <Input placeholder="Basic usage" style={{ width: 235 }} />
                     </Form.Item>
                     <Form.Item
                         label="Описание"
                         required
                         labelCol={{ span: 24 }}
-                        name="asd"
+                        className="wusi"
                         rules={[
                             {
                                 required: true,
@@ -81,13 +75,7 @@ const WorkCreate = () => {
                             },
                         ]}
                     >
-                        <Editor
-                            editorState={editorState}
-                            onEditorStateChange={handleEditorChange}
-                            wrapperClassName="wrapper-class"
-                            editorClassName="editor-class"
-                            toolbarClassName="toolbar-class"
-                        />
+                        <Editor editorState={editorState} onEditorStateChange={handleEditorChange} wrapperClassName="wrapper-class" editorClassName="editor-class" toolbarClassName="toolbar-class" />
                     </Form.Item>
                     <Form.Item
                         label="Города"
@@ -112,11 +100,7 @@ const WorkCreate = () => {
                             ))}
                         </Select>
                     </Form.Item>
-                    <Button
-                        style={{ background: "#55CD61" }}
-                        type="primary"
-                        htmlType="submit"
-                    >
+                    <Button style={{ background: "#55CD61" }} type="primary" htmlType="submit">
                         Сохранить
                     </Button>
                 </Space>

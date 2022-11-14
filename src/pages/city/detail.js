@@ -73,26 +73,13 @@ const CityDetail = () => {
                                 },
                             ]}
                         >
-                            <Input
-                                placeholder="Basic usage"
-                                style={{ width: 235 }}
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                            />
+                            <Input placeholder="Basic usage" style={{ width: 235 }} value={name} onChange={(e) => setName(e.target.value)} />
                         </Form.Item>
                         <Space>
-                            <Button
-                                style={{ background: "#55CD61" }}
-                                type="primary"
-                                htmlType="submit"
-                            >
+                            <Button style={{ background: "#55CD61" }} type="primary" htmlType="submit">
                                 Сохранить
                             </Button>
-                            <Button
-                                style={{ background: "#FE5860" }}
-                                type="primary"
-                                onClick={() => deleteCity()}
-                            >
+                            <Button style={{ background: "#FE5860" }} type="primary" onClick={() => deleteCity()}>
                                 Удалить
                             </Button>
                         </Space>

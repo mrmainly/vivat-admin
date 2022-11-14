@@ -8,6 +8,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import API from "../../api";
 import ROUTES from "../../routes";
+import "./blog.css";
 
 const { Option } = Select;
 
@@ -111,7 +112,7 @@ const BlogDetail = () => {
                             <Input placeholder="Basic usage" style={{ width: 235 }} value={preview} onChange={(e) => setPreview(e.target.value)} />
                         </Form.Item>
 
-                        <Form.Item label="Описание" labelCol={{ span: 24 }}>
+                        <Form.Item label="Описание" labelCol={{ span: 24 }} className="wusi">
                             <Editor
                                 defaultContentState={description}
                                 editorState={editorState}
