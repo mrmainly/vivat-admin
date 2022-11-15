@@ -23,17 +23,16 @@ const CatalogCreate = () => {
     };
 
     const onFinish = (data) => {
-        // if (typeof data.goods[0] === "object" || data.goods?.length === 0) {
-        //     message.error("Вы не добавили товары");
-        // } else {
-        //     API.postCatalog(data)
-        //         .then((res) => {
-        //             navigate(ROUTES.CATALOG);
-        //             message.success("Тематическая подборка создана");
-        //         })
-        //         .catch((error) => message.error("При создании тематической подборки что то пошло не так :("));
-        // }
-        console.log(data);
+        if (typeof data.goods[0] === "object" || data.goods?.length === 0) {
+            message.error("Вы не добавили товары");
+        } else {
+            API.postCatalog(data)
+                .then((res) => {
+                    navigate(ROUTES.CATALOG);
+                    message.success("Тематическая подборка создана");
+                })
+                .catch((error) => message.error("При создании тематической подборки что то пошло не так :("));
+        }
     };
 
     return (
