@@ -5,6 +5,7 @@ import { UsersTable } from "../../components";
 import API from "../../api";
 import ROUTES from "../../routes";
 import usePagination from "../../hooks/usePagination";
+import { UserRoleConstant } from "../../constants";
 
 const { Option } = Select;
 
@@ -17,7 +18,8 @@ const Users = () => {
     const [phone, setPhone] = useState("");
     const [fullName, setFullName] = useState("");
 
-    const { totalPage, currentPage, handlePage, getTotalPage } = usePagination();
+    const { totalPage, currentPage, handlePage, getTotalPage } =
+        usePagination();
 
     useEffect(() => {
         API.getRoles().then((res) => {
@@ -28,7 +30,13 @@ const Users = () => {
     useEffect(() => {
         const getUsers = async () => {
             setLoading(true);
-            await API.getUsers(currentPage, ordering, role, phone, fullName)
+            await API.getUsers(
+                currentPage,
+                ordering,
+                role,
+                phone,
+                fullName
+            )
                 .then((res) => {
                     setData(res.data.results);
                     getTotalPage(res.data.count);
@@ -62,17 +70,25 @@ const Users = () => {
     return (
         <div>
             <Space style={{ marginBottom: 20 }}>
-                <Select style={{ width: 200 }} defaultValue="Сортировка" onChange={handleOrdering}>
+                <Select
+                    style={{ width: 200 }}
+                    defaultValue="Сортировка"
+                    onChange={handleOrdering}
+                >
                     {orderingList.map((item, index) => (
                         <Option value={item.value} key={index}>
                             {item.label}
                         </Option>
                     ))}
                 </Select>
-                <Select style={{ width: 200 }} defaultValue="Роли" onChange={handleRole}>
+                <Select
+                    style={{ width: 200 }}
+                    defaultValue="Роли"
+                    onChange={handleRole}
+                >
                     {roleList?.map((item, index) => (
                         <Option value={item} key={index}>
-                            {item}
+                            {UserRoleConstant[item]}
                         </Option>
                     ))}
                 </Select>
@@ -91,8 +107,19 @@ const Users = () => {
                     }}
                 />
             </Space>
-            <UsersTable loading={loading} data={data} routes={ROUTES.USERS_DETAIL} />
-            <Pagination current={currentPage} total={totalPage} pageSize={20} style={{ marginTop: 20 }} onChange={handlePage} showSizeChanger={false} />
+            <UsersTable
+                loading={loading}
+                data={data}
+                routes={ROUTES.USERS_DETAIL}
+            />
+            <Pagination
+                current={currentPage}
+                total={totalPage}
+                pageSize={20}
+                style={{ marginTop: 20 }}
+                onChange={handlePage}
+                showSizeChanger={false}
+            />
         </div>
     );
 };

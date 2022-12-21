@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Button, Upload, message, Space, Typography } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import {
+    useParams,
+    useNavigate,
+    useLocation,
+} from "react-router-dom";
 
 import API from "../../../api";
 import ROUTES from "../../../routes";
@@ -16,7 +20,7 @@ const uploadButton = (
                 marginTop: 8,
             }}
         >
-            Upload
+            Загрузить
         </div>
     </div>
 );
@@ -77,14 +81,24 @@ const ProductDetail = () => {
             <Title level={4} style={{ marginBottom: 20 }}>
                 {data?.name}
             </Title>
-            <Upload listType="picture-card" maxCount={1} {...props} accept="image/*">
+            <Upload
+                listType="picture-card"
+                maxCount={1}
+                {...props}
+                accept="image/*"
+            >
                 {uploadButton}
             </Upload>
             <Space style={{ marginTop: 20 }}>
-                <Button onClick={addedPhoto} disabled={img === "" ? true : false}>
+                <Button
+                    onClick={addedPhoto}
+                    disabled={img === "" ? true : false}
+                >
                     Сохранить
                 </Button>
-                <Button onClick={() => navigate(-1)}>Вернуться назад</Button>
+                <Button onClick={() => navigate(-1)}>
+                    Вернуться назад
+                </Button>
             </Space>
         </div>
     );
