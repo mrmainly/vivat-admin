@@ -15,9 +15,10 @@ const Orders = () => {
     const [status, setStatus] = useState("");
     const [paymantAmountMin, setPaymantAmountMin] = useState("");
     const [paymantAmountMax, setPaymantAmountMax] = useState("");
-    const [ordering, setOrdering] = useState("");
+    const [ordering, setOrdering] = useState("-date");
 
-    const { totalPage, currentPage, handlePage, getTotalPage } = usePagination();
+    const { totalPage, currentPage, handlePage, getTotalPage } =
+        usePagination();
 
     useEffect(() => {
         API.getStatuses()
@@ -30,7 +31,13 @@ const Orders = () => {
     useEffect(() => {
         const getAllOrders = async () => {
             setLoading(true);
-            await API.getAllOrders(status, currentPage, ordering, paymantAmountMin, paymantAmountMax)
+            await API.getAllOrders(
+                status,
+                currentPage,
+                ordering,
+                paymantAmountMin,
+                paymantAmountMax
+            )
                 .then((res) => {
                     setData(res.data.results);
                     getTotalPage(res.data.count);
@@ -39,7 +46,13 @@ const Orders = () => {
             setLoading(false);
         };
         getAllOrders();
-    }, [status, currentPage, ordering, paymantAmountMin, paymantAmountMax]);
+    }, [
+        status,
+        currentPage,
+        ordering,
+        paymantAmountMin,
+        paymantAmountMax,
+    ]);
 
     const handleSelect = (value) => {
         setStatus(value);
@@ -79,7 +92,11 @@ const Orders = () => {
     return (
         <div>
             <Space style={{ marginBottom: 20 }}>
-                <Select style={{ width: 200 }} defaultValue="Статусы" onChange={handleSelect}>
+                <Select
+                    style={{ width: 200 }}
+                    defaultValue="Статусы"
+                    onChange={handleSelect}
+                >
                     {statuses.length > 0 &&
                         statuses.map((item, index) => (
                             <Option value={item} key={index}>
@@ -87,7 +104,11 @@ const Orders = () => {
                             </Option>
                         ))}
                 </Select>
-                <Select style={{ width: 200 }} defaultValue="Сортировка" onChange={handleOrdering}>
+                <Select
+                    style={{ width: 200 }}
+                    defaultValue="дата заказа (по убыванию)"
+                    onChange={handleOrdering}
+                >
                     {orderingList.map((item, index) => (
                         <Option value={item.value} key={index}>
                             {item.label}
@@ -95,13 +116,32 @@ const Orders = () => {
                     ))}
                 </Select>
                 <Space>
-                    <Input.Search enterButton onSearch={(value) => setPaymantAmountMin(value)} placeholder="Цена заказа мин" />
+                    <Input.Search
+                        enterButton
+                        onSearch={(value) =>
+                            setPaymantAmountMin(value)
+                        }
+                        placeholder="Цена заказа мин"
+                    />
                     <div style={{ color: "gray" }}>-</div>
-                    <Input.Search enterButton onSearch={(value) => setPaymantAmountMax(value)} placeholder="Цена заказа макс" />
+                    <Input.Search
+                        enterButton
+                        onSearch={(value) =>
+                            setPaymantAmountMax(value)
+                        }
+                        placeholder="Цена заказа макс"
+                    />
                 </Space>
             </Space>
             <OrdersTable loading={loading} data={data} />
-            <Pagination current={currentPage} total={totalPage} pageSize={20} style={{ marginTop: 20 }} onChange={handlePage} showSizeChanger={false} />
+            <Pagination
+                current={currentPage}
+                total={totalPage}
+                pageSize={20}
+                style={{ marginTop: 20 }}
+                onChange={handlePage}
+                showSizeChanger={false}
+            />
         </div>
     );
 };
