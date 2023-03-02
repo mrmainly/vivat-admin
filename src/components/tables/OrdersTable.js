@@ -2,7 +2,11 @@ import { Table, Button, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 
 import ROUTES from "../../routes";
-import { translationDelivery, translationStatus, translationPayment } from "../../interpreter";
+import {
+    translationDelivery,
+    translationStatus,
+    translationPayment,
+} from "../../interpreter";
 import moment from "moment";
 
 const { Text } = Typography;
@@ -22,44 +26,73 @@ const OrdersTable = ({ loading, data }) => {
             title: "Дата и время заказа",
             dataIndex: "date",
             key: "date",
-            render: (date) => <Text>{moment(date).format("DD-MM-YYYY hhч:mmм:ssс")}</Text>,
+            render: (date) => (
+                <Text>
+                    {moment(date).format("DD-MM-YYYY hhч:mmм:ssс")}
+                </Text>
+            ),
         },
         {
             title: "Сумма",
             key: "total_price",
-            render: (_, record) => <Text>{record.total_price} руб</Text>,
+            render: (_, record) => (
+                <Text>{record.total_price} руб</Text>
+            ),
         },
         {
             title: "Статус",
             dataIndex: "orderStatus",
             key: "orderStatus",
-            render: (orderStatus) => <Text>{translationStatus(orderStatus)}</Text>,
+            render: (orderStatus) => (
+                <Text>{translationStatus(orderStatus)}</Text>
+            ),
         },
         {
             title: "Тип доставки",
             dataIndex: "delivery_type",
             key: "delivery_type",
-            render: (delivery_type) => <Text>{translationDelivery(delivery_type)}</Text>,
+            render: (delivery_type) => (
+                <Text>{translationDelivery(delivery_type)}</Text>
+            ),
         },
         {
             title: "Статус оплаты",
             dataIndex: "transactions",
             key: "transactions",
-            render: (transactions) => <Text>{translationPayment(transactions[0].is_payed)}</Text>,
+            render: (transactions) => (
+                <Text>
+                    {translationPayment(transactions[0]?.is_payed)}
+                </Text>
+            ),
         },
         {
             title: "Действие",
             dataIndex: "id",
             key: "x",
             render: (id) => (
-                <Button type="primary" style={{ background: "#55CD61" }} onClick={() => navigate(`${ROUTES.ORDERS_DETAIL}/${id}`)}>
+                <Button
+                    type="primary"
+                    style={{ background: "#55CD61" }}
+                    onClick={() =>
+                        navigate(`${ROUTES.ORDERS_DETAIL}/${id}`)
+                    }
+                >
                     Посмотреть
                 </Button>
             ),
         },
     ];
 
-    return <Table columns={columns} dataSource={data} rowKey="id" loading={loading} pagination={false} scroll={{ x: true }} />;
+    return (
+        <Table
+            columns={columns}
+            dataSource={data}
+            rowKey="id"
+            loading={loading}
+            pagination={false}
+            scroll={{ x: true }}
+        />
+    );
 };
 
 export default OrdersTable;
