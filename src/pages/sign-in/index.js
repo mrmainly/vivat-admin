@@ -3,7 +3,14 @@ import "./sign_in.css";
 import API from "../../api";
 import ROUTES from "../../routes";
 
-import { Form, Input, Button, Space, Typography, message } from "antd";
+import {
+    Form,
+    Input,
+    Button,
+    Space,
+    Typography,
+    message,
+} from "antd";
 import cookie from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
@@ -17,7 +24,10 @@ const SignIn = () => {
         API.getToken({ ...data })
             .then((res) => {
                 message.success("авторизация прошла успешно");
-                cookie.set("jwttoken", res.data.token, { expires: 2555, path: "/" });
+                cookie.set("jwttoken", res.data.token, {
+                    expires: 2555,
+                    path: "/",
+                });
                 navigate(ROUTES.ORDERS);
             })
             .catch((error) => {
@@ -46,22 +56,28 @@ const SignIn = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: "Пожалуйста введите свое имя",
+                                    message:
+                                        "Пожалуйста введите свое имя",
                                 },
                             ]}
+                            type="email"
                         >
-                            <Input placeholder="Телефон" />
+                            <Input placeholder="Электронная почта" />
                         </Form.Item>
                         <Form.Item
                             name="password"
                             rules={[
                                 {
                                     required: true,
-                                    message: "Пожалуйста введите свой пароль!",
+                                    message:
+                                        "Пожалуйста введите свой пароль!",
                                 },
                             ]}
                         >
-                            <Input placeholder="Пароль" type="password" />
+                            <Input
+                                placeholder="Пароль"
+                                type="password"
+                            />
                         </Form.Item>
                         <Button htmlType="submit">Войти</Button>
                     </Space>
